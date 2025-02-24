@@ -1,0 +1,211 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+   <meta charset="UTF-8">
+   <title>导航站</title>
+   <style>
+       /* 设置页面的基本样式 */
+       body {
+           font-family: 'Poppins', sans-serif;
+           background-color: #f4f4f4;
+           margin: 0;
+           padding: 0;
+           display: flex;
+           justify-content: center;
+           align-items: flex-start;
+           min-height: 100vh;
+           transition: background-color 0.3s;
+       }
+       /* 设置容器的样式 */
+       .container {
+           background-color: #ffffff;
+           padding: 20px;
+           border-radius: 8px;
+           box-shadow: 0 0 20px rgb(88, 179, 224, 0.1);
+           width: 80%;
+           margin-top: 20px;
+           transition: box-shadow 0.3s;
+       }
+       .container:hover {
+           box-shadow: 0 0 30px rgba(0, 0, 0, 0.2);
+       }
+       /* 设置标题的样式 */
+       h1 {
+           text-align: center;
+           margin-bottom: 20px;
+           font-size: 2rem;
+           color: #333;
+           transition: color 0.3s;
+       }
+       /* 设置导航栏的样式 */
+       .nav {
+           text-align: center;
+           margin-bottom: 20px;
+       }
+       .nav a {
+           margin: 0 15px;
+           text-decoration: none;
+           color: #58b3e0;
+           font-size: 1rem;
+           transition: color 0.3s;
+       }
+       .nav a:hover {
+           color: rgba(41, 128, 185);
+       }
+       /* 设置分区的样式 */
+       .section {
+           margin-bottom: 20px;
+       }
+       .section h2 {
+           margin-bottom: 10px;
+           font-size: 1.5rem;
+           color: #333;
+           transition: color 0.3s;
+       }
+       /* 设置卡片容器的样式 */
+       .cards {
+           display: flex;
+           flex-wrap: wrap;
+           gap: 20px;
+       }
+       /* 设置卡片的样式 */
+       .card {
+           display: flex;
+           flex-direction: row;
+           align-items: center;
+           background-color: rgba(251, 253, 254, 0.7);
+           border: 1px solid #ddd;
+           border-radius: 8px;
+           padding: 20px;
+           box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+           transition: transform 0.2s, box-shadow 0.2s;
+           width: calc(33.333% - 20px);
+           text-decoration: none;
+           color: inherit;
+       }
+       .card:hover {
+           transform: scale(1.05);
+           box-shadow: 0 0 20px rgba(0, 0, 0, 0.2);
+       }
+       .card img {
+           width: 50px;
+           height: 50px;
+           margin-right: 10px;
+       }
+       .card .info {
+           display: flex;
+           flex-direction: column;
+           width: 100%;
+       }
+       .card .info .title {
+           font-size: 1.2rem;
+           color: #3498db;
+           text-decoration: none;
+           white-space: nowrap;
+           overflow: hidden;
+           text-overflow: ellipsis;
+       }
+       .card .info .description {
+           font-size: 0.9rem;
+           color: #666;
+           white-space: normal;
+           overflow: hidden;
+           text-overflow: ellipsis;
+           display: -webkit-box;
+           -webkit-line-clamp: 2; /* 限制为2行 */
+           -webkit-box-orient: vertical;
+       }
+       /* 响应式布局：当屏幕宽度大于1000px时，卡片宽度调整为三列 */
+       @media (min-width: 1000px) {
+           .card {
+               width: calc(33.333% - 20px);
+           }
+       }
+       /* 响应式布局：当屏幕宽度介于600px与900px之间时，卡片宽度调整为两列 */
+       @media (min-width: 600px) and (max-width: 999px) {
+           .card {
+               width: calc(50% - 20px);
+           }
+       }
+       /* 响应式布局：当屏幕宽度小于600px时，卡片宽度调整为一列 */
+       @media (max-width: 599px) {
+           .card {
+               width: 100%;
+           }
+       }
+   </style>
+</head>
+<body>
+   <div class="container">
+       <h1>导航站</h1>
+       <div class="nav">
+           <a href="#search-engines">搜索引擎</a>
+           <a href="#developer-resources">开发者资源</a>
+           <a href="#social-media">社交媒体</a>
+       </div>
+
+       <!-- 搜索引擎分区 -->
+       <div id="search-engines" class="section">
+           <h2>搜索引擎</h2>
+           <div class="cards">
+               <a href="https://www.google.com" target="_blank" class="card">
+                   <img src="https://www.google.com/favicon.ico" alt="Google">
+                   <div class="info">
+                       <span class="title">Google</span>
+                       <span class="description">The world's most popular search engine.</span>
+                   </div>
+               </a>
+               <a href="https://www.bing.com" target="_blank" class="card">
+                   <img src="https://www.bing.com/favicon.ico" alt="Bing">
+                   <div class="info">
+                       <span class="title">Bing</span>
+                       <span class="description">Microsoft's search engine.</span>
+                   </div>
+               </a>
+           </div>
+       </div>
+
+       <!-- 开发者资源分区 -->
+       <div id="developer-resources" class="section">
+           <h2>开发者资源</h2>
+           <div class="cards">
+               <a href="https://www.github.com" target="_blank" class="card">
+                   <img src="https://www.github.com/favicon.ico" alt="GitHub">
+                   <div class="info">
+                       <span class="title">GitHub</span>
+                       <span class="description">A platform for version control and collaboration.</span>
+                   </div>
+               </a>
+               <a href="https://www.stackoverflow.com" target="_blank" class="card">
+                   <img src="https://www.stackoverflow.com/favicon.ico" alt="Stack Overflow">
+                   <div class="info">
+                       <span class="title">Stack Overflow</span>
+                       <span class="description">A community of developers helping each other.</span>
+                   </div>
+               </a>
+           </div>
+       </div>
+
+       <!-- 社交媒体分区 -->
+       <div id="social-media" class="section">
+           <h2>社交媒体</h2>
+           <div class="cards">
+               <a href="https://www.reddit.com" target="_blank" class="card">
+                   <img src="https://www.reddit.com/favicon.ico" alt="Reddit">
+                   <div class="info">
+                       <span class="title">Reddit</span>
+                       <span class="description">A network of communities based on people's interests.</span>
+                   </div>
+               </a>
+               <a href="https://www.twitter.com" target="_blank" class="card">
+                   <img src="https://www.twitter.com/favicon.ico" alt="Twitter">
+                   <div class="info">
+                       <span class="title">Twitter</span>
+                       <span class="description">A platform for public self-expression and conversation in real time.</span>
+                   </div>
+               </a>
+           </div>
+       </div>
+   </div>
+</body>
+</html>

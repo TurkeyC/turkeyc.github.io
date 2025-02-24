@@ -943,6 +943,15 @@ img {
   .testimonial__description {
       text-align: center;
   }
+
+  .home__scroll {
+          display: block;
+          height: 50px;
+  }
+  .home__scroll-button{
+      margin-left: 3rem;
+  }
+
 }
 
 /* For medium devices */
@@ -1044,8 +1053,9 @@ img {
       }
       .home__scroll {
           display: block;
+          height: 5px;
       }
-      .home__scroll-button {
+      .home__scroll-button{
           margin-left: 3rem;
       }
       .about__container {
