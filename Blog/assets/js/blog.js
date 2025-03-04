@@ -30,6 +30,7 @@ document.addEventListener('DOMContentLoaded', () => {
       generateArchives();
       setupEventListeners();
       setupDarkMode();
+      setupBackToTop();
     });
   }
 
@@ -224,6 +225,46 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 直接使用已加载的内容
     postContent.innerHTML = marked.parse(post.content);
+
+    // 在这里添加代码高亮
+    hljs.highlightAll();
+
+    // 添加复制按钮函数
+  addCopyButtons();
+  }
+
+  // 添加代码复制功能
+  function addCopyButtons() {
+  const codeBlocks = document.querySelectorAll('pre code');
+  codeBlocks.forEach(codeBlock => {
+    // 创建按钮容器以便定位
+    const buttonContainer = document.createElement('div');
+    buttonContainer.className = 'copy-button-container';
+
+    // 创建复制按钮
+    const copyButton = document.createElement('button');
+    copyButton.className = 'copy-button';
+    copyButton.innerHTML = '<i class="uil uil-copy"></i>'; // 使用复制图标替代文本
+
+    // 添加复制功能
+    copyButton.addEventListener('click', () => {
+      const code = codeBlock.textContent;
+      navigator.clipboard.writeText(code).then(() => {
+        // 复制成功时的反馈
+        copyButton.innerHTML = '<i class="uil uil-check"></i>'; // 变为对勾图标
+        setTimeout(() => {
+          copyButton.innerHTML = '<i class="uil uil-copy"></i>'; // 还原为复制图标
+        }, 2000);
+      });
+    });
+
+    // 调整代码块父元素样式
+    codeBlock.parentNode.style.position = 'relative';
+
+    // 添加按钮到容器，再添加容器到代码块父元素
+    buttonContainer.appendChild(copyButton);
+    codeBlock.parentNode.appendChild(buttonContainer);
+    });
   }
 
   // 生成归档列表
@@ -330,6 +371,40 @@ document.addEventListener('DOMContentLoaded', () => {
       clearTimeout(timeout);
       timeout = setTimeout(() => func.apply(context, args), delay);
     };
+  }
+
+  // 回到顶部按钮功能
+  function setupBackToTop() {
+    // 创建回到顶部按钮
+    const backToTopBtn = document.createElement('button');
+    backToTopBtn.id = 'back-to-top';
+    backToTopBtn.className = 'back-to-top';
+    backToTopBtn.setAttribute('aria-label', '回到顶部');
+
+    // 创建图标
+    const icon = document.createElement('i');
+    icon.className = 'uil uil-arrow-up';
+    backToTopBtn.appendChild(icon);
+
+    // 添加到文档
+    document.body.appendChild(backToTopBtn);
+
+    // 检查滚动位置决定是否显示按钮
+    window.addEventListener('scroll', () => {
+      if (window.pageYOffset > 300) {
+        backToTopBtn.classList.add('show');
+      } else {
+        backToTopBtn.classList.remove('show');
+      }
+    });
+
+    // 点击按钮回到顶部
+    backToTopBtn.addEventListener('click', () => {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    });
   }
 
   // 初始化博客
