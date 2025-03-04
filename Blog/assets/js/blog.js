@@ -85,10 +85,11 @@ document.addEventListener('DOMContentLoaded', () => {
       const postFilenames = await response.json();
       const loadedPosts = [];
 
-      for (let i = 0; i < postFilenames.length; i++) {
-        const filename = postFilenames[i];
-        const postResponse = await fetch(`posts/${filename}`);
-        if (!postResponse.ok) continue;
+    for (let i = 0; i < postFilenames.length; i++) {
+      const filename = postFilenames[i];
+      // 修改这一行，使用相同的路径格式
+      const postResponse = await fetch(`${basePath}/Blog/posts/${filename}`);
+      if (!postResponse.ok) continue;
 
         const markdown = await postResponse.text();
         const { content, metadata } = parseFrontMatter(markdown);
