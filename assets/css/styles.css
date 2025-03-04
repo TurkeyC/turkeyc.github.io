@@ -1254,3 +1254,68 @@ img {
 .home__navigation, .home__scroll {
   padding: var(--mb-0-5) 0;
 }
+
+/* 添加这个新的基本样式 */
+.home__blog {
+  margin-bottom: var(--mb-1);
+  display: flex;
+  justify-content: center;
+}
+
+/* 小屏幕设备 - 修改现有选择器 */
+@media screen and (max-width: 567px) {
+  .home__navigation, .home__scroll, .home__blog {
+    text-align: center;
+    margin-top: var(--mb-1);
+  }
+}
+
+/* 中等屏幕设备 - 修改现有选择器 */
+@media screen and (min-width: 568px) and (max-width: 767px) {
+  .home__actions {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    margin-top: var(--mb-2);
+  }
+
+  .home__navigation, .home__scroll, .home__blog {
+    margin: 0;
+    flex: 1;
+  }
+
+  .home__navigation {
+    text-align: right;
+    padding-right: var(--mb-1);
+  }
+
+  .home__blog {
+    text-align: center;
+  }
+
+  .home__scroll {
+    text-align: left;
+    padding-left: var(--mb-1);
+  }
+}
+
+/* 大屏幕设备 - 修改现有选择器 */
+@media screen and (min-width: 768px) {
+  .home__navigation, .home__scroll, .home__blog {
+    display: inline-block;
+    margin: 0 var(--mb-1);
+  }
+
+  /* 创建一个包含三个按钮的容器 */
+  .home__actions {
+    display: flex;
+    justify-content: center;
+    margin-top: var(--mb-2);
+  }
+}
+
+/* 在所有屏幕尺寸下保证按钮有一定的可点击区域 - 修改现有选择器 */
+.home__navigation, .home__scroll, .home__blog {
+  padding: var(--mb-0-5) 0;
+}
