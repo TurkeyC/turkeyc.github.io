@@ -73,13 +73,13 @@ document.addEventListener('DOMContentLoaded', () => {
   async function loadAllPosts() {
     try {
       // 确保使用正确的路径
-      const basePath = location.hostname === "localhost" || location.hostname === "127.0.0.1"
-        ? ''
-        : '';  // 如果是在根域名下，留空即可
+      // 设置基础路径
+const basePath = location.hostname === "localhost" || location.hostname === "127.0.0.1"
+  ? ''
+  : '/turkeyc.github.io'; // 如果你用的是自定义域名，则使用 ''
 
-      // 使用正确的路径加载索引
-      const response = await fetch(`${basePath}/Blog/posts/index.json`);
-
+// 修改加载 Markdown 文件的代码
+const postResponse = await fetch(`${basePath}/Blog/posts/${filename}`);
       if (!response.ok) throw new Error('无法加载文章索引');
 
       const postFilenames = await response.json();
