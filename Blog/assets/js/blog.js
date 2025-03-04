@@ -72,8 +72,14 @@ document.addEventListener('DOMContentLoaded', () => {
   // 加载所有文章
   async function loadAllPosts() {
     try {
-      // 加载文章索引
-      const response = await fetch('posts/index.json');
+      // 确保使用正确的路径
+      const basePath = location.hostname === "localhost" || location.hostname === "127.0.0.1"
+        ? ''
+        : '';  // 如果是在根域名下，留空即可
+
+      // 使用正确的路径加载索引
+      const response = await fetch(`${basePath}/Blog/posts/index.json`);
+
       if (!response.ok) throw new Error('无法加载文章索引');
 
       const postFilenames = await response.json();
