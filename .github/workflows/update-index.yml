@@ -6,7 +6,7 @@ permissions:
 on:
   push:
     paths:
-      - 'blog/posts/*.md'
+      - 'Blog/posts/*.md'
   workflow_dispatch:
 
 jobs:

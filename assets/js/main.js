@@ -95,11 +95,21 @@ function scrollActive(){
         const sectionHeight = current.clientHeight
         const sectionTop = current.getBoundingClientRect().top;
         const sectionId = current.getAttribute('id')
+
         // section 位于视口中间时添加样式 active-link
-        if(sectionTop <= window.innerHeight / 2 && sectionTop + sectionHeight >= window.innerHeight / 2){
-            document.querySelector('.nav__menu a[href*=' + sectionId + ']').classList.add('active-link')
-        }else{
-            document.querySelector('.nav__menu a[href*=' + sectionId + ']').classList.remove('active-link')
+        // if(sectionTop <= window.innerHeight / 2 && sectionTop + sectionHeight >= window.innerHeight / 2){
+        //     document.querySelector('.nav__menu a[href*=' + sectionId + ']').classList.add('active-link')
+        // }else{
+        //     document.querySelector('.nav__menu a[href*=' + sectionId + ']').classList.remove('active-link')
+        // }
+        // 添加空值检查
+        const navLink = document.querySelector('.nav__menu a[href*=' + sectionId + ']');
+        if(navLink) {
+            if(sectionTop <= window.innerHeight / 2 && sectionTop + sectionHeight >= window.innerHeight / 2){
+                navLink.classList.add('active-link')
+            }else{
+                navLink.classList.remove('active-link')
+            }
         }
     })
 }
