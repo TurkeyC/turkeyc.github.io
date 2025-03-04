@@ -128,5 +128,4 @@ function estimateReadingTime(text) {
   const wordCount = text.trim().split(/\s+/).length;
   // 假设平均阅读速度为每分钟 200 个词
   return Math.ceil(wordCount / 200);
-}
-```
+}```
