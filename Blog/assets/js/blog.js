@@ -72,25 +72,29 @@ document.addEventListener('DOMContentLoaded', () => {
   // 加载所有文章
   async function loadAllPosts() {
     try {
-      // 确保使用正确的路径
-      // 设置基础路径
-      const basePath = location.hostname === "localhost" || location.hostname === "127.0.0.1"
-        ? ''
-        : '/turkeyc.github.io'; // 如果在GitHub上就用这个
-        // : ''; // 如果在本地测试就用这个
+      // 使用绝对路径
+      const response = await fetch('/Blog/posts/index.json');
 
-      // 修改加载 Markdown 文件的代码
-      const postResponse = await fetch(`${basePath}/Blog/posts/${filename}`);
-      if (!response.ok) throw new Error('无法加载文章索引');
+      if (!response.ok) {
+        console.error('无法加载索引文件:', response.status);
+        throw new Error('无法加载文章索引');
+      }
 
       const postFilenames = await response.json();
+      console.log('成功加载索引文件，文件列表:', postFilenames);
+
       const loadedPosts = [];
 
-    for (let i = 0; i < postFilenames.length; i++) {
-      const filename = postFilenames[i];
-      // 修改这一行，使用相同的路径格式
-      const postResponse = await fetch(`${basePath}/Blog/posts/${filename}`);
-      if (!postResponse.ok) continue;
+      for (let i = 0; i < postFilenames.length; i++) {
+        const filename = postFilenames[i];
+        console.log('正在尝试加载文件:', filename);
+        // 使用绝对路径
+        const postResponse = await fetch(`/Blog/posts/${filename}`);
+
+        if (!postResponse.ok) {
+          console.error(`文件 ${filename} 加载失败:`, postResponse.status);
+          continue;
+        }
 
         const markdown = await postResponse.text();
         const { content, metadata } = parseFrontMatter(markdown);
