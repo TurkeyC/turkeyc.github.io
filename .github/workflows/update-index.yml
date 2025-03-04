@@ -1,9 +1,13 @@
 name: 更新文章索引
 
+permissions:
+  contents: write
+
 on:
   push:
     paths:
-      - 'posts/*.md'
+      - 'Blog/posts/*.md'
+  workflow_dispatch:
 
 jobs:
   update-index:
