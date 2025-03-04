@@ -84,6 +84,7 @@ body.dark-theme {
 }
 
 body {
+  margin: 0;
   transition: all 0.2s;
 }
 
@@ -117,7 +118,8 @@ html {
 }
 
 body {
-  margin: 0 0 var(--header-height) 0;
+  margin: 0;
+  /*margin: 0 0 var(--header-height) 0;*/
   font-family: var(--body-font);
   font-size: var(--normal-font-size);
   background-color: var(--body-color);
@@ -773,6 +775,8 @@ img {
 /*==================== FOOTER ====================*/
 .footer {
   padding-top: 2rem;
+  margin-bottom: 0;
+  width: 100%;
 }
 
 .footer__container {
@@ -988,7 +992,7 @@ img {
           margin-right: auto;
       }
 
-      .body {
+      body {
           margin: 0;
       }
       .section {

@@ -1,0 +1,19 @@
+---
+title: 有趣的技术文章 - 我的第2篇博客
+date: 2021-05-15
+tags: [技术分析, JavaScript, 前端]
+category: 转载
+---
+
+# 转载：有趣的技术文章
+
+这是一篇转载文章，原文来自某技术博客。
+
+## 技术分析
+
+以下是一些技术内容：
+
+```javascript
+function hello() {
+  console.log("Hello, world!");
+}

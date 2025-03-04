@@ -1,0 +1,32 @@
+name: 更新文章索引
+
+on:
+  push:
+    paths:
+      - 'posts/*.md'
+
+jobs:
+  update-index:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v2
+
+      - name: 设置 Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '16'
+
+      - name: 生成文章索引
+        run: |
+          cd posts
+          echo "[" > index.json
+          find . -maxdepth 1 -name "*.md" | sort -r | sed 's/\.\///' | sed 's/$/",/' | sed 's/^/"/' | sed '$s/,$//' >> index.json
+          echo "]" >> index.json
+
+      - name: 提交更新的索引文件
+        run: |
+          git config --local user.email "action@github.com"
+          git config --local user.name "GitHub Action"
+          git add posts/index.json
+          git commit -m "自动更新文章索引" || echo "没有变更"
+          git push

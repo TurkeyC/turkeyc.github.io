@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico" />
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" />
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+    <link rel="stylesheet" href="assets/css/blog.css" />
+    <title>CaoTurkey的博客</title>
+  </head>
+  <body>
+    <div class="blog-container">
+      <!-- 左侧栏 -->
+      <aside class="sidebar">
+        <div class="profile">
+          <div class="profile-img">
+            <img src="assets/img/AI_Software.png" alt="头像" />
+          </div>
+          <h2 class="profile-name">CaoTurkey</h2>
+          <p class="profile-bio">前端开发者 | 生物医学工程师</p>
+        </div>
+        <nav class="nav-menu">
+          <ul>
+            <li><a href="#" class="active"><i class="uil uil-estate"></i> 主页</a></li>
+            <li><a href="#archives"><i class="uil uil-archive"></i> 归档</a></li>
+            <li><a href="#" id="search-toggle"><i class="uil uil-search"></i> 搜索</a></li>
+            <li><a href="#" id="theme-toggle"><i class="uil uil-moon"></i> 暗色模式</a></li>
+          </ul>
+        </nav>
+        <div class="back-home">
+          <a href="../index.html"><i class="uil uil-arrow-left"></i> 返回主站</a>
+        </div>
+      </aside>
+
+      <!-- 中央内容区 -->
+      <main class="content">
+        <div class="posts-container" id="posts-container">
+          <!-- 文章将通过JavaScript动态加载 -->
+          <div class="loading">加载中...</div>
+        </div>
+
+        <!-- 文章详情页 -->
+        <div class="post-detail" id="post-detail" style="display: none;">
+          <div class="post-header">
+            <button id="back-to-list" class="back-button"><i class="uil uil-arrow-left"></i> 返回列表</button>
+            <h1 class="post-title" id="detail-title"></h1>
+            <div class="post-meta">
+              <span class="post-date" id="detail-date"></span>
+              <span class="post-reading-time" id="detail-reading-time"></span>
+              <span class="post-tag" id="detail-tag"></span>
+            </div>
+          </div>
+          <div class="post-content" id="post-content">
+            <!-- 文章内容将在这里渲染 -->
+          </div>
+        </div>
+      </main>
+
+      <!-- 右侧栏 -->
+      <aside class="right-sidebar">
+        <div class="search-box">
+          <input type="text" id="search-input" placeholder="搜索文章..." />
+          <i class="uil uil-search"></i>
+        </div>
+
+        <div class="widget archives">
+          <h3>归档</h3>
+          <ul id="archive-list">
+            <!-- 归档列表将通过JavaScript动态加载 -->
+          </ul>
+          <a href="#archives" class="more-link">更多</a>
+        </div>
+
+        <div class="widget categories">
+          <h3>分类</h3>
+          <div class="tag-list" id="category-list">
+            <span class="tag active" data-category="all">全部</span>
+            <span class="tag" data-category="Original">原创</span>
+            <span class="tag" data-category="Repost">转载</span>
+          </div>
+        </div>
+      </aside>
+    </div>
+
+    <!-- 脚本 -->
+    <script src="assets/js/marked.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="assets/js/blog.js"></script>
+  </body>
+</html>
