@@ -1,4 +1,4 @@
-name: 更新文章索引
+name: 更新文章索引和目录结构
 
 permissions:
   contents: write
@@ -6,7 +6,7 @@ permissions:
 on:
   push:
     paths:
-      - 'Blog/posts/*.md'
+      - 'Blog/posts/**/*.md'
   workflow_dispatch:
 
 jobs:
@@ -22,15 +22,22 @@ jobs:
 
       - name: 生成文章索引
         run: |
-          cd Blog/posts  # 修改这里，使用正确的路径
+          cd Blog/posts
           echo "[" > index.json
-          find . -maxdepth 1 -name "*.md" | sort -r | sed 's/\.\///' | sed 's/$/",/' | sed 's/^/"/' | sed '$s/,$//' >> index.json
+          find . -type f -name "*.md" | sort -r | sed 's/\.\///' | sed 's/$/",/' | sed 's/^/"/' | sed '$s/,$//' >> index.json
           echo "]" >> index.json
 
-      - name: 提交更新的索引文件
+      - name: 生成目录结构
+        run: |
+          cd Blog
+          echo "{\"directories\":[" > directory-structure.json
+          find posts -type d | grep -v "^posts$" | sed 's/posts\///' | sed '/^$/d' | awk '{print "{\"name\":\"" $0 "\",\"path\":\"" $0 "\"}"}' | paste -sd "," >> directory-structure.json
+          echo "]}" >> directory-structure.json
+
+      - name: 提交更新的文件
         run: |
           git config --local user.email "action@github.com"
           git config --local user.name "GitHub Action"
-          git add Blog/posts/index.json  # 修改这里，使用正确的路径
-          git commit -m "自动更新文章索引" || echo "没有变更"
+          git add Blog/posts/index.json Blog/directory-structure.json
+          git commit -m "自动更新文章索引和目录结构" || echo "没有变更"
           git push
