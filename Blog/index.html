@@ -11,7 +11,7 @@
     <link rel="stylesheet" href="../assets/css/swiper-bundle.min.css" />
     <script src="../assets/js/swiper-bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
-    <script src="/Blog/assets/js/highlight.min.js"></script>
+    <script src="assets/js/highlight.min.js"></script>
   </head>
   <body>
     <div class="blog-container">
@@ -36,9 +36,14 @@
           <a href="../index.html"><i class="uil uil-arrow-left"></i> 返回主站</a>
         </div>
       </aside>
+      <!-- 侧边栏切换按钮 -->
+      <div class="sidebar-toggle">
+        <i class="uil uil-angle-left-b"></i>
+      </div>
 
       <!-- 中央内容区 -->
       <main class="content">
+        <!-- 文章列表容器 -->
         <div class="posts-container" id="posts-container">
           <!-- 文章将通过JavaScript动态加载 -->
           <div class="loading">加载中...</div>
@@ -47,16 +52,21 @@
         <!-- 文章详情页 -->
         <div class="post-detail" id="post-detail" style="display: none;">
           <div class="post-header">
-            <button id="back-to-list" class="back-button"><i class="uil uil-arrow-left"></i> 返回列表</button>
-            <h1 class="post-title" id="detail-title"></h1>
+            <button class="back-button" id="back-to-list">
+              <i class="uil uil-arrow-left"></i> 返回列表
+            </button>
+            <h1 id="detail-title">文章标题</h1>
             <div class="post-meta">
-              <span class="post-date" id="detail-date"></span>
-              <span class="post-reading-time" id="detail-reading-time"></span>
-              <span class="post-tag" id="detail-tag"></span>
+              <span id="detail-date"><i class="uil uil-calendar-alt"></i> 日期</span>
+              <span id="detail-reading-time"><i class="uil uil-clock"></i> 阅读时间</span>
+            </div>
+            <div class="post-tags-container">
+              <span id="detail-tag" class="post-tag">分类</span>
+              <div id="detail-tags" class="detail-tags"></div>
             </div>
           </div>
           <div class="post-content" id="post-content">
-            <!-- 文章内容将在这里渲染 -->
+            <!-- 文章内容将被动态加载 -->
           </div>
         </div>
       </main>
@@ -64,25 +74,25 @@
       <!-- 右侧栏 -->
       <aside class="right-sidebar">
         <div class="search-box">
-          <input type="text" id="search-input" placeholder="搜索文章..." />
           <i class="uil uil-search"></i>
+          <input type="text" id="search-input" placeholder="搜索文章..." />
         </div>
 
-        <div class="widget archives">
-          <h3>归档</h3>
-          <ul id="archive-list">
-            <!-- 归档列表将通过JavaScript动态加载 -->
-          </ul>
-          <a href="#archives" class="more-link">更多</a>
-        </div>
-
-        <div class="widget categories">
+        <div class="widget">
           <h3>分类</h3>
           <div class="tag-list" id="category-list">
             <span class="tag active" data-category="all">全部</span>
             <span class="tag" data-category="Original">原创</span>
             <span class="tag" data-category="Repost">转载</span>
           </div>
+        </div>
+
+        <div class="widget">
+          <h3>归档</h3>
+          <ul id="archive-list">
+            <!-- 归档列表将被动态加载 -->
+          </ul>
+          <a href="#archives" class="more-link">查看全部</a>
         </div>
       </aside>
     </div>

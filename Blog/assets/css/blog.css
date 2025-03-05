@@ -12,41 +12,41 @@
 
     /* 定义布局变量方便调整和响应式处理 */
     --sidebar-width: 20%;
-    --content-width: 50%;
+    --content-width: 60%;
     --content-max-width: 900px;
     --sidebar-min-width: 250px;
-  }
+}
 
-  /* 暗黑模式变量 */
-  body.dark-theme {
+/* 暗黑模式变量 */
+body.dark-theme {
     --blog-title-color: hsl(200, 8%, 95%);
     --blog-text-color: hsl(200, 8%, 75%);
     --blog-body-color: hsl(200, 28%, 12%);
     --blog-container-color: hsl(200, 29%, 16%);
     --blog-scroll-bar-color: hsl(200, 12%, 48%);
     --blog-scroll-thumb-color: hsl(200, 12%, 36%);
-  }
+}
 
-  body {
+body {
     background-color: var(--blog-body-color);
     color: var(--blog-text-color);
     transition: .5s;
     margin: 0;
     padding: 0;
     font-family: 'Arial', sans-serif;
-  }
+}
 
-  /* 重写博客容器布局 - 块级布局而非网格 */
-  .blog-container {
+/* 重写博客容器布局 - 块级布局而非网格 */
+.blog-container {
     position: relative;
     max-width: 100%;
     min-height: 100vh;
     margin: 0;
     padding: 2rem 0;
-  }
+}
 
-  /* 左侧栏样式 */
-  .sidebar {
+/* 左侧栏样式 */
+.sidebar {
     position: fixed;
     top: 2rem;
     left: 2%;
@@ -59,45 +59,51 @@
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     overflow-y: auto;
     z-index: 10;
-  }
+    transition: margin-left 0.3s ease;
+}
 
-  .profile {
+/* 侧边栏收起状态 */
+.blog-container.sidebar-collapsed .sidebar {
+    margin-left: -280px;
+}
+
+.profile {
     text-align: center;
     margin-bottom: 2rem;
-  }
+}
 
-  .profile-img {
+.profile-img {
     width: 100px;
     height: 100px;
     border-radius: 50%;
     margin: 0 auto 1rem;
     overflow: hidden;
     border: 3px solid var(--blog-primary-color);
-  }
+}
 
-  .profile-img img {
+.profile-img img {
     width: 100%;
     height: 100%;
     object-fit: cover;
-  }
+}
 
-  .profile-name {
+.profile-name {
     font-size: 1.25rem;
     color: var(--blog-title-color);
     margin-bottom: 0.5rem;
-  }
+}
 
-  .profile-bio {
+.profile-bio {
     font-size: 0.875rem;
     color: var(--blog-text-color-light);
-  }
+}
 
-  .nav-menu ul {
+.nav-menu ul {
     list-style: none;
     padding: 0;
-  }
+}
 
-  .nav-menu a {
+.nav-menu a {
     display: flex;
     align-items: center;
     padding: 0.75rem 0;
@@ -105,38 +111,93 @@
     text-decoration: none;
     font-size: 1rem;
     transition: 0.3s;
-  }
+}
 
-  .nav-menu a:hover,
-  .nav-menu a.active {
+.nav-menu a:hover,
+.nav-menu a.active {
     color: var(--blog-primary-color);
-  }
+}
 
-  .nav-menu i {
+.nav-menu i {
     margin-right: 0.75rem;
     font-size: 1.25rem;
-  }
+}
 
-  .back-home {
+.back-home {
     margin-top: 2rem;
-  }
+}
 
-  /* 中央内容区样式 */
-  .content {
+/* 侧边栏切换按钮样式 - 精确对齐 */
+.sidebar-toggle {
+    position: fixed;
+    /* 使用clientWidth动态计算位置 */
+    left: 0; /* 初始位置 */
+    top: 50%;
+    transform: translateY(-50%);
+    width: 20px;
+    height: 40px;
+    background-color: var(--blog-primary-color);
+    border-radius: 0 4px 4px 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    cursor: pointer;
+    z-index: 5;
+    box-shadow: 1px 0 3px rgba(0, 0, 0, 0.1);
+    transition: all 0.3s ease;
+}
+
+.sidebar-toggle i {
+    color: #fff;
+    font-size: 18px;
+    transition: transform 0.3s ease;
+}
+
+.blog-container.sidebar-collapsed .sidebar-toggle {
+    left: 0; /* 收起状态下贴着页面左侧 */
+}
+
+.blog-container.sidebar-collapsed .sidebar-toggle i {
+    transform: rotate(180deg);
+}
+
+/* 媒体查询中的调整 */
+/* 确保响应式调整时按钮位置正确 */
+@media screen and (max-width: 1200px) {
+    .sidebar-toggle {
+        left: calc(min(var(--sidebar-width), var(--sidebar-min-width)) + 1% + 1.5rem);
+    }
+}
+
+@media screen and (max-width: 768px) {
+    .sidebar-toggle {
+        left: 250px; /* 移动端下固定位置 */
+    }
+}
+
+/* 中央内容区样式 */
+.content {
     width: var(--content-width);
     max-width: var(--content-max-width);
     margin: 0 auto;
     min-height: calc(100vh - 4rem);
     padding: 0 1rem;
-  }
+    transition: margin-left 0.3s ease, width 0.3s ease;
+}
 
-  .posts-container {
+/* 内容区域随侧边栏收起而扩展 */
+.blog-container.sidebar-collapsed .content {
+    margin-left: 30px;
+    width: calc(var(--content-width) + 8%);
+}
+
+.posts-container {
     display: flex;
     flex-direction: column;
     gap: 1.5rem;
-  }
+}
 
-  .post-card {
+.post-card {
     background-color: var(--blog-container-color);
     border-radius: 1rem;
     padding: 1.5rem;
@@ -145,13 +206,13 @@
     transition: transform 0.3s;
     width: 100%;
     overflow-x: hidden;
-  }
+}
 
-  .post-card:hover {
+.post-card:hover {
     transform: translateY(-5px);
-  }
+}
 
-  .post-tag {
+.post-tag {
     display: inline-block;
     padding: 0.25rem 0.75rem;
     border-radius: 0.5rem;
@@ -159,54 +220,54 @@
     color: #fff;
     background-color: var(--blog-primary-color);
     margin-bottom: 0.75rem;
-  }
+}
 
-  .post-tag.original {
+.post-tag.original {
     background-color: #4CAF50;
-  }
+}
 
-  .post-tag.repost {
+.post-tag.repost {
     background-color: #FF9800;
-  }
+}
 
-  .post-title {
+.post-title {
     font-size: 1.25rem;
     color: var(--blog-title-color);
     margin-bottom: 0.75rem;
-  }
+}
 
-  .post-meta {
+.post-meta {
     display: flex;
     align-items: center;
     font-size: 0.875rem;
     color: var(--blog-text-color-light);
-  }
+}
 
-  .post-date, .post-reading-time {
+.post-date, .post-reading-time {
     display: flex;
     align-items: center;
     margin-right: 1rem;
-  }
+}
 
-  .post-date i, .post-reading-time i {
+.post-date i, .post-reading-time i {
     margin-right: 0.25rem;
-  }
+}
 
-  /* 文章详情页样式 */
-  .post-detail {
+/* 文章详情页样式 */
+.post-detail {
     background-color: var(--blog-container-color);
     border-radius: 1rem;
     padding: 2rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     overflow-x: hidden;
     width: 100%;
-  }
+}
 
-  .post-header {
+.post-header {
     margin-bottom: 2rem;
-  }
+}
 
-  .back-button {
+.back-button {
     display: inline-flex;
     align-items: center;
     background: none;
@@ -216,53 +277,53 @@
     font-size: 1rem;
     padding: 0;
     margin-bottom: 1rem;
-  }
+}
 
-  .back-button i {
+.back-button i {
     margin-right: 0.5rem;
-  }
+}
 
-  /* 文章内容样式 */
-  .post-content {
+/* 文章内容样式 */
+.post-content {
     line-height: 1.8;
-  }
+}
 
-  .post-content h1, .post-content h2, .post-content h3,
-  .post-content h4, .post-content h5, .post-content h6 {
+.post-content h1, .post-content h2, .post-content h3,
+.post-content h4, .post-content h5, .post-content h6 {
     color: var(--blog-title-color);
     margin: 1.5rem 0 1rem;
-  }
+}
 
-  .post-content p {
+.post-content p {
     margin-bottom: 1rem;
-  }
+}
 
-  .post-content img {
+.post-content img {
     max-width: 100%;
     border-radius: 0.5rem;
-  }
+}
 
-  .post-content a {
+.post-content a {
     color: var(--blog-primary-color);
     text-decoration: none;
-  }
+}
 
-  .post-content blockquote {
+.post-content blockquote {
     border-left: 4px solid var(--blog-primary-color);
     padding-left: 1rem;
     margin-left: 0;
     color: var(--blog-text-color-light);
-  }
+}
 
-  /* 代码块样式 */
-  .post-content code {
+/* 代码块样式 */
+.post-content code {
     background-color: var(--blog-input-color);
     padding: 0.2rem 0.4rem;
     border-radius: 0.25rem;
     font-family: monospace;
-  }
+}
 
-  .post-content pre {
+.post-content pre {
     max-width: 100%;
     overflow-x: auto;
     white-space: pre;
@@ -271,40 +332,40 @@
     margin-top: 1.5rem;
     background-color: var(--blog-input-color);
     border-radius: 0.5rem;
-  }
+}
 
-  .post-content pre code {
+.post-content pre code {
     background-color: transparent;
     padding: 0;
     display: inline-block;
     white-space: pre;
     max-width: 100%;
-  }
+}
 
-  /* 代码块滚动条样式 */
-  .post-content pre::-webkit-scrollbar {
+/* 代码块滚动条样式 */
+.post-content pre::-webkit-scrollbar {
     height: 8px;
-  }
+}
 
-  .post-content pre::-webkit-scrollbar-track {
+.post-content pre::-webkit-scrollbar-track {
     background: var(--blog-input-color);
     border-radius: 4px;
-  }
+}
 
-  .post-content pre::-webkit-scrollbar-thumb {
+.post-content pre::-webkit-scrollbar-thumb {
     background: var(--blog-scroll-thumb-color);
     border-radius: 4px;
-  }
+}
 
-  /* 复制按钮容器和样式 */
-  .copy-button-container {
+/* 复制按钮容器和样式 */
+.copy-button-container {
     position: absolute;
     top: 5px;
     right: 5px;
     z-index: 10;
-  }
+}
 
-  .copy-button {
+.copy-button {
     background-color: rgba(240, 240, 240, 0.2);
     color: var(--blog-primary-color);
     border: 1px solid rgba(204, 204, 204, 0);
@@ -316,18 +377,18 @@
     justify-content: center;
     cursor: pointer;
     transition: all 0.2s;
-  }
+}
 
-  .copy-button:hover {
+.copy-button:hover {
     background-color: rgba(224, 224, 224, 0.3);
-  }
+}
 
-  .copy-button i {
+.copy-button i {
     font-size: 14px;
-  }
+}
 
-  /* 右侧栏样式 */
-  .right-sidebar {
+/* 右侧栏样式 */
+.right-sidebar {
     position: fixed;
     top: 2rem;
     right: 2%;
@@ -336,14 +397,14 @@
     height: calc(100vh - 4rem);
     overflow-y: auto;
     z-index: 10;
-  }
+}
 
-  .search-box {
+.search-box {
     position: relative;
     margin-bottom: 2rem;
-  }
+}
 
-  .search-box input {
+.search-box input {
     width: 100%;
     padding: 0.75rem 1rem 0.75rem 2.5rem;
     border: none;
@@ -351,65 +412,65 @@
     background-color: var(--blog-container-color);
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
     color: var(--blog-text-color);
-  }
+}
 
-  .search-box input:focus {
+.search-box input:focus {
     outline: none;
     box-shadow: 0 0 0 2px var(--blog-primary-color);
-  }
+}
 
-  .search-box i {
+.search-box i {
     position: absolute;
     left: 1rem;
     top: 50%;
     transform: translateY(-50%);
     color: var(--blog-text-color-light);
-  }
+}
 
-  .widget {
+.widget {
     background-color: var(--blog-container-color);
     border-radius: 1rem;
     padding: 1.5rem;
     margin-bottom: 2rem;
     box-shadow: 0 4px 20px rgba(0, 0, 0, 0.05);
-  }
+}
 
-  .widget h3 {
+.widget h3 {
     font-size: 1.125rem;
     color: var(--blog-title-color);
     margin-bottom: 1rem;
-  }
+}
 
-  .widget ul {
+.widget ul {
     list-style: none;
     padding: 0;
-  }
+}
 
-  .widget li {
+.widget li {
     margin-bottom: 0.75rem;
-  }
+}
 
-  .widget a {
+.widget a {
     color: var(--blog-text-color);
     text-decoration: none;
     display: flex;
     align-items: center;
     justify-content: space-between;
     transition: 0.3s;
-  }
+}
 
-  .widget a:hover {
+.widget a:hover {
     color: var(--blog-primary-color);
-  }
+}
 
-  /* 标签样式 */
-  .tag-list {
+/* 标签样式 */
+.tag-list {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
-  }
+}
 
-  .tag {
+.tag {
     display: inline-block;
     padding: 0.25rem 0.75rem;
     border-radius: 0.5rem;
@@ -418,32 +479,32 @@
     font-size: 0.875rem;
     cursor: pointer;
     transition: 0.3s;
-  }
+}
 
-  .tag:hover,
-  .tag.active {
+.tag:hover,
+.tag.active {
     background-color: var(--blog-primary-color);
     color: #fff;
-  }
+}
 
-  /* 其他实用样式 */
-  .loading {
+/* 其他实用样式 */
+.loading {
     text-align: center;
     padding: 2rem;
     color: var(--blog-text-color-light);
-  }
+}
 
-  .more-link {
+.more-link {
     display: block;
     text-align: right;
     color: var(--blog-primary-color);
     font-size: 0.875rem;
     margin-top: 0.5rem;
     text-decoration: none;
-  }
+}
 
-  /* 回到顶部按钮 */
-  .back-to-top {
+/* 回到顶部按钮 */
+.back-to-top {
     position: fixed;
     right: 20px;
     bottom: 20px;
@@ -462,112 +523,143 @@
     visibility: hidden;
     transition: all 0.3s ease;
     z-index: 100;
-  }
+}
 
-  .back-to-top.show {
+.back-to-top.show {
     opacity: 1;
     visibility: visible;
-  }
+}
 
-  .back-to-top:hover {
+.back-to-top:hover {
     background-color: var(--blog-primary-color-alt);
     transform: translateY(-3px);
-  }
+}
 
-  .back-to-top i {
+.back-to-top i {
     font-size: 1.5rem;
-  }
+}
 
-  /* 标签和详情样式 */
-  .detail-tags {
+/* 标签和详情样式 */
+.detail-tags {
     display: flex;
     flex-wrap: wrap;
     gap: 0.5rem;
     margin-top: 0.5rem;
-  }
+}
 
-  .detail-tag-item {
+.detail-tag-item {
     background-color: var(--blog-input-color);
     padding: 0.25rem 0.5rem;
     border-radius: 0.25rem;
     font-size: 0.75rem;
     color: var(--blog-text-color);
-  }
+}
 
-  /* 响应式设计 - 改进版 */
-  @media screen and (max-width: 1400px) {
+/* 响应式设计 */
+@media screen and (max-width: 2880px) {
     :root {
-      --sidebar-width: 18%;
-      --content-width: 55%;
+        --sidebar-width: 18%;
+        --content-width: 55%;
     }
-  }
+}
 
-  @media screen and (max-width: 1200px) {
+@media screen and (max-width: 1200px) {
     :root {
-      --sidebar-width: 22%;
-      --content-width: 60%;
+        --sidebar-width: 22%;
+        --content-width: 60%;
     }
 
     .sidebar {
-      left: 1%;
+        left: 1%;
     }
 
     .right-sidebar {
-      right: 1%;
+        right: 1%;
     }
-  }
+}
 
-  @media screen and (max-width: 992px) {
+/* 针对大屏幕尺寸调整侧边栏收起时的内容区宽度 */
+@media screen and (min-width: 1200px) {
+    .blog-container.sidebar-collapsed .content {
+        width: 75%; /* 使用适当的宽度避免与右侧栏重叠 */
+        max-width: 1200px; /* 设置合理的最大宽度 */
+        margin-left: 30px;
+        margin-right: auto;
+    }
+}
+
+@media screen and (max-width: 992px) {
     :root {
-      --content-width: 70%;
+        --content-width: 60%;
     }
 
     .right-sidebar {
-      display: none;
+        display: none;
     }
-  }
+}
 
-  @media screen and (max-width: 768px) {
+/* 针对中等屏幕尺寸调整侧边栏收起时的内容区宽度 */
+@media screen and (min-width: 769px) and (max-width: 992px) {
+    .blog-container.sidebar-collapsed .content {
+        width: 90%;
+        max-width: none; /* 移除最大宽度限制 */
+        margin-left: auto; /* 自动左边距 */
+        margin-right: auto; /* 自动右边距，使内容居中 */
+    }
+}
+
+@media screen and (max-width: 768px) {
     .blog-container {
-      padding: 1rem 0;
+        padding: 1rem 0;
     }
 
     .sidebar {
-      position: relative;
-      top: 0;
-      left: 0;
-      width: 90%;
-      max-width: none;
-      height: auto;
-      margin: 0 auto 2rem;
+        position: fixed;
+        z-index: 999;
+        height: 100vh;
+        left: 0;
+        top: 0;
+        width: 250px;
+        max-width: 80%;
+        border-radius: 0;
+    }
+
+    .blog-container.sidebar-collapsed .content {
+        margin-left: 0;
+        width: 95%;
     }
 
     .content {
-      width: 90%;
-      margin: 0 auto;
+        width: 90%;
+        margin: 0 auto;
+    }
+
+    .sidebar-toggle {
+        top: 30px;
+        transform: none;
     }
 
     .right-sidebar {
-      display: none;
+        display: none;
     }
-  }
+}
 
-  @media screen and (max-width: 480px) {
+@media screen and (max-width: 480px) {
     .content {
-      width: 95%;
+        width: 95%;
     }
 
     .post-meta {
-      flex-direction: column;
-      align-items: flex-start;
+        flex-direction: column;
+        align-items: flex-start;
     }
 
     .post-meta > div {
-      margin-bottom: 0.5rem;
+        margin-bottom: 0.5rem;
     }
 
     .post-content pre {
-      padding: 3rem 0.5rem 0.5rem;
+        padding: 3rem 0.5rem 0.5rem;
     }
-  }
+}
 

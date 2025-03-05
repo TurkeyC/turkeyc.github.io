@@ -29,6 +29,7 @@ document.addEventListener('DOMContentLoaded', () => {
       renderPosts();
       generateArchives();
       setupEventListeners();
+      setupSidebarToggle();
       setupDarkMode();
       setupBackToTop();
     });
@@ -230,40 +231,40 @@ document.addEventListener('DOMContentLoaded', () => {
     hljs.highlightAll();
 
     // 添加复制按钮函数
-  addCopyButtons();
+    addCopyButtons();
   }
 
   // 添加代码复制功能
   function addCopyButtons() {
-  const codeBlocks = document.querySelectorAll('pre code');
-  codeBlocks.forEach(codeBlock => {
-    // 创建按钮容器以便定位
-    const buttonContainer = document.createElement('div');
-    buttonContainer.className = 'copy-button-container';
+    const codeBlocks = document.querySelectorAll('pre code');
+    codeBlocks.forEach(codeBlock => {
+      // 创建按钮容器以便定位
+      const buttonContainer = document.createElement('div');
+      buttonContainer.className = 'copy-button-container';
 
-    // 创建复制按钮
-    const copyButton = document.createElement('button');
-    copyButton.className = 'copy-button';
-    copyButton.innerHTML = '<i class="uil uil-copy"></i>'; // 使用复制图标替代文本
+      // 创建复制按钮
+      const copyButton = document.createElement('button');
+      copyButton.className = 'copy-button';
+      copyButton.innerHTML = '<i class="uil uil-copy"></i>'; // 使用复制图标替代文本
 
-    // 添加复制功能
-    copyButton.addEventListener('click', () => {
-      const code = codeBlock.textContent;
-      navigator.clipboard.writeText(code).then(() => {
-        // 复制成功时的反馈
-        copyButton.innerHTML = '<i class="uil uil-check"></i>'; // 变为对勾图标
-        setTimeout(() => {
-          copyButton.innerHTML = '<i class="uil uil-copy"></i>'; // 还原为复制图标
-        }, 2000);
+      // 添加复制功能
+      copyButton.addEventListener('click', () => {
+        const code = codeBlock.textContent;
+        navigator.clipboard.writeText(code).then(() => {
+          // 复制成功时的反馈
+          copyButton.innerHTML = '<i class="uil uil-check"></i>'; // 变为对勾图标
+          setTimeout(() => {
+            copyButton.innerHTML = '<i class="uil uil-copy"></i>'; // 还原为复制图标
+          }, 2000);
+        });
       });
-    });
 
-    // 调整代码块父元素样式
-    codeBlock.parentNode.style.position = 'relative';
+      // 调整代码块父元素样式
+      codeBlock.parentNode.style.position = 'relative';
 
-    // 添加按钮到容器，再添加容器到代码块父元素
-    buttonContainer.appendChild(copyButton);
-    codeBlock.parentNode.appendChild(buttonContainer);
+      // 添加按钮到容器，再添加容器到代码块父元素
+      buttonContainer.appendChild(copyButton);
+      codeBlock.parentNode.appendChild(buttonContainer);
     });
   }
 
@@ -296,69 +297,132 @@ document.addEventListener('DOMContentLoaded', () => {
     });
   }
 
+  // 侧边栏切换功能
+  function setupSidebarToggle() {
+    const sidebarToggle = document.querySelector('.sidebar-toggle');
+    const blogContainer = document.querySelector('.blog-container');
+    const sidebar = document.querySelector('.sidebar');
+
+    // 计算并设置按钮位置的函数
+    function updateTogglePosition() {
+      if (blogContainer.classList.contains('sidebar-collapsed')) {
+        sidebarToggle.style.left = '0';
+      } else {
+        // 获取侧边栏的实际宽度和位置
+        const sidebarRect = sidebar.getBoundingClientRect();
+        sidebarToggle.style.left = `${sidebarRect.right}px`;
+      }
+    }
+
+    // 初始计算位置
+    updateTogglePosition();
+
+    // 窗口大小变化时重新计算
+    window.addEventListener('resize', updateTogglePosition);
+
+    // 切换事件
+    if (sidebarToggle) {
+      // 恢复用户偏好设置
+      const isCollapsed = localStorage.getItem('sidebarCollapsed') === 'true';
+      if (isCollapsed) {
+        blogContainer.classList.add('sidebar-collapsed');
+        updateTogglePosition();
+      }
+
+      // 切换事件
+      sidebarToggle.addEventListener('click', () => {
+        blogContainer.classList.toggle('sidebar-collapsed');
+
+        // 立即更新一次位置
+        updateTogglePosition();
+
+        // 等待过渡完成后再次更新位置（侧边栏过渡是0.3秒）
+        setTimeout(updateTogglePosition, 350);
+
+        // 保存用户偏好到本地存储
+        localStorage.setItem(
+          'sidebarCollapsed',
+          blogContainer.classList.contains('sidebar-collapsed')
+        );
+      });
+    }
+
+    // 监听过渡结束事件，确保按钮位置正确
+    sidebar.addEventListener('transitionend', updateTogglePosition);
+  }
+
   // 设置事件监听器
   function setupEventListeners() {
     // 返回文章列表按钮
-    backToList.addEventListener('click', () => {
-      postDetail.style.display = 'none';
-      postsContainer.style.display = 'grid';
-    });
+    if (backToList) {
+      backToList.addEventListener('click', () => {
+        postDetail.style.display = 'none';
+        postsContainer.style.display = 'grid';
+      });
+    }
 
     // 搜索输入框
-    searchInput.addEventListener('input', debounce(() => {
-      currentSearch = searchInput.value.trim();
-      renderPosts();
-    }, 300));
+    if (searchInput) {
+      searchInput.addEventListener('input', debounce(() => {
+        currentSearch = searchInput.value.trim();
+        renderPosts();
+      }, 300));
+    }
 
     // 搜索按钮切换
-    searchToggle.addEventListener('click', (e) => {
-      e.preventDefault();
-      searchInput.focus();
-    });
+    if (searchToggle) {
+      searchToggle.addEventListener('click', (e) => {
+        e.preventDefault();
+        if (searchInput) searchInput.focus();
+      });
+    }
 
     // 分类标签点击
-    categoryList.addEventListener('click', (e) => {
-      if (e.target.classList.contains('tag')) {
-        // 移除之前的active类
-        document.querySelector('.tag.active').classList.remove('active');
-        // 添加新的active类
-        e.target.classList.add('active');
+    if (categoryList) {
+      categoryList.addEventListener('click', (e) => {
+        if (e.target.classList.contains('tag')) {
+          // 移除之前的active类
+          const activeTag = document.querySelector('.tag.active');
+          if (activeTag) activeTag.classList.remove('active');
 
-        currentCategory = e.target.dataset.category;
-        renderPosts();
-      }
-    });
+          // 添加新的active类
+          e.target.classList.add('active');
+
+          currentCategory = e.target.dataset.category;
+          renderPosts();
+        }
+      });
+    }
 
     // 暗黑模式切换
-    themeToggle.addEventListener('click', (e) => {
-      e.preventDefault();
+    if (themeToggle) {
+      themeToggle.addEventListener('click', (e) => {
+        e.preventDefault();
 
-      // 切换暗黑模式
-      document.body.classList.toggle('dark-theme');
+        // 切换暗黑模式
+        document.body.classList.toggle('dark-theme');
 
-      // 更新图标
-      const icon = themeToggle.querySelector('i');
-      if (document.body.classList.contains('dark-theme')) {
-        icon.classList.replace('uil-moon', 'uil-sun');
-        localStorage.setItem('selected-theme', 'dark');
-      } else {
-        icon.classList.replace('uil-sun', 'uil-moon');
-        localStorage.setItem('selected-theme', 'light');
-      }
-    });
+        // 更新图标
+        const icon = themeToggle.querySelector('i');
+        if (document.body.classList.contains('dark-theme')) {
+          icon.classList.replace('uil-moon', 'uil-sun');
+          localStorage.setItem('selected-theme', 'dark');
+        } else {
+          icon.classList.replace('uil-sun', 'uil-moon');
+          localStorage.setItem('selected-theme', 'light');
+        }
+      });
+    }
   }
 
   // 设置暗黑模式
   function setupDarkMode() {
-    const themeButton = document.getElementById('theme-toggle');
+    // 检查本地存储中的主题设置
     const selectedTheme = localStorage.getItem('selected-theme');
-
     if (selectedTheme === 'dark') {
       document.body.classList.add('dark-theme');
-      themeButton.querySelector('i').classList.replace('uil-moon', 'uil-sun');
-    } else {
-      document.body.classList.remove('dark-theme');
-      themeButton.querySelector('i').classList.replace('uil-sun', 'uil-moon');
+      const icon = themeToggle?.querySelector('i');
+      if (icon) icon.classList.replace('uil-moon', 'uil-sun');
     }
   }
 
