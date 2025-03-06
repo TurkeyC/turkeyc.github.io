@@ -7,7 +7,7 @@
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" />
     <link rel="stylesheet" href="../assets/css/styles.css" />
     <link rel="stylesheet" href="assets/css/blog.css" />
-    <title>CaoTurkey的博客</title>
+    <title>博客文章 - CaoTurkey的博客</title>
     <link rel="stylesheet" href="../assets/css/swiper-bundle.min.css" />
     <script src="../assets/js/swiper-bundle.min.js"></script>
     <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
@@ -26,8 +26,8 @@
         </div>
         <nav class="nav-menu">
           <ul>
-            <li><a href="#" class="active"><i class="uil uil-estate"></i> 主页</a></li>
-            <li><a href="#archives"><i class="uil uil-archive"></i> 归档</a></li>
+            <li><a href="index.html"><i class="uil uil-estate"></i> 主页</a></li>
+            <li><a href="index.html#archives"><i class="uil uil-archive"></i> 归档</a></li>
             <li><a href="#" id="search-toggle"><i class="uil uil-search"></i> 搜索</a></li>
             <li><a href="#" id="theme-toggle"><i class="uil uil-moon"></i> 暗色模式</a></li>
           </ul>
@@ -43,61 +43,46 @@
 
       <!-- 中央内容区 -->
       <main class="content">
-        <!-- 文章列表容器 -->
-        <div class="posts-container" id="posts-container">
-          <!-- 文章将通过JavaScript动态加载 -->
-          <div class="loading">加载中...</div>
-        </div>
-
         <!-- 文章详情页 -->
-        <div class="post-detail" id="post-detail" style="display: none;">
+        <div class="post-detail">
           <div class="post-header">
             <button class="back-button" id="back-to-list">
               <i class="uil uil-arrow-left"></i> 返回列表
             </button>
-            <h1 id="detail-title">文章标题</h1>
-            <div class="post-meta">
-              <span id="detail-date"><i class="uil uil-calendar-alt"></i> 日期</span>
-              <span id="detail-reading-time"><i class="uil uil-clock"></i> 阅读时间</span>
-            </div>
-            <div class="post-tags-container">
-              <span id="detail-tag" class="post-tag">分类</span>
-              <div id="detail-tags" class="detail-tags"></div>
+            <div id="loading-indicator" class="loading">正在加载文章...</div>
+            <div id="post-header-content" style="display: none;">
+              <h1 id="detail-title"></h1>
+              <div class="post-meta">
+                <span id="detail-date"></span>
+                <span id="detail-reading-time"></span>
+              </div>
+              <div class="post-tags-container">
+                <span id="detail-tag" class="post-tag"></span>
+                <div id="detail-tags" class="detail-tags"></div>
+              </div>
             </div>
           </div>
           <div class="post-content" id="post-content">
             <!-- 文章内容将被动态加载 -->
+            <div class="loading">文章加载中...</div>
           </div>
         </div>
       </main>
 
       <!-- 右侧栏 -->
       <aside class="right-sidebar">
-        <div class="search-box">
-          <i class="uil uil-search"></i>
-          <input type="text" id="search-input" placeholder="搜索文章..." />
+        <div class="widget">
+          <h3>相关文章</h3>
+          <ul id="related-posts">
+            <!-- 相关文章将被动态加载 -->
+          </ul>
         </div>
 
         <div class="widget">
           <h3>文章目录</h3>
-          <ul id="directory-tree" class="directory-tree"></ul>
-        </div>
-
-        <div class="widget">
-          <h3>分类</h3>
-          <div class="tag-list" id="category-list">
-            <span class="tag active" data-category="all">全部</span>
-            <span class="tag" data-category="Original">原创</span>
-            <span class="tag" data-category="Repost">转载</span>
-          </div>
-        </div>
-
-        <div class="widget">
-          <h3>归档</h3>
-          <ul id="archive-list">
-            <!-- 归档列表将被动态加载 -->
-          </ul>
-          <a href="#archives" class="more-link">查看全部</a>
+          <nav id="post-toc">
+            <!-- 文章目录将被动态生成 -->
+          </nav>
         </div>
       </aside>
     </div>
@@ -106,5 +91,6 @@
     <script src="assets/js/marked.min.js"></script>
     <script src="../assets/js/main.js"></script>
     <script src="assets/js/blog.js"></script>
+    <script src="assets/js/post.js"></script>
   </body>
 </html>

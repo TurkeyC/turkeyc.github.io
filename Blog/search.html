@@ -1,0 +1,71 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico" />
+    <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" />
+    <link rel="stylesheet" href="../assets/css/styles.css" />
+    <link rel="stylesheet" href="assets/css/blog.css" />
+    <title>搜索 - CaoTurkey的博客</title>
+    <link rel="stylesheet" href="../assets/css/swiper-bundle.min.css" />
+    <script src="../assets/js/swiper-bundle.min.js"></script>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
+    <script src="assets/js/highlight.min.js"></script>
+  </head>
+  <body>
+    <div class="blog-container">
+      <!-- 左侧栏 -->
+      <aside class="sidebar">
+        <!-- 与其他页面相同的侧边栏内容 -->
+        <div class="profile">
+          <div class="profile-img">
+            <img src="assets/img/caoturkey.png" alt="头像" />
+          </div>
+          <h2 class="profile-name">CaoTurkey</h2>
+          <p class="profile-bio">开源开发者 | 生物医学工程</p>
+        </div>
+        <nav class="nav-menu">
+          <ul>
+            <li><a href="index.html"><i class="uil uil-estate"></i> 主页</a></li>
+            <li><a href="index.html#archives"><i class="uil uil-archive"></i> 归档</a></li>
+            <li><a href="search.html" class="active"><i class="uil uil-search"></i> 搜索</a></li>
+            <li><a href="#" id="theme-toggle"><i class="uil uil-moon"></i> 暗色模式</a></li>
+          </ul>
+        </nav>
+        <div class="back-home">
+          <a href="../index.html"><i class="uil uil-arrow-left"></i> 返回主站</a>
+        </div>
+      </aside>
+
+      <!-- 侧边栏切换按钮 -->
+      <div class="sidebar-toggle">
+        <i class="uil uil-angle-left-b"></i>
+      </div>
+
+      <!-- 中央内容区 -->
+      <main class="content">
+        <div class="search-container">
+          <h1>搜索文章</h1>
+          <div class="search-box search-page">
+            <i class="uil uil-search"></i>
+            <input type="text" id="search-input" placeholder="输入关键词搜索..." autofocus />
+          </div>
+
+          <div class="search-results">
+            <h2 id="search-results-title">搜索结果</h2>
+            <div id="posts-container" class="posts-container">
+              <!-- 搜索结果将在这里显示 -->
+              <div class="no-posts">请输入关键词进行搜索</div>
+            </div>
+          </div>
+        </div>
+      </main>
+    </div>
+
+    <!-- 脚本 -->
+    <script src="assets/js/marked.min.js"></script>
+    <script src="../assets/js/main.js"></script>
+    <script src="assets/js/search.js"></script>
+  </body>
+</html>

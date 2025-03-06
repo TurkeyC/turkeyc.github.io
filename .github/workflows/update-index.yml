@@ -1,4 +1,4 @@
-name: 更新文章索引
+name: 更新博客索引文件
 
 permissions:
   contents: write
@@ -6,31 +6,129 @@ permissions:
 on:
   push:
     paths:
-      - 'Blog/posts/*.md'
+      - 'Blog/posts/**/*.md'
+      - 'Blog/posts/**/index.json'
   workflow_dispatch:
 
 jobs:
   update-index:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v2
+      - uses: actions/checkout@v3
 
       - name: 设置 Node.js
-        uses: actions/setup-node@v2
+        uses: actions/setup-node@v3
         with:
           node-version: '16'
 
-      - name: 生成文章索引
+      - name: 安装依赖
+        run: npm install -g js-yaml
+
+      - name: 创建索引生成脚本
         run: |
-          cd Blog/posts  # 修改这里，使用正确的路径
-          echo "[" > index.json
-          find . -maxdepth 1 -name "*.md" | sort -r | sed 's/\.\///' | sed 's/$/",/' | sed 's/^/"/' | sed '$s/,$//' >> index.json
-          echo "]" >> index.json
+          cat > generate-index.js << 'EOF'
+          const fs = require('fs');
+          const path = require('path');
+
+          // 博客文章根目录
+          const postsDir = 'Blog/posts';
+          
+          // 递归扫描目录结构
+          function scanDirectory(dir) {
+            const categories = [];
+            const uncategorized = [];
+            
+            // 获取目录下的一级子目录（作为主分类）
+            const items = fs.readdirSync(dir, { withFileTypes: true });
+            
+            // 先处理所有顶级的 .md 文件
+            items.filter(item => item.isFile() && item.name.endsWith('.md'))
+                 .forEach(item => {
+                    uncategorized.push(item.name);
+                 });
+            
+            // 然后处理所有目录
+            items.filter(item => item.isDirectory())
+                 .forEach(item => {
+                    // 跳过隐藏目录
+                    if (item.name.startsWith('.')) return;
+                    
+                    const categoryPath = path.join(dir, item.name);
+                    const category = {
+                      name: item.name,
+                      path: item.name,
+                      files: [],
+                      subcategories: []
+                    };
+                    
+                    // 读取该目录下所有文件和子目录
+                    const subItems = fs.readdirSync(categoryPath, { withFileTypes: true });
+                    
+                    // 添加该目录下的所有 .md 文件
+                    subItems.filter(subItem => subItem.isFile() && subItem.name.endsWith('.md'))
+                           .forEach(subItem => {
+                              category.files.push(subItem.name);
+                           });
+                    
+                    // 递归处理子目录
+                    const subDirs = subItems.filter(subItem => subItem.isDirectory() && !subItem.name.startsWith('.'));
+                    subDirs.forEach(subDir => {
+                      const subCategory = processSubcategory(path.join(categoryPath, subDir.name), subDir.name);
+                      category.subcategories.push(subCategory);
+                    });
+                    
+                    categories.push(category);
+                 });
+                 
+            return { categories, uncategorized };
+          }
+          
+          // 处理子分类
+          function processSubcategory(dirPath, dirName) {
+            const category = {
+              name: dirName,
+              path: dirName,
+              files: [],
+              subcategories: []
+            };
+            
+            const items = fs.readdirSync(dirPath, { withFileTypes: true });
+            
+            // 添加当前子分类下的所有 .md 文件
+            items.filter(item => item.isFile() && item.name.endsWith('.md'))
+                 .forEach(item => {
+                    category.files.push(item.name);
+                 });
+                 
+            // 递归处理更深层次的子分类
+            const subDirs = items.filter(item => item.isDirectory() && !item.name.startsWith('.'));
+            subDirs.forEach(subDir => {
+              const subCategory = processSubcategory(path.join(dirPath, subDir.name), subDir.name);
+              category.subcategories.push(subCategory);
+            });
+            
+            return category;
+          }
+
+          // 开始扫描并生成索引
+          const indexData = scanDirectory(postsDir);
+          
+          // 写入索引文件
+          fs.writeFileSync(
+            path.join(postsDir, 'index.json'), 
+            JSON.stringify(indexData, null, 2)
+          );
+          
+          console.log('博客索引文件已更新');
+          EOF
+
+      - name: 生成索引文件
+        run: node generate-index.js
 
       - name: 提交更新的索引文件
         run: |
           git config --local user.email "action@github.com"
-          git config --local user.name "GitHub Action"
-          git add Blog/posts/index.json  # 修改这里，使用正确的路径
-          git commit -m "自动更新文章索引" || echo "没有变更"
+          git config --local user.name "GitHub Action Bot"
+          git add Blog/posts/index.json
+          git commit -m "自动更新博客索引文件" || echo "没有变更"
           git push
