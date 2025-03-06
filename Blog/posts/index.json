@@ -1,43 +1,61 @@
 {
   "categories": [
     {
-      "name": "开发笔记",
+      "name": "dev-notes",
       "path": "dev-notes",
-      "files": ["网站开发日志.md","阿里云Linux服务器配置过程.md"],
+      "files": [
+        "网站开发日志.md",
+        "阿里云Linux服务器配置过程.md"
+      ],
       "subcategories": []
     },
     {
-      "name": "转载与笔记",
+      "name": "repost",
       "path": "repost",
-      "files": ["提问的智慧.md","考试脑科学.md"],
+      "files": [
+        "提问的智慧.md",
+        "考试脑科学.md"
+      ],
       "subcategories": []
     },
     {
-      "name": "测试用数据",
+      "name": "test",
       "path": "test",
-      "files": ["post1.md","post2.md","post3.md"],
+      "files": [
+        "post1.md",
+        "post2.md",
+        "post3.md"
+      ],
       "subcategories": [
         {
-          "name": "测试子分类",
+          "name": "test_again",
           "path": "test_again",
-          "files": ["ttt.md"],
+          "files": [
+            "ttt.md"
+          ],
           "subcategories": []
         }
       ]
     },
     {
-      "name": "技术教程",
+      "name": "tutorials",
       "path": "tutorials",
-      "files": ["ceshi.md"],
+      "files": [
+        "ceshi.md"
+      ],
       "subcategories": [
         {
-          "name": "前端",
+          "name": "frontend",
           "path": "frontend",
-          "files": ["js基础.md"],
+          "files": [
+            "js基础.md"
+          ],
           "subcategories": []
         }
       ]
     }
   ],
-  "uncategorized": ["关于我.md"]
+  "uncategorized": [
+    "关于我.md"
+  ]
 }
