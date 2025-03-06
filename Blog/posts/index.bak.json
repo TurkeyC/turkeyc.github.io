@@ -1,0 +1,43 @@
+{
+  "categories": [
+    {
+      "name": "开发笔记",
+      "path": "dev-notes",
+      "files": ["网站开发日志.md","阿里云Linux服务器配置过程.md"],
+      "subcategories": []
+    },
+    {
+      "name": "转载与笔记",
+      "path": "repost",
+      "files": ["提问的智慧.md","考试脑科学.md"],
+      "subcategories": []
+    },
+    {
+      "name": "测试用数据",
+      "path": "test",
+      "files": ["post1.md","post2.md","post3.md"],
+      "subcategories": [
+        {
+          "name": "测试子分类",
+          "path": "test_again",
+          "files": ["ttt.md"],
+          "subcategories": []
+        }
+      ]
+    },
+    {
+      "name": "技术教程",
+      "path": "tutorials",
+      "files": ["ceshi.md"],
+      "subcategories": [
+        {
+          "name": "前端",
+          "path": "frontend",
+          "files": ["js基础.md"],
+          "subcategories": []
+        }
+      ]
+    }
+  ],
+  "uncategorized": ["关于我.md"]
+}
