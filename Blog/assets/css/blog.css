@@ -9,6 +9,9 @@
     --blog-container-color: #fff;
     --blog-scroll-bar-color: hsl(200, 12%, 90%);
     --blog-scroll-thumb-color: hsl(200, 12%, 80%);
+    /* 添加RGB格式方便透明度设置 */
+    --blog-primary-color-rgb: 77, 171, 207;
+    --blog-text-color-light-rgb: 160, 170, 180;
 
     /* 定义布局变量方便调整和响应式处理 */
     --sidebar-width: 20%;
@@ -25,6 +28,9 @@ body.dark-theme {
     --blog-container-color: hsl(200, 29%, 16%);
     --blog-scroll-bar-color: hsl(200, 12%, 48%);
     --blog-scroll-thumb-color: hsl(200, 12%, 36%);
+    /* 添加暗色主题对应的RGB变量 */
+    --blog-primary-color-rgb: 77, 171, 207;
+    --blog-text-color-light-rgb: 160, 170, 180;
 }
 
 body {
@@ -701,49 +707,113 @@ mark {
   border-radius: 2px;
 }
 
-/* 目录树样式 */
+/* 优化的目录树样式 */
 .directory-tree {
   list-style: none;
   padding: 0;
   margin: 0;
+  font-size: 0.95rem;
 }
 
+/* 目录项基础样式 */
 .directory-item {
-  margin-bottom: 5px;
+  margin-bottom: 6px;
+  position: relative;
 }
 
+/* 让所有目录项保持一致的缩进和结构 */
 .directory-link {
   display: flex;
   align-items: center;
-  padding: 5px 0;
+  padding: 4px 0;
   cursor: pointer;
-  transition: color 0.3s;
+  transition: all 0.2s;
+  border-radius: 4px;
+  padding-left: 5px;
+}
+
+/* 不同层级的字体大小区分 */
+.directory-tree > .directory-item > .directory-link {
+  font-size: 1rem;
+  font-weight: 500;
+}
+
+/* 二级目录样式 */
+.directory-sublist > .directory-item > .directory-link {
+  font-size: 0.9rem;
+  font-weight: 400;
+}
+
+/* 三级及以下目录 */
+.directory-sublist .directory-sublist .directory-link {
+  font-size: 0.85rem;
+  color: var(--blog-text-color-light);
 }
 
 .directory-link:hover {
   color: var(--blog-primary-color);
+  background-color: rgba(var(--blog-primary-color-rgb), 0.05);
 }
 
+/* 当前激活的目录项 */
 .directory-link.active {
   color: var(--blog-primary-color);
-  font-weight: bold;
+  font-weight: 600;
+  background-color: rgba(var(--blog-primary-color-rgb), 0.1);
+  padding-left: 8px;
+  border-left: 3px solid var(--blog-primary-color);
 }
 
+/* 折叠/展开图标的占位符 - 确保一致的对齐 */
+.directory-icon-space {
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+}
+
+/* 折叠/展开图标 */
 .directory-expand {
   transition: transform 0.3s ease;
-  margin-right: 5px;
-  font-size: 1.1em;
-  cursor: pointer;
+  font-size: 0.9em;
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  width: 16px;
+  height: 16px;
+  margin-right: 6px;
 }
 
+.directory-expand.expanded {
+  transform: rotate(90deg);
+}
+
+/* 子目录列表 */
 .directory-sublist {
   list-style: none;
-  padding-left: 15px;
-  margin: 5px 0;
+  padding-left: 18px;
+  margin: 5px 0 8px;
   overflow: hidden;
-  transition: max-height 0.3s ease;
+  transition: all 0.3s ease;
+  position: relative;
 }
 
+/* 添加垂直指引线 */
+.directory-sublist::before {
+  content: '';
+  position: absolute;
+  left: 7px;
+  top: 0;
+  bottom: 0;
+  width: 1px;
+  background-color: rgba(var(--blog-text-color-light-rgb), 0.2);
+}
+
+/* 目录图标样式 */
 .directory-link i {
-  margin-right: 5px;
+  margin-right: 6px;
+  font-size: 0.95em;
+  opacity: 0.7;
 }
