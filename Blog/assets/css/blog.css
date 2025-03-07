@@ -707,7 +707,7 @@ mark {
   border-radius: 2px;
 }
 
-/* 优化的目录树样式 */
+/* 目录项内容对齐优化 */
 .directory-tree {
   list-style: none;
   padding: 0;
@@ -715,13 +715,12 @@ mark {
   font-size: 0.95rem;
 }
 
-/* 目录项基础样式 */
 .directory-item {
   margin-bottom: 6px;
   position: relative;
 }
 
-/* 让所有目录项保持一致的缩进和结构 */
+/* 重新设计目录链接结构，确保一致的内容对齐 */
 .directory-link {
   display: flex;
   align-items: center;
@@ -730,6 +729,12 @@ mark {
   transition: all 0.2s;
   border-radius: 4px;
   padding-left: 5px;
+}
+
+/* 为目录文本创建一个一致的起始点 */
+.directory-text {
+  /* 确保文本从同一起点开始，无论前面是图标还是占位符 */
+  flex: 1;
 }
 
 /* 不同层级的字体大小区分 */
@@ -764,11 +769,10 @@ mark {
   border-left: 3px solid var(--blog-primary-color);
 }
 
-/* 折叠/展开图标的占位符 - 确保一致的对齐 */
-.directory-icon-space {
-  width: 16px;
-  height: 16px;
-  margin-right: 6px;
+/* 为有展开图标和没有展开图标的项目创建一致的宽度 */
+.directory-icon-container {
+  min-width: 22px; /* 固定宽度确保一致对齐 */
+  width: 22px;
   display: inline-flex;
   align-items: center;
   justify-content: center;
@@ -778,16 +782,17 @@ mark {
 .directory-expand {
   transition: transform 0.3s ease;
   font-size: 0.9em;
-  display: inline-flex;
-  align-items: center;
-  justify-content: center;
-  width: 16px;
-  height: 16px;
-  margin-right: 6px;
 }
 
 .directory-expand.expanded {
   transform: rotate(90deg);
+}
+
+/* 占位符图标 - 与目录图标具有相同的空间 */
+.directory-icon-space {
+  width: 22px; /* 与目录图标容器相同 */
+  visibility: hidden; /* 不可见但占据空间 */
+  display: inline-flex;
 }
 
 /* 子目录列表 */
@@ -800,20 +805,4 @@ mark {
   position: relative;
 }
 
-/* 添加垂直指引线 */
-.directory-sublist::before {
-  content: '';
-  position: absolute;
-  left: 7px;
-  top: 0;
-  bottom: 0;
-  width: 1px;
-  background-color: rgba(var(--blog-text-color-light-rgb), 0.2);
-}
-
-/* 目录图标样式 */
-.directory-link i {
-  margin-right: 6px;
-  font-size: 0.95em;
-  opacity: 0.7;
-}
+/* 其他样式保持不变 */

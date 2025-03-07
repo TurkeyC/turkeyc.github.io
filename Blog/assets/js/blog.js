@@ -97,20 +97,33 @@ document.addEventListener('DOMContentLoaded', () => {
       // 构建完整路径
       const fullPath = parentPath ? `${parentPath}/${category.path}` : category.path;
 
-      let expandIcon = null;
-      // 添加展开/折叠图标
+      // 创建图标容器 - 所有项目都有这个容器
+      const iconContainer = document.createElement('div');
+      iconContainer.className = 'directory-icon-container';
+      categoryLink.appendChild(iconContainer);
+
+      // 有无子目录都添加图标(有子目录显示箭头，无子目录显示占位符)
       if (category.subcategories && category.subcategories.length > 0) {
-        expandIcon = document.createElement('i');
+        const expandIcon = document.createElement('i');
         expandIcon.className = 'uil uil-angle-right directory-expand';
-        categoryLink.appendChild(expandIcon);
+        iconContainer.appendChild(expandIcon);
+      } else {
+        // 为没有子项的目录添加不可见占位符
+        const placeholder = document.createElement('i');
+        placeholder.className = 'uil uil-angle-right directory-icon-space';
+        placeholder.style.visibility = 'hidden';
+        iconContainer.appendChild(placeholder);
       }
 
-      // 添加文件夹图标和名称
+      // 添加文件夹图标
       const folderIcon = document.createElement('i');
       folderIcon.className = 'uil uil-folder';
+      folderIcon.style.marginLeft = '5px'; // 确保与箭头有适当间距
       categoryLink.appendChild(folderIcon);
 
+      // 添加目录名称
       const nameSpan = document.createElement('span');
+      nameSpan.className = 'directory-text';
       nameSpan.textContent = ` ${category.name}`;
       categoryLink.appendChild(nameSpan);
 
@@ -118,10 +131,9 @@ document.addEventListener('DOMContentLoaded', () => {
 
       // 添加点击事件切换目录
       categoryLink.addEventListener('click', () => {
-        currentDirectory = fullPath; // 使用完整路径
+        currentDirectory = fullPath;
         setActiveDirectory(categoryLink);
         renderPosts();
-        console.log('切换到目录:', currentDirectory);
       });
 
       // 渲染子目录
@@ -133,6 +145,7 @@ document.addEventListener('DOMContentLoaded', () => {
         li.appendChild(sublist);
 
         // 添加展开/折叠功能
+        const expandIcon = iconContainer.querySelector('.directory-expand');
         if (expandIcon) {
           expandIcon.addEventListener('click', (e) => {
             e.stopPropagation();
