@@ -92,53 +92,87 @@ document.addEventListener('DOMContentLoaded', () => {
   // 加载所有文章
   async function loadAllPosts() {
     try {
-      // 使用绝对路径
       const response = await fetch('/Blog/posts/index.json');
-
       if (!response.ok) {
-        console.error('无法加载索引文件:', response.status);
         throw new Error('无法加载文章索引');
       }
 
-      const postFilenames = await response.json();
-      console.log('成功加载索引文件，文件列表:', postFilenames);
-
+      const indexData = await response.json();
       const loadedPosts = [];
 
-      for (let i = 0; i < postFilenames.length; i++) {
-        const filename = postFilenames[i];
-        console.log('正在尝试加载文件:', filename);
-        // 使用绝对路径
-        const postResponse = await fetch(`/Blog/posts/${filename}`);
-
-        if (!postResponse.ok) {
-          console.error(`文件 ${filename} 加载失败:`, postResponse.status);
-          continue;
+      // 加载未分类文件
+      if (indexData.uncategorized && Array.isArray(indexData.uncategorized)) {
+        for (const filename of indexData.uncategorized) {
+          const post = await loadSinglePost(filename);
+          if (post) loadedPosts.push(post);
         }
-
-        const markdown = await postResponse.text();
-        const { content, metadata } = parseFrontMatter(markdown);
-
-        // 确定分类
-        const category = metadata.category === '原创' ? 'Original' : 'Repost';
-
-        loadedPosts.push({
-          id: i + 1,
-          title: metadata.title || filename.replace('.md', ''),
-          filename: filename,
-          date: metadata.date || '未知日期',
-          category: category,
-          tags: metadata.tags || [],
-          readingTime: estimateReadingTime(content) + ' 分钟',
-          content: content
-        });
       }
 
-      // 更新全局 posts 变量，按日期排序
+      // 加载分类目录中的文件
+      if (indexData.categories && Array.isArray(indexData.categories)) {
+        for (const category of indexData.categories) {
+          const categoryPosts = await loadCategoryPosts(category);
+          loadedPosts.push(...categoryPosts);
+        }
+      }
+
+      // 更新posts 变量，按日期排序
       posts = loadedPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
+      console.log('已加载所有文章:', posts.length);
     } catch (error) {
       console.error('加载文章失败:', error);
       showError('加载博客失败，请稍后再试');
+    }
+  }
+
+  // 添加这两个辅助函数
+  async function loadCategoryPosts(category, basePath = '') {
+    const loadedPosts = [];
+    const path = basePath ? `${basePath}/${category.path}` : category.path;
+
+    // 加载当前目录的文件
+    if (category.files && Array.isArray(category.files)) {
+      for (const filename of category.files) {
+        const post = await loadSinglePost(filename, path, category.name);
+        if (post) loadedPosts.push(post);
+      }
+    }
+
+    // 递归加载子目录
+    if (category.subcategories && Array.isArray(category.subcategories)) {
+      for (const subcategory of category.subcategories) {
+        const subPosts = await loadCategoryPosts(subcategory, path);
+        loadedPosts.push(...subPosts);
+      }
+    }
+
+    return loadedPosts;
+  }
+
+  async function loadSinglePost(filename, path = '', directoryName = '未分类') {
+    const filePath = path ? `${path}/${filename}` : filename;
+    try {
+      const postResponse = await fetch(`/Blog/posts/${filePath}`);
+      if (!postResponse.ok) return null;
+
+      const markdown = await postResponse.text();
+      const { content, metadata } = parseFrontMatter(markdown);
+
+      return {
+        id: Date.now() + Math.random().toString(36).substring(2),
+        title: metadata.title || filename.replace('.md', ''),
+        filename: filePath,
+        path: path,
+        directory: directoryName,
+        date: metadata.date || '未知日期',
+        category: metadata.category === '原创' ? 'Original' : 'Repost',
+        tags: metadata.tags || [],
+        readingTime: estimateReadingTime(content) + ' 分钟',
+        content: content
+      };
+    } catch (error) {
+      console.error(`加载文件 ${filePath} 失败:`, error);
+      return null;
     }
   }
 
@@ -275,49 +309,188 @@ document.addEventListener('DOMContentLoaded', () => {
     postToc.appendChild(toc);
   }
 
+  // 添加相关文章项目函数
+  function addRelatedPostItem(post, score) {
+    const li = document.createElement('li');
+    const a = document.createElement('a');
+    a.href = `post.html?filename=${encodeURIComponent(post.filename)}`;
+    a.textContent = post.title;
+    li.appendChild(a);
+
+    // 可选：添加一个描述时间的小标签
+    const dateSpan = document.createElement('span');
+    dateSpan.className = 'post-date';
+    dateSpan.textContent = post.date.split(' ')[0]; // 只显示日期部分
+    li.appendChild(dateSpan);
+
+    relatedPosts.appendChild(li);
+  }
+
   // 加载相关文章
   function loadRelatedPosts(currentPost) {
-    if (!posts || posts.length === 0 || !relatedPosts) {
+    if (!relatedPosts) {
+      console.error('找不到相关文章容器元素');
       return;
     }
 
-    // 查找同类别或相同标签的文章
-    let related = posts.filter(post =>
-      post.id !== currentPost.id && (
-        post.category === currentPost.category ||
-        post.tags.some(tag => currentPost.tags.includes(tag))
-      )
-    );
+  // 确保有文章数据
+  if (!posts || posts.length === 0) {
+    console.log('尚未加载文章数据，延迟处理相关文章');
+    // 设置最大重试次数，避免无限循环
+    if (!window.relatedPostsRetries) window.relatedPostsRetries = 0;
+    window.relatedPostsRetries++;
 
-    // 如果没有相关文章，显示最近的文章
-    if (related.length === 0) {
-      related = posts.filter(post => post.id !== currentPost.id)
-        .slice(0, 5);
+    if (window.relatedPostsRetries < 10) {
+      setTimeout(() => loadRelatedPosts(currentPost), 500);
     } else {
-      // 最多显示5篇相关文章
-      related = related.slice(0, 5);
+      console.warn('相关文章加载失败：数据未能及时加载');
+      relatedPosts.innerHTML = '<li>暂无相关文章</li>';
     }
+    return;
+  }
+
+  console.log('正在计算相关文章，当前文章:', currentPost.title);
+  console.log('可用于推荐的文章数量:', posts.length);
+
+    // 计算每篇文章的相关性分数
+    const scoredPosts = posts
+      .filter(post => post.filename !== currentPost.filename)
+      .map(post => {
+        let score = 0;
+
+        // 相同分类加分 (30分)
+        if (post.category === currentPost.category) {
+          score += 30;
+        }
+
+        // 标签匹配加分 (每个匹配标签20分)
+        if (currentPost.tags && currentPost.tags.length && post.tags && post.tags.length) {
+          const matchingTags = post.tags.filter(tag =>
+            currentPost.tags.includes(tag)
+          );
+          score += matchingTags.length * 20;
+
+          // 记录匹配了哪些标签
+          if (matchingTags.length > 0) {
+            console.log(`文章 "${post.title}" 匹配了 ${matchingTags.length} 个标签: ${matchingTags.join(', ')}`);
+          }
+        }
+
+        // 目录相似性加分 (同一目录25分)
+        if (post.path && currentPost.path && post.path === currentPost.path) {
+          score += 25;
+        }
+
+        // 标题相似度加分 (每个匹配关键词10分)
+        const currentTitleWords = currentPost.title.toLowerCase().split(/\W+/).filter(word => word.length > 2);
+        const postTitleWords = post.title.toLowerCase().split(/\W+/).filter(word => word.length > 2);
+        const matchingWords = currentTitleWords.filter(word => postTitleWords.includes(word));
+        score += matchingWords.length * 10;
+
+        // 时间接近度加分
+        try {
+          const currentDate = new Date(currentPost.date);
+          const postDate = new Date(post.date);
+          // 确保日期有效
+          if (!isNaN(currentDate) && !isNaN(postDate)) {
+            const daysDifference = Math.abs((currentDate - postDate) / (1000 * 60 * 60 * 24));
+            if (daysDifference < 30) { // 一个月内的文章
+              score += Math.max(0, 10 - Math.floor(daysDifference / 3));
+            }
+          }
+        } catch (e) {
+          console.warn('日期计算错误:', e);
+        }
+
+        return { post, score };
+      })
+      .sort((a, b) => b.score - a.score) // 按分数降序排序
+      .filter(item => item.score > -10);   // 只保留有相关性的文章
+
+    console.log('找到的相关文章及得分:', scoredPosts.map(p => ({title: p.post.title, score: p.score})));
 
     // 清空当前列表
     relatedPosts.innerHTML = '';
 
-    if (related.length === 0) {
-      const emptyMsg = document.createElement('li');
-      emptyMsg.textContent = '没有相关文章';
-      relatedPosts.appendChild(emptyMsg);
+    // 如果没有相关性高的文章，显示最近的文章
+    if (scoredPosts.length === 0) {
+      console.log('没有找到相关文章，显示最近文章');
+
+      const recentPosts = posts
+        .filter(post => post.filename !== currentPost.filename)
+        .sort((a, b) => {
+          try {
+            return new Date(b.date) - new Date(a.date)
+          } catch(e) {
+            return 0;
+          }
+        })
+        .slice(0, 5);
+
+      if (recentPosts.length === 0) {
+        relatedPosts.innerHTML = '<li class="no-related">没有找到相关文章</li>';
+        return;
+      }
+
+      const recentHeader = document.createElement('li');
+      recentHeader.className = 'related-header';
+      recentHeader.textContent = '最近文章';
+      relatedPosts.appendChild(recentHeader);
+
+      recentPosts.forEach(post => {
+        addRelatedPostItem(post);
+      });
+
+      console.log('相关文章处理完成:');
+      console.log('- 相关文章容器元素存在:', relatedPosts !== null);
+      console.log('- 文章列表项数量:', relatedPosts ? relatedPosts.children.length : 0);
+      console.log('- 当前页面文章标题:', currentPost.title);
+      console.log('- 总文章数量:', posts.length);
+
       return;
     }
 
-    // 添加相关文章
-    related.forEach(post => {
-      const li = document.createElement('li');
-      const a = document.createElement('a');
-      a.href = `post.html?id=${post.id}`;
-      a.textContent = post.title;
+    // 显示最多5篇相关文章
+    const displayPosts = scoredPosts.slice(0, 5);
 
-      li.appendChild(a);
-      relatedPosts.appendChild(li);
+    // 添加相关文章标题
+    const relatedHeader = document.createElement('li');
+    relatedHeader.className = 'related-header';
+    // relatedHeader.textContent = '相关文章';
+    relatedPosts.appendChild(relatedHeader);
+
+    // 添加相关文章
+    displayPosts.forEach(({post, score}) => {
+      addRelatedPostItem(post, score);
     });
+
+    // 如果相关文章不足3篇，添加一些最近文章
+    if (displayPosts.length < 3) {
+      const recentPosts = posts
+        .filter(post =>
+          post.filename !== currentPost.filename &&
+          !displayPosts.find(p => p.post.filename === post.filename)
+        )
+        .sort((a, b) => {
+          try {
+            return new Date(b.date) - new Date(a.date)
+          } catch(e) {
+            return 0;
+          }
+        })
+        .slice(0, 5 - displayPosts.length);
+
+      if (recentPosts.length > 0) {
+        const recentHeader = document.createElement('li');
+        recentHeader.className = 'related-header';
+        recentHeader.textContent = '其他文章';
+        relatedPosts.appendChild(recentHeader);
+
+        recentPosts.forEach(post => {
+          addRelatedPostItem(post);
+        });
+      }
+    }
   }
 
   // 添加代码复制功能

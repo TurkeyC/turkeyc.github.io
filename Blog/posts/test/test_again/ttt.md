@@ -3,6 +3,7 @@ title: GitHub测试01
 date: 2025-03-04
 tags: [测试]
 category: 原创
+pinned: false
 ---
 
 ## 这是测试用的项目

@@ -805,4 +805,34 @@ mark {
   position: relative;
 }
 
-/* 其他样式保持不变 */
+/* 置顶标记样式 */
+.post-tag-container {
+  display: flex;
+  align-items: center;
+  margin-bottom: 0.75rem;
+}
+
+/* 优化置顶图标样式 */
+.post-pinned {
+  display: inline-flex;
+  align-items: center;
+  margin-left: 0.5rem;
+  color: #ff4757;
+}
+
+.post-pinned i {
+  font-size: 1rem;
+  transform: rotate(45deg); /* 让图钉朝向右下方，更符合习惯 */
+}
+
+/* 修改原有的 post-tag 样式，让其与 post-pinned 对齐 */
+.post-tag {
+  display: inline-flex;
+  align-items: center;
+  padding: 0.25rem 0.75rem;
+  border-radius: 0.5rem;
+  font-size: 0.75rem;
+  color: #fff;
+  background-color: var(--blog-primary-color);
+}
+

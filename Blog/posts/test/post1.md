@@ -3,6 +3,7 @@ title: Hello World - 我的第一篇博客
 date: 2024-05-15
 tags: [博客, JavaScript, 前端]
 category: 原创
+pinned: false
 ---
 
 # 第一篇博客文章

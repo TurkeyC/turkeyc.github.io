@@ -3,6 +3,7 @@ title: 我的阿里云Linux服务器配置过程备忘录
 date: 2025-01-23
 tags: [Linux]
 category: 原创
+pinned: false
 ---
 
 - 202501231057

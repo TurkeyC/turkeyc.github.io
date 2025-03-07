@@ -3,6 +3,7 @@ title: 有趣的技术文章 - 我的第2篇博客
 date: 2021-05-15
 tags: [技术分析, JavaScript, 前端]
 category: 转载
+pinned: false
 ---
 
 # 转载：有趣的技术文章

@@ -197,6 +197,10 @@ document.addEventListener('DOMContentLoaded', () => {
             .split(',')
             .map(item => item.trim());
         }
+        // 处理布尔值
+        else if (value === 'true' || value === 'false') {
+          value = value === 'true';
+        }
 
         metadata[key] = value;
       }
@@ -338,14 +342,14 @@ document.addEventListener('DOMContentLoaded', () => {
         id: Date.now() + Math.random().toString(36).substring(2),
         title: metadata.title || filename.replace('.md', ''),
         filename: filePath,
-        // 为未分类文章设置特殊标记
-        path: path || 'uncategorized',
+        path: path,
         date: metadata.date || '未知日期',
         category: metadata.category === '原创' ? 'Original' : 'Repost',
         directory: directoryName,
         tags: metadata.tags || [],
         readingTime: estimateReadingTime(content) + ' 分钟',
-        content: content
+        content: content,
+        pinned: metadata.pinned || false // 确保添加置顶属性
       };
     } catch (error) {
       console.error(`加载文件 ${filePath} 失败:`, error);
@@ -376,36 +380,6 @@ document.addEventListener('DOMContentLoaded', () => {
 
     return loadedPosts;
   }
-
-  // 加载单个文章
-  async function loadSinglePost(filename, path = '', directoryName = '未分类') {
-    const filePath = path ? `${path}/${filename}` : filename;
-
-    try {
-      const postResponse = await fetch(`/Blog/posts/${filePath}`);
-      if (!postResponse.ok) return null;
-
-      const markdown = await postResponse.text();
-      const { content, metadata } = parseFrontMatter(markdown);
-
-      return {
-        id: Date.now() + Math.random().toString(36).substring(2),
-        title: metadata.title || filename.replace('.md', ''),
-        filename: filePath,
-        path: path,
-        date: metadata.date || '未知日期',
-        category: metadata.category === '原创' ? 'Original' : 'Repost',
-        directory: directoryName,
-        tags: metadata.tags || [],
-        readingTime: estimateReadingTime(content) + ' 分钟',
-        content: content
-      };
-    } catch (error) {
-      console.error(`加载文件 ${filePath} 失败:`, error);
-      return null;
-    }
-  }
-
 
   // 估算阅读时间
   function estimateReadingTime(text) {
@@ -488,6 +462,15 @@ document.addEventListener('DOMContentLoaded', () => {
       return;
     }
 
+    // 先按置顶排序，再按日期排序
+    filteredPosts.sort((a, b) => {
+      // 首先比较置顶状态
+      if (a.pinned && !b.pinned) return -1;
+      if (!a.pinned && b.pinned) return 1;
+      // 如果置顶状态相同，则按日期排序
+      return new Date(b.date) - new Date(a.date);
+    });
+
     // 渲染文章卡片
     filteredPosts.forEach(post => {
       const postCard = renderPost(post);
@@ -539,6 +522,10 @@ document.addEventListener('DOMContentLoaded', () => {
     const categoryClass = post.category.toLowerCase();
     const categoryText = post.category === 'Original' ? '原创' : '转载';
 
+    // 添加置顶标记图标
+    const pinnedHTML = post.pinned ?
+      '<span class="post-pinned"><i class="uil uil-location-point"></i></span>' : '';
+
     // 创建标签HTML部分
     let tagsHTML = '';
     if (post.tags && post.tags.length > 0) {
@@ -549,7 +536,10 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 配置博客卡片内容
     postCard.innerHTML = `
-      <span class="post-tag ${categoryClass}">${categoryText}</span>
+      <div class="post-tag-container">
+        <span class="post-tag ${categoryClass}">${categoryText}</span>
+        ${pinnedHTML}
+      </div>
       <h2 class="post-title">${post.title}</h2>
       <div class="post-meta">
         <span class="post-date"><i class="uil uil-calendar-alt"></i> ${post.date}</span>
