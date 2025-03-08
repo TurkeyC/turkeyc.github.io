@@ -1,0 +1,184 @@
+{
+  "sections": [
+    {
+      "id": "AI-Platforms",
+      "title": "AI平台",
+      "sites": [
+        {
+          "name": "Kimi",
+          "url": "https://kimi.moonshot.cn/",
+          "icon": "https://statics.moonshot.cn/kimi-chat/favicon.ico",
+          "description": "由月之暗面开发，提供智能对话与多语言交互服务。"
+        },
+        {
+          "name": "智谱清言",
+          "url": "https://chatglm.cn/",
+          "icon": "https://chatglm.cn/favicon.ico",
+          "description": "智谱清言是基于GLM大模型的AI助手。"
+        },
+        {
+          "name": "通义千问",
+          "url": "https://tongyi.aliyun.com/",
+          "icon": "https://img.alicdn.com/imgextra/i1/O1CN01asLYeX1WhbsyEZn5u_!!6000000002820-55-tps-56-56.svg",
+          "description": "阿里云开发的超大规模多模态语言模型。"
+        },
+        {
+          "name": "讯飞星火",
+          "url": "https://xinghuo.xfyun.cn/desk/",
+          "icon": "https://xinghuo.xfyun.cn/vulcan/static/media/logo.ec6559cd3c84699e84ff547f4fb9fd31.svg",
+          "description": "科大讯飞开发的新一代认知智能大模型。"
+        },
+        {
+          "name": "GitHub Copilot",
+          "url": "https://github.com/copilot/",
+          "icon": "https://github.com/copilot/favicon.ico",
+          "description": "AI coding assistant that helps you write code faster and with less effort."
+        },
+        {
+          "name": "秘塔AI搜索",
+          "url": "https://metaso.cn/",
+          "icon": "https://metaso.cn/favicon.ico",
+          "description": "秘塔网络科技开发的AI搜索工具。"
+        },
+        {
+          "name": "DeepSeek",
+          "url": "https://chat.deepseek.com/",
+          "icon": "https://cdn.deepseek.com/favicon.png",
+          "description": "幻方量化创立的低成本、高性能AI大模型。"
+        },
+        {
+          "name": "紫东太初",
+          "url": "https://taichu-web.ia.ac.cn/",
+          "icon": "https://taichu-web.ia.ac.cn/favicon.ico",
+          "description": "中科院自动化所孵化的千亿参数多模态大模型。"
+        },
+        {
+          "name": "文心一言",
+          "url": "https://yiyan.baidu.com/chat/",
+          "icon": "https://nlp-eb.cdn.bcebos.com/static/eb/asset/vip-robin.930b8cae.png",
+          "description": "百度开发的基于知识增强大语言模型的AI助手。"
+        },
+        {
+          "name": "跃问",
+          "url": "https://yuewen.cn/chats/",
+          "icon": "https://yuewen.cn/svg/favicon.svg",
+          "description": "阶跃星辰开发的多模态AI聊天机器人。"
+        }
+      ]
+    },
+    {
+      "id": "hust",
+      "title": "华中科技大学",
+      "sites": [
+        {
+          "name": "华中科技大学图书馆",
+          "url": "https://lib.hust.edu.cn/",
+          "icon": "https://lib.hust.edu.cn/favicon.ico",
+          "description": "图书馆"
+        },
+        {
+          "name": "未来技术学院",
+          "url": "https://sft.hust.edu.cn/",
+          "icon": "https://www.hust.edu.cn/favicon.ico",
+          "description": "未院官网"
+        },
+        {
+          "name": "学在华科大",
+          "url": "https://smartcourse.hust.edu.cn/",
+          "icon": "https://smartcourse.hust.edu.cn/favicon.ico",
+          "description": "课程平台"
+        },
+        {
+          "name": "网上办事大厅",
+          "url": "https://ehall.hust.edu.cn/",
+          "icon": "https://ehall.hust.edu.cn/taskcenter/resources/hust/default/images/logo.png",
+          "description": "智慧华中大"
+        },
+        {
+          "name": "校园网自助服务",
+          "url": "http://myself.hust.edu.cn:8080/selfservice/",
+          "icon": "http://myself.hust.edu.cn:8080/selfservice/common/self/img/logo_hk.png",
+          "description": "硬件地址天天变"
+        },
+        {
+          "name": "学生工作综合管理系统",
+          "url": "http://xgxt.hust.edu.cn/xg/studentIndex/",
+          "icon": "http://xgxt.hust.edu.cn/xg/static/img/hust/logo_white.png",
+          "description": "查看义工时"
+        },
+        {
+          "name": "高性能计算公共服务平台",
+          "url": "https://hpc.hust.edu.cn/",
+          "icon": "https://hpc.hust.edu.cn/favicon.ico",
+          "description": "用不了"
+        },
+        {
+          "name": "总务后勤处",
+          "url": "https://hq.hust.edu.cn/",
+          "icon": "https://www.hust.edu.cn/favicon.ico",
+          "description": "总务后勤处"
+        },
+        {
+          "name": "脑机接口与机器学习实验室",
+          "url": "https://lab.bciml.cn/",
+          "icon": "https://lab.bciml.cn/favicon.ico",
+          "description": "脑机接口与机器学习实验室"
+        }
+      ]
+    },
+    {
+      "id": "search-engines",
+      "title": "搜索引擎",
+      "sites": [
+        {
+          "name": "Google",
+          "url": "https://www.google.com",
+          "icon": "https://www.google.com/favicon.ico",
+          "description": "The world's most popular search engine."
+        },
+        {
+          "name": "Bing",
+          "url": "https://www.bing.com",
+          "icon": "https://www.bing.com/favicon.ico",
+          "description": "Microsoft's search engine."
+        }
+      ]
+    },
+    {
+      "id": "developer-resources",
+      "title": "开发者资源",
+      "sites": [
+        {
+          "name": "GitHub",
+          "url": "https://www.github.com",
+          "icon": "https://www.github.com/favicon.ico",
+          "description": "A platform for version control and collaboration."
+        },
+        {
+          "name": "Stack Overflow",
+          "url": "https://www.stackoverflow.com",
+          "icon": "https://www.stackoverflow.com/favicon.ico",
+          "description": "A community of developers helping each other."
+        }
+      ]
+    },
+    {
+      "id": "social-media",
+      "title": "社交媒体",
+      "sites": [
+        {
+          "name": "Reddit",
+          "url": "https://www.reddit.com",
+          "icon": "https://www.reddit.com/favicon.ico",
+          "description": "A network of communities based on people's interests."
+        },
+        {
+          "name": "Twitter",
+          "url": "https://www.twitter.com",
+          "icon": "https://www.twitter.com/favicon.ico",
+          "description": "A platform for public self-expression and conversation in real time."
+        }
+      ]
+    }
+  ]
+}

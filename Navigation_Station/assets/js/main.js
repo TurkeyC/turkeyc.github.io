@@ -31,23 +31,26 @@ themeButton.addEventListener('click', () => {
 
 // Smooth scroll and scroll-to-top functionality
 document.addEventListener('DOMContentLoaded', function() {
-    const sectionLinks = document.querySelectorAll('.section__link');
-    const headerHeight = document.querySelector('.header').offsetHeight;
+  // 只在非动态生成内容的页面上执行此代码
+  if (!document.querySelector('script[src*="sites.js"]')) {
+      const sectionLinks = document.querySelectorAll('.section__link');
+      const headerHeight = document.querySelector('.header').offsetHeight;
 
-    sectionLinks.forEach(link => {
-        link.addEventListener('click', function(e) {
-            e.preventDefault();
+      sectionLinks.forEach(link => {
+          link.addEventListener('click', function (e) {
+              e.preventDefault();
 
-            const targetId = this.getAttribute('href');
-            const targetElement = document.querySelector(targetId);
-            const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
+              const targetId = this.getAttribute('href');
+              const targetElement = document.querySelector(targetId);
+              const targetPosition = targetElement.getBoundingClientRect().top + window.pageYOffset - headerHeight - 20;
 
-            window.scrollTo({
-                top: targetPosition,
-                behavior: 'smooth'
-            });
-        });
-    });
+              window.scrollTo({
+                  top: targetPosition,
+                  behavior: 'smooth'
+              });
+          });
+      });
+  }
 });
 
 // Scroll to top button functionality

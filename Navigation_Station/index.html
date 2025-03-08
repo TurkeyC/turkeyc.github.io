@@ -1,12 +1,12 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
+    <!-- 保持其他head内容不变 -->
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <link rel="shortcut icon" type="image/x-icon" href="favicon.ico" />
+    <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico" />
     <title>CaoTurkey的导航站</title>
     <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css">
-    <!-- Add link to your CSS file -->
     <link rel="stylesheet" href="assets/css/style.css">
 </head>
 <body>
@@ -33,233 +33,23 @@
         <section class="section">
             <h2 class="section__title">CaoTurkey的导航站</h2>
             <span class="section__subtitle">精选常用网站导航</span>
-            <!-- 在搜索表单上方添加分区索引 -->
+
+            <!-- 分区导航 - 将由JavaScript填充 -->
             <section class="section">
                 <h2 class="section__subtitle">分区导航</h2>
                 <div class="section__nav">
-                    <a href="#AI-Platforms" class="section__link">AI平台</a>
-                    <a href="#hust" class="section__link">华中科技大学</a>
-                    <a href="#search-engines" class="section__link">搜索引擎</a>
-                    <a href="#developer-resources" class="section__link">开发者资源</a>
-                    <a href="#social-media" class="section__link">社交媒体</a>
+                    <!-- 导航链接将由JavaScript动态生成 -->
                 </div>
             </section>
-            <!-- Search form -->
+
+            <!-- Search form 保持不变 -->
             <form action="https://www.bing.com/search" method="get" target="_blank" class="search__form">
                 <input type="text" name="q" placeholder="Search with Bing..." class="search__input">
                 <button type="submit" class="button">Search</button>
             </form>
         </section>
 
-        <!-- AI平台分区 -->
-        <section class="section" id="AI-Platforms">
-           <h2 class = "section__title">AI平台</h2>
-           <div class="cards">
-               <a href="https://kimi.moonshot.cn/" target="_blank" class="card">
-                   <img src="https://statics.moonshot.cn/kimi-chat/favicon.ico" alt="Kimi">
-                   <div class="info">
-                       <span class="title">Kimi</span>
-                       <span class="description">由月之暗面开发，提供智能对话与多语言交互服务。</span>
-                   </div>
-               </a>
-               <a href="https://chatglm.cn/" target="_blank" class="card">
-                   <img src="https://chatglm.cn/favicon.ico" alt="智谱清言">
-                   <div class="info">
-                       <span class="title">智谱清言</span>
-                       <span class="description">智谱清言是基于GLM大模型的AI助手。</span>
-                   </div>
-               </a>
-               <a href="https://tongyi.aliyun.com/" target="_blank" class="card">
-                   <img src="https://img.alicdn.com/imgextra/i1/O1CN01asLYeX1WhbsyEZn5u_!!6000000002820-55-tps-56-56.svg" alt="通义千问">
-                   <div class="info">
-                       <span class="title">通义千问</span>
-                       <span class="description">阿里云开发的超大规模多模态语言模型。</span>
-                   </div>
-               </a>
-               <a href="https://xinghuo.xfyun.cn/desk/" target="_blank" class="card">
-                   <img src="https://xinghuo.xfyun.cn/vulcan/static/media/logo.ec6559cd3c84699e84ff547f4fb9fd31.svg" alt="讯飞星火">
-                   <div class="info">
-                       <span class="title">讯飞星火</span>
-                       <span class="description">科大讯飞开发的新一代认知智能大模型。</span>
-                   </div>
-               </a>
-               <a href="https://github.com/copilot/" target="_blank" class="card">
-                   <img src="https://github.com/copilot/favicon.ico" alt="GitHub Copilot">
-                   <div class="info">
-                       <span class="title">GitHub Copilot</span>
-                       <span class="description">AI coding assistant that helps you write code faster and with less effort.</span>
-                   </div>
-               </a>
-               <a href="https://metaso.cn/" target="_blank" class="card">
-                   <img src="https://metaso.cn/favicon.ico" alt="秘塔AI搜索">
-                   <div class="info">
-                       <span class="title">秘塔AI搜索</span>
-                       <span class="description">秘塔网络科技开发的AI搜索工具。</span>
-                   </div>
-               </a>
-               <a href="https://chat.deepseek.com/" target="_blank" class="card">
-                   <img src="https://cdn.deepseek.com/favicon.png" alt="DeepSeek">
-                   <div class="info">
-                       <span class="title">DeepSeek</span>
-                       <span class="description">幻方量化创立的低成本、高性能AI大模型。</span>
-                   </div>
-               </a>
-               <a href="https://taichu-web.ia.ac.cn/" target="_blank" class="card">
-                   <img src="https://taichu-web.ia.ac.cn/favicon.ico" alt="紫东太初">
-                   <div class="info">
-                       <span class="title">紫东太初</span>
-                       <span class="description">中科院自动化所孵化的千亿参数多模态大模型。</span>
-                   </div>
-               </a>
-               <a href="https://yiyan.baidu.com/chat/" target="_blank" class="card">
-                   <img src="https://nlp-eb.cdn.bcebos.com/static/eb/asset/vip-robin.930b8cae.png" alt="文心一言">
-                   <div class="info">
-                       <span class="title">文心一言</span>
-                       <span class="description">百度开发的基于知识增强大语言模型的AI助手。</span>
-                   </div>
-               </a>
-               <a href="https://yuewen.cn/chats/" target="_blank" class="card">
-                   <img src="https://yuewen.cn/svg/favicon.svg" alt="跃问">
-                   <div class="info">
-                       <span class="title">跃问</span>
-                       <span class="description">阶跃星辰开发的多模态AI聊天机器人。</span>
-                   </div>
-               </a>
-           </div>
-        </section>
-
-        <!-- 华中科技大学 分区 -->
-        <section class="section" id="hust">
-            <h2 class="section__title">华中科技大学</h2>
-            <div class="cards">
-                <a href="https://lib.hust.edu.cn/" target="_blank" class="card">
-                    <img src="https://lib.hust.edu.cn/favicon.ico" alt="华中科技大学图书馆">
-                    <div class="info">
-                        <span class="title">华中科技大学图书馆</span>
-                        <span class="description">图书馆</span>
-                    </div>
-                </a>
-                <a href="https://sft.hust.edu.cn/" target="_blank" class="card">
-                    <img src="https://www.hust.edu.cn/favicon.ico" alt="未来技术学院">
-                    <div class="info">
-                        <span class="title">未来技术学院</span>
-                        <span class="description">未院官网</span>
-                    </div>
-                </a>
-                <a href="https://smartcourse.hust.edu.cn/" target="_blank" class="card">
-                    <img src="https://smartcourse.hust.edu.cn/favicon.ico" alt="学在华科大">
-                    <div class="info">
-                        <span class="title">学在华科大</span>
-                        <span class="description">课程平台</span>
-                    </div>
-                </a>
-                <a href="https://ehall.hust.edu.cn/" target="_blank" class="card">
-                    <img src="https://ehall.hust.edu.cn/taskcenter/resources/hust/default/images/logo.png" alt="网上办事大厅">
-                    <div class="info">
-                        <span class="title">网上办事大厅</span>
-                        <span class="description">智慧华中大</span>
-                    </div>
-                </a>
-                <a href="http://myself.hust.edu.cn:8080/selfservice/" target="_blank" class="card">
-                    <img src="http://myself.hust.edu.cn:8080/selfservice/common/self/img/logo_hk.png" alt="校园网自助服务">
-                    <div class="info">
-                        <span class="title">校园网自助服务</span>
-                        <span class="description">硬件地址天天变</span>
-                    </div>
-                </a>
-                <a href="http://xgxt.hust.edu.cn/xg/studentIndex/" target="_blank" class="card">
-                    <img src="http://xgxt.hust.edu.cn/xg/static/img/hust/logo_white.png" alt="学生工作综合管理系统">
-                    <div class="info">
-                        <span class="title">学生工作综合管理系统</span>
-                        <span class="description">查看义工时</span>
-                    </div>
-                </a>
-                <a href="https://hpc.hust.edu.cn/" target="_blank" class="card">
-                    <img src="https://hpc.hust.edu.cn/favicon.ico" alt="高性能计算公共服务平台">
-                    <div class="info">
-                        <span class="title">高性能计算公共服务平台</span>
-                        <span class="description">用不了</span>
-                    </div>
-                </a>
-                <a href="https://hq.hust.edu.cn/" target="_blank" class="card">
-                    <img src="https://www.hust.edu.cn/favicon.ico" alt="总务后勤处">
-                    <div class="info">
-                        <span class="title">总务后勤处</span>
-                        <span class="description">总务后勤处</span>
-                    </div>
-                </a>
-                <a href="https://lab.bciml.cn/" target="_blank" class="card">
-                    <img src="https://lab.bciml.cn/favicon.ico" alt="脑机接口与机器学习实验室">
-                    <div class="info">
-                        <span class="title">脑机接口与机器学习实验室</span>
-                        <span class="description">脑机接口与机器学习实验室</span>
-                    </div>
-                </a>
-            </div>
-        </section>
-
-        <!-- 搜索引擎分区 -->
-        <section class="section" id="search-engines">
-            <h2 class="section__title">搜索引擎</h2>
-            <div class="cards">
-                <a href="https://www.google.com" target="_blank" class="card">
-                    <img src="https://www.google.com/favicon.ico" alt="Google">
-                    <div class="info">
-                        <span class="title">Google</span>
-                        <span class="description">The world's most popular search engine.</span>
-                    </div>
-                </a>
-                <a href="https://www.bing.com" target="_blank" class="card">
-                    <img src="https://www.bing.com/favicon.ico" alt="Bing">
-                    <div class="info">
-                        <span class="title">Bing</span>
-                        <span class="description">Microsoft's search engine.</span>
-                    </div>
-                </a>
-            </div>
-        </section>
-
-        <!-- 开发者资源分区 -->
-        <section class="section" id="developer-resources">
-            <h2 class="section__title">开发者资源</h2>
-            <div class="cards">
-                <a href="https://www.github.com" target="_blank" class="card">
-                    <img src="https://www.github.com/favicon.ico" alt="GitHub">
-                    <div class="info">
-                        <span class="title">GitHub</span>
-                        <span class="description">A platform for version control and collaboration.</span>
-                    </div>
-                </a>
-                <a href="https://www.stackoverflow.com" target="_blank" class="card">
-                    <img src="https://www.stackoverflow.com/favicon.ico" alt="Stack Overflow">
-                    <div class="info">
-                        <span class="title">Stack Overflow</span>
-                        <span class="description">A community of developers helping each other.</span>
-                    </div>
-                </a>
-            </div>
-        </section>
-
-        <!-- 社交媒体分区 -->
-        <section class="section" id="social-media">
-            <h2 class="section__title">社交媒体</h2>
-            <div class="cards">
-                <a href="https://www.reddit.com" target="_blank" class="card">
-                    <img src="https://www.reddit.com/favicon.ico" alt="Reddit">
-                    <div class="info">
-                        <span class="title">Reddit</span>
-                        <span class="description">A network of communities based on people's interests.</span>
-                    </div>
-                </a>
-                <a href="https://www.twitter.com" target="_blank" class="card">
-                    <img src="https://www.twitter.com/favicon.ico" alt="Twitter">
-                    <div class="info">
-                        <span class="title">Twitter</span>
-                        <span class="description">A platform for public self-expression and conversation in real time.</span>
-                    </div>
-                </a>
-            </div>
-        </section>
+        <!-- 各分区内容将由JavaScript动态生成 -->
     </main>
 
     <!-- 在body标签结束前，footer上方添加回到顶部按钮 -->
@@ -272,9 +62,8 @@
         <p class="footer__copy">&#169; CaoTurkey. All rights reserved</p>
     </footer>
 
-    <!-- JavaScript for theme toggle -->
-    <!-- Replace both script tags with this single link -->
+    <!-- JavaScript引用 -->
     <script src="assets/js/main.js"></script>
-
+    <script src="assets/js/sites.js"></script>
 </body>
 </html>
