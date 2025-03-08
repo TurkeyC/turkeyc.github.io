@@ -307,6 +307,59 @@ document.addEventListener('DOMContentLoaded', () => {
 
     postToc.innerHTML = '';
     postToc.appendChild(toc);
+
+    // 添加滚动监听来更新活动目录项
+    const tocLinks = document.querySelectorAll('.toc-item a');
+    const headingElements = Array.from(headings);
+
+    // 创建ID到目录项的映射
+    const idToTocMap = {};
+    tocLinks.forEach(link => {
+      const targetId = link.getAttribute('href').substring(1);
+      idToTocMap[targetId] = link;
+    });
+
+    // 添加滚动事件监听
+    function updateActiveHeading() {
+      // 设置一个偏移量，使标题在接近顶部时就标记为活动状态
+      const offset = 100;
+
+      // 找到当前可见的标题
+      let activeHeading = null;
+
+      // 从后往前找，这样可以确保找到的是最上面的可见标题
+      for (let i = headingElements.length - 1; i >= 0; i--) {
+        const heading = headingElements[i];
+        const rect = heading.getBoundingClientRect();
+
+        // 如果标题在视窗内或刚刚滚过
+        if (rect.top <= offset) {
+          activeHeading = heading;
+          break;
+        }
+      }
+
+      // 移除所有当前激活的类
+      tocLinks.forEach(link => {
+        link.classList.remove('active');
+        link.parentElement.classList.remove('active');
+      });
+
+      // 如果找到了活动标题，则高亮对应的目录项
+      if (activeHeading) {
+        const activeLink = idToTocMap[activeHeading.id];
+        if (activeLink) {
+          activeLink.classList.add('active');
+          activeLink.parentElement.classList.add('active');
+        }
+      }
+    }
+
+    // 初始调用一次更新函数
+    updateActiveHeading();
+
+    // 添加滚动事件监听
+    window.addEventListener('scroll', updateActiveHeading, {passive: true});
   }
 
   // 添加相关文章项目函数
@@ -800,6 +853,21 @@ document.addEventListener('DOMContentLoaded', () => {
             color: white;
             font-size: 24px;
             cursor: pointer;
+          }
+            
+          /* 活动目录项样式 */
+          .toc-item.active > a,
+          .toc-item a.active {
+            color: var(--blog-primary-color);
+            font-weight: bold;
+            border-left: 2px solid var(--blog-primary-color);
+            padding-left: 8px;
+            margin-left: -10px;
+          }
+          
+          /* 为目录项添加平滑过渡效果 */
+          .toc-item a {
+            transition: all 0.3s ease;
           }
         `;
         document.head.appendChild(style);

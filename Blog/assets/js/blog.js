@@ -676,6 +676,8 @@ document.addEventListener('DOMContentLoaded', () => {
     const sidebarToggle = document.querySelector('.sidebar-toggle');
     const blogContainer = document.querySelector('.blog-container');
     const sidebar = document.querySelector('.sidebar');
+    const content = document.querySelector('.content'); // 获取内容区域元素
+    const rightSidebar = document.querySelector('.right-sidebar'); // 获取右侧栏元素
 
     // 计算并设置按钮位置的函数
     function updateTogglePosition() {
@@ -720,6 +722,26 @@ document.addEventListener('DOMContentLoaded', () => {
         );
       });
     }
+
+    // 添加点击内容区域收回侧边栏的功能（仅限小屏幕）
+    function handleOutsideClick(e) {
+      // 检查是否是小屏幕（宽度小于768px通常被认为是移动设备）
+      if (window.innerWidth <= 768) {
+        // 检查侧边栏是否展开且点击目标不在侧边栏内
+        if (!blogContainer.classList.contains('sidebar-collapsed') &&
+            !sidebar.contains(e.target) &&
+            !sidebarToggle.contains(e.target)) {
+          // 收起侧边栏
+          blogContainer.classList.add('sidebar-collapsed');
+          updateTogglePosition();
+          // 保存用户偏好到本地存储
+          localStorage.setItem('sidebarCollapsed', 'true');
+        }
+      }
+    }
+
+    // 为整个文档添加点击事件，这样可以捕获任何区域的点击
+    document.addEventListener('click', handleOutsideClick);
 
     // 监听过渡结束事件，确保按钮位置正确
     sidebar.addEventListener('transitionend', updateTogglePosition);
