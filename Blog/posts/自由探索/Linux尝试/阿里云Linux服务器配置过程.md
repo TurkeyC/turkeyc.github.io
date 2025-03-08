@@ -1,7 +1,7 @@
 ---
 title: 我的阿里云Linux服务器配置过程备忘录
 date: 2025-01-23
-tags: [Linux]
+tags: [开发日志,Linux]
 category: 原创
 pinned: false
 ---
@@ -22,7 +22,7 @@ IP地址：████████(公) ████████(私)
 
 但是发现Xshell的使用并不太符合我的习惯，因此试图在win11的powershell中直接链接服务器；
 
-于是找到了https://blog.csdn.net/IT_iosers/article/details/144725544，参考其中的方法进行输入：   
+于是找到了https://blog.csdn.net/IT_iosers/article/details/144725544 ，参考其中的方法进行输入：   
 
 ```powershell
 PS C:\Users\████████> ssh-keygen
@@ -102,7 +102,7 @@ Last login: Thu Jan 23 10:16:56 2025 from ████████
 root@████████████████:~#
 ```
 
-在这之后有参考了windows命令的相关文档https://learn.microsoft.com/zh-cn/windows/terminal/tutorials/ssh和https://learn.microsoft.com/zh-cn/windows/terminal/install#settings-json-file，在JSON文件中添加了如下内容：
+在这之后有参考了windows命令的相关文档https://learn.microsoft.com/zh-cn/windows/terminal/tutorials/ssh 和https://learn.microsoft.com/zh-cn/windows/terminal/install#settings-json-file ，在JSON文件中添加了如下内容：
 
 ```json
 {
@@ -129,11 +129,11 @@ root@████████████████:~#
 
 运行了`sudo apt install git npm nodejs`命令，为了从GitHub获取NoVNC；
 
-运行了`git clone https://github.com/novnc/noVNC.git`，进入`cd noVNC`，运行`./utils/novnc_proxy --listen 6080 --vnc localhost:5901`，设置VNC端口为5900，映射出的端口为6080，在运行时发现自动下载了websockify；
+运行了`git clone https://github.com/novnc/noVNC.git `，进入`cd noVNC`，运行`./utils/novnc_proxy --listen 6080 --vnc localhost:5901`，设置VNC端口为5900，映射出的端口为6080，在运行时发现自动下载了websockify；
 
 给出了链接是：http://████████████████:6080/vnc.html?host=████████████████&port=6080，但是发现阿里云上端口没有开放;
 
-在阿里云防火墙上重新配置后，再次打开powershell，执行`cd noVNC `与`./utils/novnc_proxy --listen 6080 --vnc localhost:5900`，试图进入http://████████:6080/vnc.html，但是发现还是不行；
+在阿里云防火墙上重新配置后，再次打开powershell，执行`cd noVNC `与`./utils/novnc_proxy --listen 6080 --vnc localhost:5900`，试图进入http://████████:6080/vnc.html ，但是发现还是不行；
 
 在寻求deepseek指导后，执行`sudo apt install tightvncserver -y`，并执行`vncserver`，设置密码为`████████`
 
@@ -224,7 +224,7 @@ sudo mkdir -p /etc/docker
 # 添加镜像加速器配置（阿里云镜像源，需替换为你的专属加速地址）
 sudo tee /etc/docker/daemon.json <<-'EOF'
 {
-  "registry-mirrors": ["https://████████.mirror.aliyuncs.com"]#我的阿里云镜像加速地址
+  "registry-mirrors": ["https://████████.mirror.aliyuncs.com "]#我的阿里云镜像加速地址
 }
 EOF
 
@@ -288,14 +288,14 @@ nextcloud
 
 - 202502041251
 
-在[QQ开放平台](https://q.qq.com)上进行了注册
+在[QQ开放平台](https://q.qq.com )上进行了注册
 
 邮箱：████████@qq.com
 密码：████████
 手机号：████████
 获取了机器人管理员权限
 
-[QQ机器人](https://q.qq.com/qqbot/#/home)
+[QQ机器人](https://q.qq.com/qqbot/#/home )
 名称：████████
 机器人QQ号：████████
 AppID (机器人ID)：████████
@@ -363,7 +363,7 @@ sudo docker run -d -p 3210:3210 \
   lobehub/lobe-chat
 ```
 
-部署了lobe-chat，网址是http://████████:3210，设置管理员密码为`██`
+部署了lobe-chat，网址是http://████████:3210 ，设置管理员密码为`██`
 
 不好用，于是运行：
 
@@ -425,7 +425,7 @@ sudo docker-compose restart sillytavern
 
 安装了SillyTavern 1.12.12
 
-访问http://████████:8000/即可
+访问http://████████:8000/ 即可
 
 username: ████████
 password: ██
@@ -446,7 +446,7 @@ password: ██
 
 - 20250219
 
-随手按照 [官方教程](https://docs.n8n.io/hosting/installation/docker/#starting-n8n) 在██用户中配置了N8N
+随手按照 [官方教程](https://docs.n8n.io/hosting/installation/docker/#starting-n8n ) 在██用户中配置了N8N
 
 
 
@@ -473,7 +473,7 @@ apt update && apt install -y aspnetcore-runtime-6.0
 
 之后内容全部在██用户下进行；
 
-根据[AstrBot官方教程](https://astrbot.app/deploy/platform/aiocqhttp/lagrange.html)与[Lagrange.OneBot官方教程](https://lagrangedev.github.io/Lagrange.Doc/Lagrange.OneBot/)，进行配置：
+根据[AstrBot官方教程](https://astrbot.app/deploy/platform/aiocqhttp/lagrange.html )与[Lagrange.OneBot官方教程](https://lagrangedev.github.io/Lagrange.Doc/Lagrange.OneBot/ )，进行配置：
 
 ```bash
 #创建配置目录
@@ -566,7 +566,7 @@ su - qqbot
 这样就进入了qqbot用户
 
 ```bash
-wget https://github.com/LagrangeDev/Lagrange.Core/releases/download/nightly/Lagrange.OneBot_linux-x64_net9.0_SelfContained.tar.gz
+wget https://github.com/LagrangeDev/Lagrange.Core/releases/download/nightly/Lagrange.OneBot_linux-x64_net9.0_SelfContained.tar.gz 
 ```
 
 还是放弃了，卸载了qqbot用户
@@ -579,7 +579,7 @@ sudo userdel -r qqbot
 
 **又回到了██用户，现在尝试使用NapCatQQ 协议**
 
-按照[AstrBot官方教程](https://astrbot.app/deploy/platform/aiocqhttp/napcat.html)和[NapCat官方教程](https://napcat.napneko.icu/)进行部署
+按照[AstrBot官方教程](https://astrbot.app/deploy/platform/aiocqhttp/napcat.html )和[NapCat官方教程](https://napcat.napneko.icu/ )进行部署
 
 ```bash
 curl -o napcat.sh https://nclatest.znin.net/NapNeko/NapCat-Installer/main/script/install.sh && sudo bash napcat.sh --docker y --qq "████████" --mode ws --proxy 1 --confirm

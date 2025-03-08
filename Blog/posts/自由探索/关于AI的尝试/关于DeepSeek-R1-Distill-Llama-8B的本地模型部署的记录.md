@@ -34,6 +34,6 @@ pinned: false
 >
 > 出站规则同理一样禁用。
 
-然后进入https://hf-mirror.com/（HuggingFace的镜像站），搜索`DeepSeek-R1`，进入蒸馏模型，在搜索框中搜索`Llama 8B GGUF `，选择目前下载量最高的 [unsloth/DeepSeek-R1-Distill-Llama-8B-GGUF](https://hf-mirror.com/unsloth/DeepSeek-R1-Distill-Llama-8B-GGUF) 下载了8B-Q8_0模型和8B-Q4_K_M模型
+然后进入https://hf-mirror.com/ （HuggingFace的镜像站），搜索`DeepSeek-R1`，进入蒸馏模型，在搜索框中搜索`Llama 8B GGUF `，选择目前下载量最高的 [unsloth/DeepSeek-R1-Distill-Llama-8B-GGUF](https://hf-mirror.com/unsloth/DeepSeek-R1-Distill-Llama-8B-GGUF) 下载了8B-Q8_0模型和8B-Q4_K_M模型
 
 好了，这样就可以把之前下的`ChatGLM3-6B`删掉啦！`E:\Program_Files\ChatGLM3-6B-OneKey`完成了它从1月15号开始的使命。
