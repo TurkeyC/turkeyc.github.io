@@ -53,6 +53,21 @@
           "subcategories": []
         }
       ]
+    },
+    {
+      "name": "自由探索",
+      "path": "自由探索",
+      "files": [],
+      "subcategories": [
+        {
+          "name": "关于AI的一些尝试",
+          "path": "关于AI的一些尝试",
+          "files": [
+            "关于DeepSeek-R1-Distill-Llama-8B的本地模型部署的记录.md"
+          ],
+          "subcategories": []
+        }
+      ]
     }
   ],
   "uncategorized": [
