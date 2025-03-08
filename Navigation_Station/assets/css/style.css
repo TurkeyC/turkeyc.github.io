@@ -1,0 +1,310 @@
+/* assets/css/style.css */
+/* Variables */
+:root {
+    --hue-color: 200;
+    --first-color: hsl(var(--hue-color), 69%, 61%);
+    --first-color-second: hsl(var(--hue-color), 69%, 61%);
+    --first-color-alt: hsl(var(--hue-color), 57%, 53%);
+    --first-color-lighter: hsl(var(--hue-color), 92%, 85%);
+    --title-color: hsl(var(--hue-color), 8%, 15%);
+    --text-color: hsl(var(--hue-color), 8%, 45%);
+    --text-color-light: hsl(var(--hue-color), 8%, 65%);
+    --input-color: hsl(var(--hue-color), 70%, 96%);
+    --body-color: hsl(var(--hue-color), 60%, 99%);
+    --container-color: #fff;
+    --scroll-bar-color: hsl(var(--hue-color), 12%, 90%);
+    --scroll-thumb-color: hsl(var(--hue-color), 12%, 80%);
+
+    /* Font and typography */
+    --body-font: 'Poppins', sans-serif;
+
+    /* 在:root选择器中添加平滑属性 */
+    html {
+        scroll-behavior: smooth;
+    }
+}
+
+/* Dark theme */
+body.dark-theme {
+    --first-color-second: hsl(var(--hue-color), 30%, 8%);
+    --title-color: hsl(var(--hue-color), 8%, 95%);
+    --text-color: hsl(var(--hue-color), 8%, 75%);
+    --input-color: hsl(var(--hue-color), 29%, 16%);
+    --body-color: hsl(var(--hue-color), 28%, 12%);
+    --container-color: hsl(var(--hue-color), 29%, 16%);
+    --scroll-bar-color: hsl(var(--hue-color), 12%, 48%);
+    --scroll-thumb-color: hsl(var(--hue-color), 12%, 36%);
+}
+
+/* Base */
+* {
+    box-sizing: border-box;
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-family: var(--body-font);
+    background-color: var(--body-color);
+    color: var(--text-color);
+    margin: 0;
+    padding: 0;
+    transition: .3s;
+}
+
+h1, h2, h3, h4 {
+    color: var(--title-color);
+    font-weight: 600;
+}
+
+/* Header */
+.header {
+    width: 100%;
+    position: fixed;
+    top: 0;
+    left: 0;
+    z-index: 100;
+    background-color: var(--body-color);
+    box-shadow: 0 1px 4px rgba(0,0,0,.15);
+}
+
+.nav {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    height: 3.5rem;
+    padding: 0 1.5rem;
+    max-width: 1024px;
+    margin: 0 auto;
+}
+
+.nav__logo {
+    color: var(--title-color);
+    font-weight: 600;
+    text-decoration: none;
+    font-size: 1.2rem;
+}
+
+.nav__btns {
+    display: flex;
+    align-items: center;
+}
+
+.change-theme {
+    font-size: 1.25rem;
+    color: var(--title-color);
+    margin-right: 1rem;
+    cursor: pointer;
+}
+
+.home__link {
+    font-size: 1rem;
+    color: var(--first-color);
+    text-decoration: none;
+    display: flex;
+    align-items: center;
+    margin-left: 1rem; /* 添加左边距 */
+}
+
+.home__link i {
+    margin-right: 0.5rem;
+}
+
+/* Main content */
+.main {
+    padding-top: 5rem;
+    max-width: 1024px;
+    margin: 0 auto;
+    padding-left: 1.5rem;
+    padding-right: 1.5rem;
+}
+
+.section {
+    padding: 2rem 0 1rem;
+}
+
+.section__title {
+    font-size: 1.5rem;
+    margin-bottom: 1rem;
+    text-align: center;
+}
+
+.section__subtitle {
+    display: block;
+    font-size: 0.875rem;
+    margin-bottom: 2rem;
+    text-align: center;
+    color: var(--text-color-light);
+}
+
+/* Search form */
+.search__form {
+    margin-bottom: 2rem;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 0.5rem;
+}
+
+.search__input {
+    width: 70%;
+    padding: 0.75rem;
+    border-radius: 0.5rem;
+    border: 2px solid var(--input-color);
+    background-color: var(--input-color);
+    color: var(--text-color);
+    font-family: var(--body-font);
+    font-size: 0.938rem;
+    outline: none;
+}
+
+.button {
+    display: inline-block;
+    background-color: var(--first-color);
+    color: #fff;
+    padding: 0.75rem 1rem;
+    border-radius: 0.5rem;
+    font-weight: 500;
+    border: none;
+    cursor: pointer;
+    transition: .3s;
+    font-family: var(--body-font);
+}
+
+.button:hover {
+    background-color: var(--first-color-alt);
+}
+
+/* Cards */
+.cards {
+    display: grid;
+    gap: 1.5rem;
+    grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.card {
+    display: flex;
+    align-items: center;
+    background-color: var(--container-color);
+    padding: 1.25rem;
+    border-radius: 0.5rem;
+    box-shadow: 0 2px 4px rgba(0,0,0,.15);
+    transition: .3s;
+    text-decoration: none;
+}
+
+.card:hover {
+    box-shadow: 0 4px 8px rgba(0,0,0,.15);
+    transform: translateY(-0.25rem);
+}
+
+.card img {
+    width: 2rem;
+    height: 2rem;
+    border-radius: 50%;
+    margin-right: 1rem;
+}
+
+.info {
+    flex: 1;
+}
+
+.title {
+    font-size: 1rem;
+    font-weight: 500;
+    color: var(--title-color);
+    display: block;
+    margin-bottom: 0.25rem;
+}
+
+.description {
+    font-size: 0.813rem;
+    color: var(--text-color);
+}
+
+/* Footer */
+.footer {
+    padding: 2rem 0;
+    margin-top: 2.5rem;
+    text-align: center;
+}
+
+.footer__copy {
+    font-size: 0.75rem;
+    color: var(--text-color-light);
+}
+
+/* 回到顶部按钮样式 */
+.scrolltop {
+    position: fixed;
+    right: 1rem;
+    bottom: -20%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding: 0.5rem;
+    background-color: var(--first-color);
+    border-radius: 0.5rem;
+    z-index: 10;
+    transition: .4s;
+    opacity: 0.8;
+    color: #fff;
+    text-decoration: none;
+}
+
+.scrolltop:hover {
+    opacity: 1;
+    transform: translateY(-0.25rem);
+}
+
+.scrolltop__icon {
+    font-size: 1.5rem;
+}
+
+/* 显示回到顶部按钮 */
+.show-scroll {
+    bottom: 5rem;
+}
+
+/* 分区导航样式 */
+.section__nav {
+    display: flex;
+    justify-content: center;
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 2rem;
+}
+
+.section__link {
+    color: var(--first-color);
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    border-radius: 0.5rem;
+    background-color: var(--container-color);
+    transition: .3s;
+    box-shadow: 0 1px 2px rgba(0,0,0,.15);
+}
+
+.section__link:hover {
+    background-color: var(--first-color);
+    color: #fff;
+    transform: translateY(-0.15rem);
+}
+
+/* Media Queries */
+@media screen and (max-width: 767px) {
+    .cards {
+        grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+    }
+
+    .search__input {
+        width: 100%;
+    }
+}
+
+@media screen and (min-width: 1024px) {
+    .main {
+        padding-left: 1rem;
+        padding-right: 1rem;
+    }
+}

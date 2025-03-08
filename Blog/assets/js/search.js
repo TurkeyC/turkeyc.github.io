@@ -11,6 +11,8 @@ document.addEventListener('DOMContentLoaded', () => {
 
     // 初始化
     function init() {
+        console.log("搜索页面初始化中...");
+
         setupSidebarToggle();
         setupDarkMode();
         setupBackToTop();
@@ -19,6 +21,7 @@ document.addEventListener('DOMContentLoaded', () => {
         // 检查URL参数是否有搜索关键词
         const urlParams = new URLSearchParams(window.location.search);
         const searchQuery = urlParams.get('q');
+        console.log("搜索参数:", searchQuery);
 
         if (searchQuery) {
             searchInput.value = searchQuery;
@@ -71,47 +74,108 @@ document.addEventListener('DOMContentLoaded', () => {
     // 加载所有文章 (与blog.js相同)
     async function loadAllPosts() {
         try {
-            const response = await fetch('/Blog/posts/index.json');
+            const response = await fetch('./posts/index.json');
 
             if (!response.ok) {
                 console.error('无法加载索引文件:', response.status);
                 throw new Error('无法加载文章索引');
             }
 
-            const postFilenames = await response.json();
+            // 解析分层结构的索引数据
+            const indexData = await response.json();
             const loadedPosts = [];
+            let idCounter = 1;
 
-            for (let i = 0; i < postFilenames.length; i++) {
-                const filename = postFilenames[i];
-                const postResponse = await fetch(`/Blog/posts/${filename}`);
+            // 递归处理所有类别和子类别
+            async function processCategory(category, categoryPath) {
+                const currentPath = categoryPath ? `${categoryPath}/${category.path}` : category.path;
 
-                if (!postResponse.ok) {
-                    console.error(`文件 ${filename} 加载失败:`, postResponse.status);
-                    continue;
+                // 处理当前类别中的文件
+                if (category.files && Array.isArray(category.files)) {
+                    for (const fileName of category.files) {
+                        const fullPath = `./posts/${currentPath}/${fileName}`;
+
+                        try {
+                            const postResponse = await fetch(fullPath);
+                            if (!postResponse.ok) {
+                                console.error(`文件 ${fullPath} 加载失败:`, postResponse.status);
+                                continue;
+                            }
+
+                            const markdown = await postResponse.text();
+                            const {content, metadata} = parseFrontMatter(markdown);
+
+                            const category = metadata.category === '原创' ? 'Original' : 'Repost';
+
+                            loadedPosts.push({
+                                id: idCounter++,
+                                title: metadata.title || fileName.replace('.md', ''),
+                                filename: `${currentPath}/${fileName}`,
+                                date: metadata.date || '未知日期',
+                                category: category,
+                                tags: metadata.tags || [],
+                                readingTime: estimateReadingTime(content) + ' 分钟',
+                                content: content
+                            });
+                        } catch (error) {
+                            console.error(`处理文件 ${fullPath} 时出错:`, error);
+                        }
+                    }
                 }
 
-                const markdown = await postResponse.text();
-                const {content, metadata} = parseFrontMatter(markdown);
+                // 递归处理子类别
+                if (category.subcategories && Array.isArray(category.subcategories)) {
+                    for (const subcategory of category.subcategories) {
+                        await processCategory(subcategory, currentPath);
+                    }
+                }
+            }
 
-                const category = metadata.category === '原创' ? 'Original' : 'Repost';
+            // 处理所有类别
+            if (indexData.categories && Array.isArray(indexData.categories)) {
+                for (const category of indexData.categories) {
+                    await processCategory(category, '');
+                }
+            }
 
-                loadedPosts.push({
-                    id: i + 1,
-                    title: metadata.title || filename.replace('.md', ''),
-                    filename: filename,
-                    date: metadata.date || '未知日期',
-                    category: category,
-                    tags: metadata.tags || [],
-                    readingTime: estimateReadingTime(content) + ' 分钟',
-                    content: content
-                });
+            // 处理未分类文章
+            if (indexData.uncategorized && Array.isArray(indexData.uncategorized)) {
+                for (const fileName of indexData.uncategorized) {
+                    const fullPath = `./posts/${fileName}`;
+
+                    try {
+                        const postResponse = await fetch(fullPath);
+                        if (!postResponse.ok) {
+                            console.error(`文件 ${fullPath} 加载失败:`, postResponse.status);
+                            continue;
+                        }
+
+                        const markdown = await postResponse.text();
+                        const {content, metadata} = parseFrontMatter(markdown);
+
+                        const category = metadata.category === '原创' ? 'Original' : 'Repost';
+
+                        loadedPosts.push({
+                            id: idCounter++,
+                            title: metadata.title || fileName.replace('.md', ''),
+                            filename: fileName,
+                            date: metadata.date || '未知日期',
+                            category: category,
+                            tags: metadata.tags || [],
+                            readingTime: estimateReadingTime(content) + ' 分钟',
+                            content: content
+                        });
+                    } catch (error) {
+                        console.error(`处理文件 ${fullPath} 时出错:`, error);
+                    }
+                }
             }
 
             posts = loadedPosts.sort((a, b) => new Date(b.date) - new Date(a.date));
             return posts;
         } catch (error) {
             console.error('加载文章失败:', error);
-            postsContainer.innerHTML = '<div class="error">加载博客失败，请稍后再试</div>';
+            postsContainer.innerHTML = `<div class="error">加载博客失败，请稍后再试: ${error.message}</div>`;
             return [];
         }
     }
@@ -421,31 +485,6 @@ document.addEventListener('DOMContentLoaded', () => {
                 const postCard = renderSearchCard(post); // 使用特殊的搜索卡片渲染
                 postsContainer.appendChild(postCard);
             });
-        }
-    }
-
-    // 完成init函数缺失部分
-    function init() {
-        setupSidebarToggle();
-        setupDarkMode();
-        setupBackToTop();
-        setupEventListeners();
-
-        // 检查URL参数是否有搜索关键词
-        const urlParams = new URLSearchParams(window.location.search);
-        const searchQuery = urlParams.get('q');
-
-        if (searchQuery) {
-            searchInput.value = searchQuery;
-            currentSearch = searchQuery;
-
-            // 立即执行搜索
-            loadAllPosts().then(() => {
-                searchAndRender();
-            });
-        } else {
-            // 无搜索关键词时，只加载文章数据但不显示结果
-            loadAllPosts();
         }
     }
 

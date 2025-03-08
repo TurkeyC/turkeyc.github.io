@@ -663,7 +663,7 @@ document.addEventListener('DOMContentLoaded', () => {
     sortedYears.slice(0, 3).forEach(year => {
       const count = years[year].length;
       const li = document.createElement('li');
-      li.innerHTML = `<a href="#archives">${year}年 <span>${count}篇</span></a>`;
+      li.innerHTML = `<a href="../Blog/archives.html">${year}年 <span>${count}篇</span></a>`;
       li.addEventListener('click', () => {
         // 这里可以添加点击年份后的操作
       });

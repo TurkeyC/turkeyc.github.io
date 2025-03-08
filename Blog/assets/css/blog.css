@@ -129,10 +129,6 @@ body {
     font-size: 1.25rem;
 }
 
-.back-home {
-    margin-top: 2rem;
-}
-
 /* 侧边栏切换按钮样式 - 精确对齐 */
 .sidebar-toggle {
     position: fixed;

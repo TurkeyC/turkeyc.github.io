@@ -1,0 +1,76 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <!-- 复用与 index.html 相同的头部信息 -->
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <link rel="shortcut icon" type="image/x-icon" href="../favicon.ico" />
+  <link rel="stylesheet" href="https://unicons.iconscout.com/release/v3.0.6/css/line.css" />
+  <link rel="stylesheet" href="../assets/css/styles.css" />
+  <link rel="stylesheet" href="assets/css/blog.css" />
+  <link rel="stylesheet" href="assets/css/archives.css" /> <!-- 新增归档页面样式 -->
+  <title>博客归档 - CaoTurkey的博客</title>
+  <link rel="stylesheet" href="../assets/css/swiper-bundle.min.css" />
+  <script src="../assets/js/swiper-bundle.min.js"></script>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/11.7.0/styles/github.min.css">
+  <script src="assets/js/highlight.min.js"></script>
+
+</head>
+<body>
+  <div class="blog-container">
+    <!-- 左侧栏 -->
+      <aside class="sidebar">
+        <div class="profile">
+          <div class="profile-img">
+            <img src="assets/img/caoturkey.png" alt="头像" />
+          </div>
+          <h2 class="profile-name">CaoTurkey</h2>
+          <p class="profile-bio">开源开发者 | 生物医学工程</p>
+        </div>
+        <nav class="nav-menu">
+          <ul>
+            <li><a href="../Blog/#"><i class="uil uil-estate"></i> 主页</a></li>
+            <li><a href="../Blog/archives.html" class="active"><i class="uil uil-archive"></i> 归档</a></li>
+            <li><a href="../Blog/search.html" id="search-toggle"><i class="uil uil-search"></i> 搜索</a></li>
+            <li><a href="#" id="theme-toggle"><i class="uil uil-moon"></i> 暗色模式</a></li>
+            <li><a href="../index.html" id="back-home"><i class="uil uil-arrow-left"></i> 返回主站</a></li>
+          </ul>
+        </nav>
+      </aside>
+    <!-- 侧边栏切换按钮 -->
+    <div class="sidebar-toggle">
+      <i class="uil uil-angle-left-b"></i>
+    </div>
+
+
+    <!-- 中央内容区 -->
+    <main class="content">
+      <div class="archives-header">
+        <h1>博客归档</h1>
+      </div>
+
+      <!-- 归档筛选条件 -->
+      <div class="archive-filters">
+        <div class="filter-group">
+          <button class="filter-btn active" data-filter="time">按时间</button>
+          <button class="filter-btn" data-filter="category">按分类</button>
+          <button class="filter-btn" data-filter="tag">按标签</button>
+          <button class="filter-btn" data-filter="directory">按目录</button>
+        </div>
+      </div>
+
+      <!-- 归档内容容器 -->
+      <div id="archives-container" class="archives-container">
+        <div class="loading">加载中...</div>
+      </div>
+    </main>
+
+    <!-- 右侧栏可选，或简化版 -->
+  </div>
+
+  <!-- 脚本 -->
+  <script src="../assets/js/main.js"></script>
+  <script src="assets/js/marked.min.js"></script>
+  <script src="assets/js/archives.js"></script><!-- 新增归档页面控制脚本 -->
+</body>
+</html>
