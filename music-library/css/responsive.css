@@ -1,0 +1,69 @@
+@media (max-width: 768px) {
+  .main-nav {
+    flex-direction: column;
+    padding: 10px;
+  }
+
+  .nav-links {
+    margin: 10px 0;
+    width: 100%;
+    justify-content: space-around;
+  }
+
+  .search-container {
+    width: 100%;
+    margin-top: 10px;
+  }
+
+  .search-container input {
+    width: 70%;
+  }
+
+  .search-container button {
+    width: 30%;
+  }
+
+  #app {
+    margin-top: 140px;
+  }
+
+  .player-container {
+    flex-direction: column;
+    height: auto;
+    padding: 10px;
+  }
+
+  .song-info {
+    width: 100%;
+    margin-bottom: 10px;
+  }
+
+  .player-controls {
+    width: 100%;
+  }
+
+  .volume-container {
+    margin: 10px 0 0 0;
+    width: 100%;
+    justify-content: center;
+  }
+}
+
+@media (max-width: 480px) {
+  .music-grid {
+    grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
+    gap: 10px;
+  }
+
+  .music-card img {
+    height: 140px;
+  }
+
+  .nav-links {
+    flex-wrap: wrap;
+  }
+
+  .nav-links li {
+    margin: 5px;
+  }
+}

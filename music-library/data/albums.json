@@ -1,0 +1,22 @@
+{
+  "albums": [
+    {
+      "id": "alb001",
+      "title": "示例专辑1",
+      "artist": "示例艺术家1",
+      "artistId": "a001",
+      "cover": "https://图片外链地址.jpg",
+      "year": 2023,
+      "songs": ["s001"]
+    },
+    {
+      "id": "alb002",
+      "title": "示例专辑2",
+      "artist": "示例艺术家2",
+      "artistId": "a002",
+      "cover": "https://图片外链地址2.jpg",
+      "year": 2022,
+      "songs": ["s002"]
+    }
+  ]
+}
