@@ -1,26 +1,8 @@
 {
   "categories": [
     {
-      "name": "dev-notes",
-      "path": "dev-notes",
-      "files": [
-        "网站开发日志.md",
-        "阿里云Linux服务器配置过程.md"
-      ],
-      "subcategories": []
-    },
-    {
-      "name": "repost",
-      "path": "repost",
-      "files": [
-        "提问的智慧.md",
-        "考试脑科学.md"
-      ],
-      "subcategories": []
-    },
-    {
-      "name": "test",
-      "path": "test",
+      "name": "博客测试文件",
+      "path": "博客测试文件",
       "files": [
         "post1.md",
         "post2.md",
@@ -38,21 +20,12 @@
       ]
     },
     {
-      "name": "tutorials",
-      "path": "tutorials",
+      "name": "网站开发相关",
+      "path": "网站开发相关",
       "files": [
-        "ceshi.md"
+        "网站开发日志.md"
       ],
-      "subcategories": [
-        {
-          "name": "frontend",
-          "path": "frontend",
-          "files": [
-            "js基础.md"
-          ],
-          "subcategories": []
-        }
-      ]
+      "subcategories": []
     },
     {
       "name": "自由探索",
@@ -60,14 +33,31 @@
       "files": [],
       "subcategories": [
         {
-          "name": "关于AI的一些尝试",
-          "path": "关于AI的一些尝试",
+          "name": "Linux尝试",
+          "path": "Linux尝试",
+          "files": [
+            "阿里云Linux服务器配置过程.md"
+          ],
+          "subcategories": []
+        },
+        {
+          "name": "关于AI的尝试",
+          "path": "关于AI的尝试",
           "files": [
             "关于DeepSeek-R1-Distill-Llama-8B的本地模型部署的记录.md"
           ],
           "subcategories": []
         }
       ]
+    },
+    {
+      "name": "转载与笔记",
+      "path": "转载与笔记",
+      "files": [
+        "提问的智慧.md",
+        "考试脑科学.md"
+      ],
+      "subcategories": []
     }
   ],
   "uncategorized": [
