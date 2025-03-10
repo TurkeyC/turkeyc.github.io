@@ -1,6 +1,36 @@
 {
   "sections": [
     {
+      "id": "my-website",
+      "title": "本站相关",
+      "sites": [
+        {
+          "name": "CaoTurkey的个人主页",
+          "url": "https://turkeyc.github.io",
+          "icon": "https://turkeyc.github.io/favicon.ico",
+          "description": "我的主站点."
+        },
+        {
+          "name": "CaoTurkey的导航站",
+          "url": "https://turkeyc.github.io/Navigation_Station",
+          "icon": "https://turkeyc.github.io/favicon.ico",
+          "description": "就是这里."
+        },
+        {
+          "name": "CaoTurkey的博客",
+          "url": "https://turkeyc.github.io/Blog",
+          "icon": "https://turkeyc.github.io/favicon.ico",
+          "description": "随手记记."
+        },
+        {
+          "name": "CaoTurkey的曲库",
+          "url": "https://turkeyc.github.io/Muse",
+          "icon": "https://turkeyc.github.io/favicon.ico",
+          "description": "还没建好呢."
+        }
+      ]
+    },
+    {
       "id": "AI-Platforms",
       "title": "AI平台",
       "sites": [
