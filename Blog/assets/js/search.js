@@ -242,7 +242,7 @@ document.addEventListener('DOMContentLoaded', () => {
     `;
 
         postCard.addEventListener('click', () => {
-            window.location.href = `post.html?id=${post.id}`;
+            window.location.href = `post.html?filename=${encodeURIComponent(post.filename)}`;
         });
 
         return postCard;
@@ -453,7 +453,7 @@ document.addEventListener('DOMContentLoaded', () => {
         `;
 
         postCard.addEventListener('click', () => {
-            window.location.href = `post.html?id=${post.id}`;
+            window.location.href = `post.html?filename=${encodeURIComponent(post.filename)}`;
         });
 
         return postCard;
