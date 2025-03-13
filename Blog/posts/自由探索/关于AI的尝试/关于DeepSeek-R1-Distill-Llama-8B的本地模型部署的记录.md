@@ -1,8 +1,8 @@
 --- 
 title: 关于DeepSeek-R1的本地模型部署的记录
-date:2025-02-08
-tags:[开发日志,AI]
-category:原创 
+date: 2025-02-08
+tags: [开发日志,AI]
+category: 原创 
 pinned: false
 ---
 
