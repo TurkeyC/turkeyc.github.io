@@ -20,6 +20,21 @@
       ]
     },
     {
+      "name": "学习与回顾",
+      "path": "学习与回顾",
+      "files": [],
+      "subcategories": [
+        {
+          "name": "其名为何",
+          "path": "其名为何",
+          "files": [
+            "回顾：从202409至202503.md"
+          ],
+          "subcategories": []
+        }
+      ]
+    },
+    {
       "name": "网站开发相关",
       "path": "网站开发相关",
       "files": [
