@@ -45,7 +45,9 @@
           "name": "关于AI的尝试",
           "path": "关于AI的尝试",
           "files": [
-            "关于DeepSeek-R1-Distill-Llama-8B的本地模型部署的记录.md"
+            "关于DeepResearch的尝试.md",
+            "关于DeepSeek-R1-Distill-Llama-8B的本地模型部署的记录.md",
+            "西瓜书学习计划.md"
           ],
           "subcategories": []
         }
