@@ -1,5 +1,5 @@
 ---
-title: 有趣的技术文章 - 我的第2篇博客
+title: 【博客测试文件】有趣的技术文章 - 我的第2篇博客
 date: 2021-05-15
 tags: [技术分析, JavaScript, 前端]
 category: 转载
