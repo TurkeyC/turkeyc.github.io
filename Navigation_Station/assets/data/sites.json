@@ -31,8 +31,8 @@
       ]
     },
     {
-      "id": "AI-Platforms",
-      "title": "AI平台",
+      "id": "AI-Assistant",
+      "title": "AI助手",
       "sites": [
         {
           "name": "Kimi",
@@ -99,6 +99,90 @@
           "url": "https://yuewen.cn/chats/",
           "icon": "https://yuewen.cn/svg/favicon.svg",
           "description": "阶跃星辰开发的多模态AI聊天机器人。"
+        }
+      ]
+    },
+    {
+      "id": "AI-Development",
+      "title": "AI开发",
+      "sites": [
+        {
+          "name": "Dify_",
+          "url": "https://dify.ai/",
+          "icon": "https://assets.dify.ai/images/dify_logo_white.png",
+          "description": "一个集成了AI能力的开源开发者平台，帮助快速构建智能应用。"
+        },
+        {
+          "name": "RAGFlow",
+          "url": "https://ragflow.io/",
+          "icon": "https://ragflow.io/img/logo.svg",
+          "description": "一款基于AI的文档分析与知识提取工具，助力高效信息处理。"
+        },
+        {
+          "name": "LobeChat",
+          "url": "https://lobehub.com/",
+          "icon": "https://lobehub.com/_next/static/media/logo.98482105.png",
+          "description": "一个专注于对话式AI的开发平台，轻松构建智能聊天机器人。"
+        },
+        {
+          "name": "LM Studio",
+          "url": "https://lmstudio.ai/",
+          "icon": "https://lmstudio.ai/_next/image?url=%2F_next%2Fstatic%2Fmedia%2Flmstudio-app-logo.61cb7d80.webp&w=3840&q=75",
+          "description": "一个本地化的大语言模型开发与运行环境，助力高效AI实验。"
+        },
+        {
+          "name": "Ollama",
+          "url": "https://ollama.com/",
+          "icon": "https://ollama.com/public/ollama.png",
+          "description": "一个轻量级的AI模型管理工具，支持快速部署和运行大语言模型。"
+        },
+        {
+          "name": "Cherry Studio",
+          "url": "https://cherry-ai.com/",
+          "icon": "https://cherry-ai.com/assets/cherry_logo-DWMVjalI.png",
+          "description": "一款支持多语言模型服务商的开源桌面客户端。"
+        },
+        {
+          "name": "SillyTavern",
+          "url": "https://sillytavern.app/",
+          "icon": "https://sillytavern.app/img/logo.png",
+          "description": "一个轻量级的对话生成与创意写作工具。"
+        },
+        {
+          "name": "Tripo3d",
+          "url": "https://www.tripo3d.ai/",
+          "icon": "https://www.tripo3d.ai/favicon.ico",
+          "description": "一款专注于3D建模与设计的工具。"
+        }
+      ]
+    },
+    {
+      "id": "AI-Platforms",
+      "title": "AI开放平台",
+      "sites": [
+        {
+          "name": "Moonshot AI",
+          "url": "https://platform.moonshot.cn/",
+          "icon": "https://platform.moonshot.cn/logo.png",
+          "description": "Kimi的API开放平台。"
+        },
+        {
+          "name": "智谱AI开放平台",
+          "url": "https://bigmodel.cn/",
+          "icon": "https://bigmodel.cn/favicon.ico",
+          "description": "智谱AI开放平台。"
+        },
+        {
+          "name": "讯飞开放平台",
+          "url": "https://console.xfyun.cn/",
+          "icon": "https://console.xfyun.cn/favicon.ico",
+          "description": "讯飞开放平台。"
+        },
+        {
+          "name": "Deepseek开放平台",
+          "url": "https://platform.deepseek.com/",
+          "icon": "https://platform.deepseek.com/favicon.ico",
+          "description": "Deepseek开放平台。"
         }
       ]
     },
@@ -195,6 +279,12 @@
           "url": "https://www.stackoverflow.com",
           "icon": "https://www.stackoverflow.com/favicon.ico",
           "description": "A community of developers helping each other."
+        },
+        {
+          "name": "HF-Mirror",
+          "url": "https://hf-mirror.com/",
+          "icon": "https://hf-mirror.com/favicon.ico",
+          "description": "一个提供Hugging Face模型镜像下载的站点。"
         }
       ]
     },
