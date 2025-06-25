@@ -1,0 +1,496 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta http-equiv="Content-Type" content="text/html; charset=UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1.0,maximum-scale=1.0,user-scalable=0"/>
+    <title>校园网登录</title>
+    <style>
+        html, body {
+            height: 100%;
+            width: 100%;
+            margin: 0;
+            padding: 0;
+            font-family: "Microsoft YaHei",serif;
+        }
+
+        * {
+            margin: 0;
+            padding: 0;
+        }
+
+        img, a {
+            border-width: 0;
+        }
+
+        input {
+            outline: none;
+        }
+
+        ::-ms-clear, ::-ms-reveal {
+            display: none;
+        }
+
+        /* 添加一个白色背景层，覆盖通知容器以下区域 */
+        .white_bg_layer {
+            position: fixed;
+            top: calc(100% - 258px); /* 固定顶部位置，确保高度始终为258px */
+            left: 0;
+            right: 0;
+            bottom: 0;
+            background-color: #fff;
+            z-index: -1; /* 高于背景图片但低于其他内容 */
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+            width: 100%;
+            height: 100vh; /* 使用视口高度确保覆盖 */
+        }
+
+        #web_bg {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            z-index: -2; /* 修改为更低的层级 */
+            top: 0;
+            left: 0;
+            overflow: hidden;
+        }
+
+        #web_bg img {
+            position: fixed;
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        #logo {
+            padding-left: 20px;
+            padding-top: 20px;
+            display: flex;
+            align-items: center;
+        }
+
+        .input_box {
+            position: relative;
+            width: 300px;
+            height: 40px;
+            background-color: #fff;
+            border-radius: 5px;
+            margin-bottom: 15px;
+        }
+
+        .input_box input {
+            width: 270px;
+            height: 40px;
+            border: none;
+            padding: 0 15px;
+            font-size: 16px;
+            border-radius: 5px;
+        }
+
+        .input_box .clear_btn {
+            position: absolute;
+            right: 10px;
+            top: 10px;
+            width: 20px;
+            height: 20px;
+            background-color: #ccc;
+            border-radius: 50%;
+            color: #fff;
+            text-align: center;
+            line-height: 20px;
+            cursor: pointer;
+        }
+
+        .login_container {
+            position: absolute;
+            right: 10%;
+            top: 15%;
+            width: 350px;
+            z-index: 15;
+        }
+
+        .login_title {
+            color: #fff;
+            font-size: 24px;
+            margin-bottom: 30px;
+        }
+
+        .login_btn {
+            width: 300px;
+            height: 45px;
+            background-color: #4cd964;
+            border-radius: 22.5px;
+            color: #fff;
+            font-size: 18px;
+            line-height: 45px;
+            text-align: center;
+            cursor: pointer;
+            margin-top: 10px;
+        }
+
+        .remember_pwd {
+            margin-bottom: 20px;
+            color: #fff;
+        }
+
+        .qrcode_container {
+            position: absolute;
+            left: 15%;
+            top: 20%;
+            width: 370px;
+            height: 300px;
+        }
+
+        .notice_container {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            background-color: #fff;
+            padding: 15px 0 65px 0;
+        }
+
+        .notice_title {
+            font-size: 18px;
+            color: #333;
+            margin-bottom: 10px;
+            text-align: center;
+            position: relative;
+            display: inline-block;
+        }
+
+        .notice_title::after {
+            content: "";
+            position: absolute;
+            width: 21px;
+            height: 15px;
+            background: url(./assets/portal.png) -126px -81px no-repeat;
+            margin-left: 5px;
+            top: 7px;
+        }
+
+        .notice_content {
+            color: red;
+            line-height: 2.0;
+            text-align: left;
+            padding: 0 15%;
+            font-size: 12px;
+        }
+
+        .footer {
+            position: absolute;
+            bottom: 0;
+            width: 100%;
+            text-align: center;
+            color: #666;
+            font-size: 12px;
+            padding: 10px 0;
+            border-top: 1px solid #eee;
+            background-color: #fff;
+            z-index: 10;
+        }
+
+        .campus_title {
+            color: #fff;
+            font-size: 20px;
+        }
+
+        .campus_subtitle {
+            color: #fff;
+            font-size: 12px;
+            margin-top: 5px;
+        }
+
+        #loginLink_div {
+            width: 300px;
+            height: 45px;
+            background-color: #4cd964;
+            border-radius: 22.5px;
+            color: #fff;
+            font-size: 18px;
+            line-height: 45px;
+            text-align: center;
+            cursor: pointer;
+        }
+
+        /* 横屏适配样式 - 保持形状和文字效果不变的方案 */
+        @media screen and (orientation: landscape) {
+            /* 基础布局使用百分比保持相对位置 */
+            .qrcode_container {
+                left: 15%;
+                top: 20%;
+                width: 370px;
+                height: auto;
+                transform-origin: left top;
+            }
+
+            .login_container {
+                right: 10%;
+                top: 15%;
+                width: 350px;
+                transform-origin: right top;
+            }
+
+            /* 登录容器内的元素保持原有形状和大小 */
+            .login_title {
+                font-size: 24px;
+                margin-bottom: 30px;
+            }
+
+            .input_box {
+                width: 300px;
+                height: 40px;
+                margin-bottom: 15px;
+            }
+
+            .input_box input {
+                width: 270px;
+                height: 40px;
+                font-size: 16px;
+            }
+
+            .input_box .clear_btn {
+                right: 10px;
+                top: 10px;
+                width: 20px;
+                height: 20px;
+                line-height: 20px;
+            }
+
+            .remember_pwd {
+                margin-bottom: 20px;
+                font-size: 12px;
+            }
+
+            #loginLink_div, .login_btn {
+                width: 300px;
+                height: 45px;
+                line-height: 45px;
+                font-size: 18px;
+                border-radius: 22.5px;
+            }
+
+            /* 通知容器内的元素保持原有形状和大小 */
+            .notice_container {
+                padding: 15px 0 65px 0;
+            }
+
+            .notice_title {
+                font-size: 18px;
+                margin-bottom: 10px;
+            }
+
+            .notice_content {
+                font-size: 12px;
+                line-height: 2.0;
+                padding: 0 15%;
+            }
+
+            .footer {
+                padding: 10px 0;
+                font-size: 12px;
+            }
+        }
+    </style>
+</head>
+<body>
+<div id="web_bg">
+    <img src="./assets/bg.jpg" alt="背景图片">
+</div>
+
+<header>
+    <div id="logo">
+        <img src="./assets/logo.png" alt="校园网">
+    </div>
+</header>
+
+<!-- 左侧二维码区域 -->
+<div class="qrcode_container">
+    <img src="./assets/123.png" style="width: 100%;" alt="华中大微校园">
+</div>
+
+<!-- 右侧登录区域 -->
+<div class="login_container">
+    <div class="login_title">连接网络</div>
+    <div class="input_box">
+        <input type="text" id="username" placeholder="用户名">
+        <div class="clear_btn" id="username_clear">×</div>
+    </div>
+    <div class="input_box">
+        <input type="password" id="password" placeholder="密码">
+        <div class="clear_btn" id="password_clear">×</div>
+    </div>
+    <div class="remember_pwd">
+        <input type="checkbox" id="remember_pwd" checked>
+        <label for="remember_pwd">记住密码</label>
+    </div>
+    <div class="login_btn" id="loginLink_div">连接 Login</div>
+</div>
+
+<!-- 通知公告区域 -->
+<div class="notice_container">
+    <div style="text-align: left; padding-left: 15%;">
+        <span class="notice_title">通知公告</span>
+    </div>
+    <div class="notice_content">
+        <p>"记住密码"功能请勿在他人设备上使用，请注意保护校园网密码安全。</p>
+        <p>请确保校园网终端在接入校园网之前已安装杀毒软件，并定期更新病毒库，完成病毒查杀工作。</p>
+        <p>校园网服务电话: 82668837 (主校区) 83692655 (同济校区)</p>
+        <p>主校区服务点: 网生服务中心2号窗口, 工程实践创新中心A座203</p>
+        <p>同济校区服务点: 同济校区网生服务中心4号窗口</p>
+        <p>自助服务链接: myself.hust.edu.cn</p>
+    </div>
+</div>
+
+<div class="white_bg_layer"></div>
+
+<footer class="footer">
+    华中科技大学网络与计算中心&copy;<span id="year"></span>
+</footer>
+
+<script>
+    document.getElementById("year").textContent = new Date().getFullYear();
+
+    // 清除按钮功能
+    document.getElementById("username_clear").onclick = function() {
+        document.getElementById("username").value = "";
+        document.getElementById("username").focus();
+    };
+
+    document.getElementById("password_clear").onclick = function() {
+        document.getElementById("password").value = "";
+        document.getElementById("password").focus();
+    };
+
+    // 登录按钮效果
+    document.getElementById("loginLink_div").onmouseover = function() {
+        this.style.backgroundColor = "#3cc755";
+    };
+
+    document.getElementById("loginLink_div").onmouseout = function() {
+        this.style.backgroundColor = "#4cd964";
+    };
+
+    // 横屏适配 - 所有元素统一缩放
+    function adjustForLandscape() {
+        // 判断是否横屏
+        const isLandscape = window.innerWidth > window.innerHeight;
+
+        // 获取背景元素，将在处理缩放前移除它
+        const webBg = document.getElementById('web_bg');
+        const parentElement = webBg.parentNode;
+
+        if (isLandscape) {
+            // 基准尺寸
+            const baseWidth = 1272;
+            const baseHeight = 721;
+
+            // 计算缩放比例，增加略微的放大确保无白边
+            const scale = Math.min(window.innerWidth / baseWidth, window.innerHeight / baseHeight);
+
+            // 创建或获取缩放容器
+            let scaleContainer = document.getElementById('scale-container');
+            if (!scaleContainer) {
+                // 首次创建缩放容器
+                scaleContainer = document.createElement('div');
+                scaleContainer.id = 'scale-container';
+                scaleContainer.style.position = 'absolute';
+                scaleContainer.style.width = baseWidth + 'px';
+                scaleContainer.style.height = baseHeight + 'px';
+                scaleContainer.style.transformOrigin = 'top left';
+                scaleContainer.style.zIndex = '1';
+
+                // 移除背景元素，不要将它包含在缩放容器内
+                if (webBg.parentNode) {
+                    webBg.parentNode.removeChild(webBg);
+                }
+
+                // 将原始元素移入缩放容器
+                const body = document.body;
+
+                // 临时存储需要移动的元素
+                const elementsToMove = [];
+                for (let i = 0; i < body.childNodes.length; i++) {
+                    const child = body.childNodes[i];
+                    if (child.id !== 'scale-container' && child.id !== 'web_bg') {
+                        elementsToMove.push(child);
+                    }
+                }
+
+                // 将元素移入缩放容器（除了背景）
+                elementsToMove.forEach(element => {
+                    scaleContainer.appendChild(element);
+                });
+
+                // 将背景元素添加回body
+                body.appendChild(webBg);
+
+                // 将缩放容器添加到body
+                body.appendChild(scaleContainer);
+            }
+
+            // 应用缩放
+            scaleContainer.style.transform = `scale(${scale})`;
+
+            // 居中显示内容
+            const scaledWidth = baseWidth * scale;
+            const scaledHeight = baseHeight * scale;
+            const leftMargin = Math.max(0, (window.innerWidth - scaledWidth) / 2);
+            const topMargin = Math.max(0, (window.innerHeight - scaledHeight) / 2);
+
+            scaleContainer.style.left = leftMargin + 'px';
+            scaleContainer.style.top = topMargin + 'px';
+
+            // 确保背景元素置于最底层且填满视口
+            webBg.style.position = 'fixed';
+            webBg.style.top = '0';
+            webBg.style.left = '0';
+            webBg.style.width = '100%';
+            webBg.style.height = '100%';
+            webBg.style.zIndex = '-1';
+
+            // 应用一个额外的样式到body，确保没有白边
+            document.body.style.overflow = 'hidden';
+            document.body.style.backgroundColor = '#fff'; // 添加白色背景填充可能的空白
+        } else {
+            // 竖屏模式，恢复原始布局
+            let scaleContainer = document.getElementById('scale-container');
+            if (scaleContainer) {
+                // 首先将背景元素移出body，确保不会重复
+                if (webBg.parentNode) {
+                    webBg.parentNode.removeChild(webBg);
+                }
+
+                // 将所有元素从缩放容器移回body
+                const body = document.body;
+                while (scaleContainer.childNodes.length > 0) {
+                    body.appendChild(scaleContainer.childNodes[0]);
+                }
+
+                // 确保背景元素位于其他元素之前
+                body.insertBefore(webBg, body.firstChild);
+
+                // 最后移除缩放容器
+                if (scaleContainer.parentNode) {
+                    scaleContainer.parentNode.removeChild(scaleContainer);
+                }
+            }
+
+            // 恢复背景元素的默认样式
+            webBg.removeAttribute('style');
+
+            // 恢复body样式
+            document.body.style.overflow = '';
+            document.body.style.backgroundColor = '';
+        }
+    }
+
+    // 页面加载完成后立即调整布局
+    window.addEventListener('DOMContentLoaded', adjustForLandscape);
+
+    // 监听屏幕大小和方向变化
+    window.addEventListener('resize', adjustForLandscape);
+    window.addEventListener('orientationchange', adjustForLandscape);
+</script>
+</body>
+</html>
