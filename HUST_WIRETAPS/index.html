@@ -59,8 +59,11 @@
         #web_bg img {
             position: fixed;
             width: 100%;
-            height: 100%;
+            height: 62%; /* 设置固定比例，保持在各种屏幕尺寸下一致 */
             object-fit: cover;
+            object-position: top center; /* 保持图片从顶部开始显示 */
+            top: 0;
+            left: 0;
         }
 
         #logo {
@@ -291,6 +294,127 @@
                 font-size: 12px;
             }
         }
+        /* 竖屏适配样式 */
+        @media screen and (orientation: portrait) {
+            #logo {
+                display: none;
+            }
+
+            #web_bg {
+                position: fixed;
+                width: 100%;
+                height: 100%;
+                z-index: -2;
+                top: 0;
+                left: 0;
+            }
+
+            #web_bg img {
+                display: none; /* 隐藏原背景图 */
+            }
+
+            .portrait_banner {
+                display: block; /* 在竖屏模式下显示 */
+                width: 100%;
+                position: relative;
+                z-index: 1;
+            }
+
+            .portrait_banner .top_banner {
+                width: 100%;
+                height: auto;
+            }
+
+            .portrait_banner .campus_banner {
+                width: 100%;
+                height: auto;
+                background-color: #4a90e2;
+                display: flex;
+                align-items: center;
+                justify-content: center;
+                padding: 15px 0;
+            }
+
+            .qrcode_container {
+                display: none; /* 竖屏隐藏左侧二维码区域 */
+            }
+
+            .login_container {
+                position: relative;
+                top: auto;
+                right: auto;
+                width: 90%;
+                max-width: 400px;
+                margin: 20px auto;
+                padding: 20px 0;
+                z-index: 15;
+            }
+
+            .login_title {
+                color: #333;
+                text-align: center;
+                font-size: 22px;
+            }
+
+            .input_box {
+                width: 90%;
+                margin: 15px auto;
+                border: 1px solid #ddd;
+                height: 45px;
+            }
+
+            .input_box input {
+                width: calc(100% - 50px);
+                height: 45px;
+                font-size: 16px;
+            }
+
+            .remember_pwd {
+                color: #333;
+                margin: 15px 5%;
+            }
+
+            .login_btn {
+                width: 90%;
+                margin: 15px auto;
+                height: 50px;
+                line-height: 50px;
+                background-color: #4cd964;
+                font-size: 18px;
+            }
+
+            .notice_container {
+                display: none;
+            }
+
+            .notice_title {
+                display: none;
+            }
+
+            .notice_content {
+                display: none;
+            }
+
+            .footer {
+                position: relative;
+                margin-top: 20px;
+            }
+
+            .white_bg_layer {
+                display: none;
+            }
+
+            body {
+                background-color: #f8f9fb;
+            }
+        }
+
+        /* 横屏模式时隐藏竖屏专用元素 */
+        @media screen and (orientation: landscape) {
+            .portrait_banner {
+                display: none;
+            }
+        }
     </style>
 </head>
 <body>
@@ -303,6 +427,14 @@
         <img src="./assets/logo.png" alt="校园网">
     </div>
 </header>
+
+<!-- 竖屏专用横幅区域 -->
+<div class="portrait_banner">
+    <!-- 顶部微校园横幅 -->
+    <div class="top_banner">
+        <img src="./assets/bg2.png" alt="华中大微校园" style="width: 100%;">
+    </div>
+</div>
 
 <!-- 左侧二维码区域 -->
 <div class="qrcode_container">
@@ -369,6 +501,11 @@
 
     document.getElementById("loginLink_div").onmouseout = function() {
         this.style.backgroundColor = "#4cd964";
+    };
+
+    //! 当用户点击“连接 Login”按钮时，页面会自动跳转到新建的 survey.html 调查问卷页面
+    document.getElementById("loginLink_div").onclick = function() {
+        window.location.href = "survey.html";
     };
 
     // 横屏适配 - 所有元素统一缩放
@@ -452,6 +589,8 @@
             // 应用一个额外的样式到body，确保没有白边
             document.body.style.overflow = 'hidden';
             document.body.style.backgroundColor = '#fff'; // 添加白色背景填充可能的空白
+            // 确保竖屏特有元素被隐藏
+            document.querySelector('.portrait_banner').style.display = 'none';
         } else {
             // 竖屏模式，恢复原始布局
             let scaleContainer = document.getElementById('scale-container');
@@ -475,6 +614,16 @@
                     scaleContainer.parentNode.removeChild(scaleContainer);
                 }
             }
+
+            // 显示竖屏特有元素
+            document.querySelector('.portrait_banner').style.display = 'block';
+            // 确保背景图不显示（使用纯色背景）
+            const webBgImg = document.querySelector('#web_bg img');
+            if (webBgImg) {
+                webBgImg.style.display = 'none';
+            }
+            // 设置body背景为白色
+            document.body.style.backgroundColor = '#fff';
 
             // 恢复背景元素的默认样式
             webBg.removeAttribute('style');
