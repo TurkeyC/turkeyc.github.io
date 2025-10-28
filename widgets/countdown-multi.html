@@ -92,10 +92,11 @@
     function getColorForDays(days) {
         if (days < 0) {
             // 过去：越近越深，越远越浅
+            // 过去：灰色，越近越深（-1 → 浅灰，-100 → 深灰）
             const daysAgo = Math.abs(days);
-            const clamped = Math.min(daysAgo, 200);
-            const grayValue = Math.round(51 + (221 * (clamped / 200))); // 51 → 272
-            const hex = grayValue.toString(16).padStart(2, '0');
+            const clamped = Math.min(daysAgo, 100);
+            const lightness = 90 - (40 * (clamped / 100)); // 90% → 50%
+            return `hsl(0, 0%, ${lightness}%)`;
             return `#${hex}${hex}${hex}`;
         } else if (days === 0) {
             return '#ff0000'; // 当天：纯红
