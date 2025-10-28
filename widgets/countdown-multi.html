@@ -90,32 +90,32 @@
 
     // 根据天数计算颜色
     function getColorForDays(days) {
-      if (days < 0) {
-        // 过去：灰色，越近越深（-1 → 深灰，-∞ → 浅灰）
+    if (days < 0) {
+        // 过去：灰色，越近越深（-1 → 浅灰，-100 → 深灰）
         const daysAgo = Math.abs(days);
-        // 限制在 0~100 天内映射，超过 100 天视为最浅
         const clamped = Math.min(daysAgo, 100);
-        const lightness = 70 + (30 * (1 - clamped / 100)); // 70% ~ 100%
+        const lightness = 90 - (40 * (clamped / 100)); // 90% → 50%
         return `hsl(0, 0%, ${lightness}%)`;
-      } else if (days === 0) {
+    } else if (days === 0) {
         return '#000000'; // 今天：黑色
-      } else if (days <= 15) {
-        // 0~15天：红 → 深红（越近越红）
+    } else if (days <= 15) {
+        // 0~15天：红 → 深红（越近越深）
         const ratio = days / 15; // 0=今天, 1=15天
-        const lightness = 40 + (20 * ratio); // 40% ~ 60%
+        const lightness = 60 - (20 * ratio); // 60% → 40% （越近越暗）
         return `hsl(0, 80%, ${lightness}%)`;
-      } else if (days <= 60) {
-        // 16~60天：橙 → 黄
+    } else if (days <= 60) {
+        // 16~60天：橙 → 黄（越远越亮）
         const ratio = (days - 15) / 45; // 0=16天, 1=60天
         const hue = 30 + (30 * (1 - ratio)); // 60(黄) → 30(橙)
-        return `hsl(${hue}, 80%, 50%)`;
-      } else {
-        // >60天：蓝，越远越浅蓝
+        const lightness = 50 + (20 * ratio); // 50% → 70% （越远越亮）
+        return `hsl(${hue}, 80%, ${lightness}%)`;
+    } else {
+        // >60天：蓝，越远越浅
         const extra = days - 60;
-        const clamped = Math.min(extra, 200); // 最多考虑200天额外
+        const clamped = Math.min(extra, 200);
         const lightness = 50 + (30 * Math.min(clamped / 200, 1)); // 50% → 80%
         return `hsl(210, 80%, ${lightness}%)`;
-      }
+    }
     }
 
     function renderEvents() {
