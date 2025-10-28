@@ -35,7 +35,6 @@
     }
 
     .event-info {
-      /* 左侧：标题 + 日期 */
       flex: 1;
     }
     .event-title {
@@ -49,18 +48,12 @@
     }
 
     .event-days {
-      /* 右侧：倒计时天数 */
       font-size: 20px;
       font-weight: bold;
-      min-width: 60px; /* 保证数字右对齐时有一定宽度 */
+      min-width: 60px;
       text-align: right;
       margin-left: 12px;
-    }
-    .completed {
-      color: #27ae60 !important;
-    }
-    .today {
-      color: #2980b9 !important;
+      /* 颜色由 JS 动态设置 */
     }
   </style>
 </head>
@@ -71,19 +64,16 @@
   </div>
 
   <script>
-    // 解析 URL 中的 events 参数
     function parseEventsFromUrl() {
       const params = new URLSearchParams(window.location.search);
       const eventsParam = params.get('events');
-      
       if (!eventsParam) {
         return [
-          { title: '高考', date: '2025-06-07' },
-          { title: '生日', date: '2024-12-25' },
-          { title: '新年', date: '2025-01-01' }
+          { title: '高考', date: '2026-06-07' },
+          { title: '生日', date: '2026-12-12' },
+          { title: '新年', date: '2026-01-01' }
         ];
       }
-
       return eventsParam.split('|').map(pair => {
         const [title, date] = pair.split(':');
         return { title, date };
@@ -98,44 +88,84 @@
       return Math.floor((targetStart - nowStart) / (1000 * 60 * 60 * 24));
     }
 
+    // 根据天数计算颜色
+    function getColorForDays(days) {
+      if (days < 0) {
+        // 过去：灰色，越近越深（-1 → 深灰，-∞ → 浅灰）
+        const daysAgo = Math.abs(days);
+        // 限制在 0~100 天内映射，超过 100 天视为最浅
+        const clamped = Math.min(daysAgo, 100);
+        const lightness = 70 + (30 * (1 - clamped / 100)); // 70% ~ 100%
+        return `hsl(0, 0%, ${lightness}%)`;
+      } else if (days === 0) {
+        return '#000000'; // 今天：黑色
+      } else if (days <= 15) {
+        // 0~15天：红 → 深红（越近越红）
+        const ratio = days / 15; // 0=今天, 1=15天
+        const lightness = 40 + (20 * ratio); // 40% ~ 60%
+        return `hsl(0, 80%, ${lightness}%)`;
+      } else if (days <= 60) {
+        // 16~60天：橙 → 黄
+        const ratio = (days - 15) / 45; // 0=16天, 1=60天
+        const hue = 30 + (30 * (1 - ratio)); // 60(黄) → 30(橙)
+        return `hsl(${hue}, 80%, 50%)`;
+      } else {
+        // >60天：蓝，越远越浅蓝
+        const extra = days - 60;
+        const clamped = Math.min(extra, 200); // 最多考虑200天额外
+        const lightness = 50 + (30 * Math.min(clamped / 200, 1)); // 50% → 80%
+        return `hsl(210, 80%, ${lightness}%)`;
+      }
+    }
+
     function renderEvents() {
-      const events = parseEventsFromUrl();
+      let events = parseEventsFromUrl().map(event => {
+        const days = calculateDaysDiff(event.date);
+        return { ...event, days };
+      });
+
+      // 排序：未来（含今天）在前，按天数升序；过去在后，按过期天数升序（刚过期的在前）
+      events.sort((a, b) => {
+        const aPast = a.days < 0;
+        const bPast = b.days < 0;
+        if (aPast && !bPast) return 1;   // a 过期，b 未过期 → a 放后
+        if (!aPast && bPast) return -1;  // a 未过期，b 过期 → a 放前
+        if (aPast && bPast) {
+          return a.days - b.days; // -5 vs -10 → -5 更大（更近），放前面
+        }
+        return a.days - b.days; // 未来：天数小的在前
+      });
+
       const container = document.getElementById('events-container');
       container.innerHTML = '';
 
       events.forEach(event => {
-        const days = calculateDaysDiff(event.date);
-        let displayText, className;
-
-        if (days < 0) {
-          displayText = `已过 ${Math.abs(days)} 天`;
-          className = 'completed';
-        } else if (days === 0) {
+        let displayText;
+        if (event.days < 0) {
+          displayText = `已过 ${Math.abs(event.days)} 天`;
+        } else if (event.days === 0) {
           displayText = '就是今天！';
-          className = 'today';
         } else {
-          displayText = `${days} 天`;
-          className = '';
+          displayText = `${event.days} 天`;
         }
+
+        const color = getColorForDays(event.days);
 
         const el = document.createElement('div');
         el.className = 'event';
-
         el.innerHTML = `
           <div class="event-info">
             <div class="event-title">${event.title}</div>
             <div class="event-date">${new Date(event.date).toLocaleDateString('zh-CN')}</div>
           </div>
-          <div class="event-days ${className}">${displayText}</div>
+          <div class="event-days" style="color: ${color};">${displayText}</div>
         `;
         container.appendChild(el);
       });
     }
 
-    // 初始渲染
     renderEvents();
 
-    // 每天 0 点自动更新（兼容 Notion）
     function scheduleDailyUpdate() {
       const now = new Date();
       const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
