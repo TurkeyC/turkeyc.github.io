@@ -126,14 +126,9 @@
 
       // 排序：未来（含今天）在前，按天数升序；过去在后，按过期天数升序（刚过期的在前）
       events.sort((a, b) => {
-        const aPast = a.days < 0;
-        const bPast = b.days < 0;
-        if (aPast && !bPast) return 1;   // a 过期，b 未过期 → a 放后
-        if (!aPast && bPast) return -1;  // a 未过期，b 过期 → a 放前
-        if (aPast && bPast) {
-          return a.days - b.days; // -5 vs -10 → -5 更大（更近），放前面
-        }
-        return a.days - b.days; // 未来：天数小的在前
+        const keyA = a.days >= 0 ? a.days : 1000000 + Math.abs(a.days);
+        const keyB = b.days >= 0 ? b.days : 1000000 + Math.abs(b.days);
+        return keyA - keyB;
       });
 
       const container = document.getElementById('events-container');
