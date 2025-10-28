@@ -94,7 +94,7 @@
             // 过去：越近越深，越远越浅
             const daysAgo = Math.abs(days);
             const clamped = Math.min(daysAgo, 200);
-            const grayValue = Math.round(51 + (170 * (clamped / 200))); // 51 → 221
+            const grayValue = Math.round(100 + (100 * (clamped / 200))); // 51 → 221
             const hex = grayValue.toString(16).padStart(2, '0');
             return `#${hex}${hex}${hex}`;
         } else if (days === 0) {
