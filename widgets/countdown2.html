@@ -1,158 +1,139 @@
 <!DOCTYPE html>
 <html lang="zh-CN">
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>加载中...</title>
-    <style>
-        .countdown-container {
-            font-family: -apple-system, BlinkMacSystemFont, 'Segoe UI', sans-serif;
-            background: linear-gradient(135deg, #667eea 0%, #764ba2 100%);
-            border-radius: 12px;
-            padding: 20px;
-            color: white;
-            text-align: center;
-            max-width: 400px;
-            margin: 0 auto;
-            box-shadow: 0 4px 12px rgba(0,0,0,0.1);
-        }
-        
-        .countdown-title {
-            font-size: 1.5em;
-            margin-bottom: 15px;
-            font-weight: 600;
-        }
-        
-        .countdown-display {
-            font-size: 2.5em;
-            font-weight: bold;
-            margin: 15px 0;
-        }
-        
-        .countdown-label {
-            font-size: 1em;
-            opacity: 0.9;
-            margin-bottom: 10px;
-        }
-        
-        .countdown-subtitle {
-            font-size: 0.9em;
-            opacity: 0.7;
-            margin-top: 10px;
-        }
-        
-        .completed {
-            color: #4CAF50;
-        }
-        
-        .days-only {
-            font-size: 3em;
-        }
-
-        .today-date {
-            font-size: 0.8em;
-            opacity: 0.6;
-            margin-top: 5px;
-        }
-    </style>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>多事件倒数日</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background: white;
+      color: #333;
+    }
+    .container {
+      max-width: 320px;
+      margin: 0 auto;
+    }
+    .event {
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .event:last-child {
+      border-bottom: none;
+    }
+    .event-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .event-days {
+      font-size: 20px;
+      font-weight: bold;
+      color: #e74c3c;
+    }
+    .event-date {
+      font-size: 12px;
+      color: #888;
+      margin-top: 2px;
+    }
+    .completed {
+      color: #27ae60 !important;
+    }
+    .today {
+      color: #2980b9 !important;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 16px;
+      font-weight: bold;
+      color: #555;
+    }
+  </style>
 </head>
 <body>
-    <div class="countdown-container">
-        <div class="countdown-title" id="title">距离目标日期</div>
-        <div class="countdown-label" id="targetDate"></div>
-        <div class="countdown-display" id="countdown">--</div>
-        <div class="countdown-subtitle" id="subtitle"></div>
-        <div class="today-date" id="todayDate"></div>
-    </div>
+  <div class="container">
+    <div class="header">重要节点倒计时</div>
+    <div id="events-container"></div>
+  </div>
 
-    <script>
-        // 通过URL参数获取目标日期
-        function getUrlParams() {
-            const params = new URLSearchParams(window.location.search);
-            return {
-                date: params.get('date') || '2024-12-31',
-                title: params.get('title') || '目标日期',
-                mode: params.get('mode') || 'days-only' // detailed 或 days-only
-            };
+  <script>
+    // 解析 URL 中的 events 参数
+    function parseEventsFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const eventsParam = params.get('events');
+      
+      if (!eventsParam) {
+        // 默认事件（可修改）
+        return [
+          { title: '高考', date: '2025-06-07' },
+          { title: '生日', date: '2024-12-25' },
+          { title: '新年', date: '2025-01-01' }
+        ];
+      }
+
+      // 格式: title1:date1|title2:date2
+      return eventsParam.split('|').map(pair => {
+        const [title, date] = pair.split(':');
+        return { title, date };
+      }).filter(e => e.title && e.date);
+    }
+
+    function calculateDaysDiff(targetDateStr) {
+      const target = new Date(targetDateStr);
+      const now = new Date();
+      const targetStart = new Date(target.getFullYear(), target.getMonth(), target.getDate());
+      const nowStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      return Math.floor((targetStart - nowStart) / (1000 * 60 * 60 * 24));
+    }
+
+    function renderEvents() {
+      const events = parseEventsFromUrl();
+      const container = document.getElementById('events-container');
+      container.innerHTML = '';
+
+      events.forEach(event => {
+        const days = calculateDaysDiff(event.date);
+        let displayText, className;
+
+        if (days < 0) {
+          displayText = `已过 ${Math.abs(days)} 天`;
+          className = 'completed';
+        } else if (days === 0) {
+          displayText = '就是今天！';
+          className = 'today';
+        } else {
+          displayText = `${days} 天`;
+          className = '';
         }
 
-        function calculateDaysDiff(targetDate, now) {
-            // 设置为同一天的开始时间，避免时间部分影响天数计算
-            const targetStart = new Date(targetDate.getFullYear(), targetDate.getMonth(), targetDate.getDate());
-            const nowStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
-            
-            return Math.floor((targetStart - nowStart) / (1000 * 60 * 60 * 24));
-        }
+        const el = document.createElement('div');
+        el.className = 'event';
+        el.innerHTML = `
+          <div class="event-title">${event.title}</div>
+          <div class="event-days ${className}">${displayText}</div>
+          <div class="event-date">${new Date(event.date).toLocaleDateString('zh-CN')}</div>
+        `;
+        container.appendChild(el);
+      });
+    }
 
-        function updatePageTitle(daysDiff, eventTitle) {
-            if (daysDiff < 0) {
-                document.title = `${eventTitle}已过${Math.abs(daysDiff)}天`;
-            } else if (daysDiff === 0) {
-                document.title = `${eventTitle}就是今天！`;
-            } else {
-                document.title = `距${eventTitle}还有${daysDiff}天`;
-            }
-        }
+    // 初始渲染
+    renderEvents();
 
-        function updateCountdown() {
-            const params = getUrlParams();
-            const targetDate = new Date(params.date + 'T23:59:59');
-            const now = new Date();
-            
-            // 更新标题和日期显示
-            document.getElementById('title').textContent = `距离${params.title}`;
-            document.getElementById('targetDate').textContent = 
-                `目标日期: ${targetDate.toLocaleDateString('zh-CN')}`;
-            document.getElementById('todayDate').textContent = 
-                `今天: ${now.toLocaleDateString('zh-CN')}`;
-            
-            const daysDiff = calculateDaysDiff(targetDate, now);
-            
-            // 更新网页标题
-            updatePageTitle(daysDiff, params.title);
-            
-            if (daysDiff < 0) {
-                // 日期已过
-                const daysPassed = Math.abs(daysDiff);
-                document.getElementById('countdown').innerHTML = 
-                    `<span class="completed">已过 ${daysPassed} 天</span>`;
-                document.getElementById('subtitle').textContent = '事件已结束';
-            } else if (daysDiff === 0) {
-                // 就是今天
-                document.getElementById('countdown').textContent = '就是今天！';
-                document.getElementById('subtitle').textContent = '就是现在！';
-            } else {
-                // 未来日期
-                if (params.mode === 'detailed') {
-                    document.getElementById('countdown').textContent = `${daysDiff} 天`;
-                    document.getElementById('subtitle').textContent = `还剩 ${daysDiff} 天`;
-                } else {
-                    // 仅显示天数模式
-                    document.getElementById('countdown').className = 'countdown-display days-only';
-                    document.getElementById('countdown').textContent = `${daysDiff} 天`;
-                    document.getElementById('subtitle').textContent = `继续努力！`;
-                }
-            }
-        }
+    // 每天 0 点自动更新（兼容 Notion）
+    function scheduleDailyUpdate() {
+      const now = new Date();
+      const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+      const msUntilTomorrow = tomorrow - now;
+      setTimeout(() => {
+        renderEvents();
+        setInterval(renderEvents, 24 * 60 * 60 * 1000);
+      }, msUntilTomorrow);
+    }
 
-        // 页面加载时立即计算并更新标题
-        updateCountdown();
-
-        // 每天检查一次是否需要更新（主要为了跨日期时更新）
-        // 计算到明天0点的时间间隔
-        function getTimeUntilTomorrow() {
-            const now = new Date();
-            const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
-            return tomorrow - now;
-        }
-
-        // 设置定时器在明天0点更新
-        setTimeout(function() {
-            updateCountdown();
-            // 之后每24小时更新一次
-            setInterval(updateCountdown, 24 * 60 * 60 * 1000);
-        }, getTimeUntilTomorrow());
-
-    </script>
+    scheduleDailyUpdate();
+  </script>
 </body>
 </html>
