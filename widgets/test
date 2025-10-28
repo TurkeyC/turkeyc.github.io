@@ -1,0 +1,24 @@
+<!-- index.html -->
+<!DOCTYPE html>
+<html>
+<head>
+  <meta charset="utf-8">
+  <title>Notion Test Widget</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 16px;
+      font-family: sans-serif;
+      background: white;
+      color: black;
+    }
+  </style>
+</head>
+<body>
+  <h2>✅ 成功嵌入！</h2>
+  <p>当前时间：<span id="time"></span></p>
+  <script>
+    document.getElementById('time').textContent = new Date().toLocaleString();
+  </script>
+</body>
+</html>
