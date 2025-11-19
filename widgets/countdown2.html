@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>多事件倒数日</title>
+  <style>
+    body {
+      margin: 0;
+      padding: 16px;
+      font-family: -apple-system, BlinkMacSystemFont, sans-serif;
+      background: white;
+      color: #333;
+    }
+    .container {
+      max-width: 320px;
+      margin: 0 auto;
+    }
+    .event {
+      padding: 12px 0;
+      border-bottom: 1px solid #eee;
+    }
+    .event:last-child {
+      border-bottom: none;
+    }
+    .event-title {
+      font-size: 16px;
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+    .event-days {
+      font-size: 20px;
+      font-weight: bold;
+      color: #e74c3c;
+    }
+    .event-date {
+      font-size: 12px;
+      color: #888;
+      margin-top: 2px;
+    }
+    .completed {
+      color: #27ae60 !important;
+    }
+    .today {
+      color: #2980b9 !important;
+    }
+    .header {
+      text-align: center;
+      margin-bottom: 16px;
+      font-weight: bold;
+      color: #555;
+    }
+  </style>
+</head>
+<body>
+  <div class="container">
+    <div class="header">重要节点倒计时</div>
+    <div id="events-container"></div>
+  </div>
+
+  <script>
+    // 解析 URL 中的 events 参数
+    function parseEventsFromUrl() {
+      const params = new URLSearchParams(window.location.search);
+      const eventsParam = params.get('events');
+      
+      if (!eventsParam) {
+        // 默认事件（可修改）
+        return [
+          { title: '高考', date: '2025-06-07' },
+          { title: '生日', date: '2024-12-25' },
+          { title: '新年', date: '2025-01-01' }
+        ];
+      }
+
+      // 格式: title1:date1|title2:date2
+      return eventsParam.split('|').map(pair => {
+        const [title, date] = pair.split(':');
+        return { title, date };
+      }).filter(e => e.title && e.date);
+    }
+
+    function calculateDaysDiff(targetDateStr) {
+      const target = new Date(targetDateStr);
+      const now = new Date();
+      const targetStart = new Date(target.getFullYear(), target.getMonth(), target.getDate());
+      const nowStart = new Date(now.getFullYear(), now.getMonth(), now.getDate());
+      return Math.floor((targetStart - nowStart) / (1000 * 60 * 60 * 24));
+    }
+
+    function renderEvents() {
+      const events = parseEventsFromUrl();
+      const container = document.getElementById('events-container');
+      container.innerHTML = '';
+
+      events.forEach(event => {
+        const days = calculateDaysDiff(event.date);
+        let displayText, className;
+
+        if (days < 0) {
+          displayText = `已过 ${Math.abs(days)} 天`;
+          className = 'completed';
+        } else if (days === 0) {
+          displayText = '就是今天！';
+          className = 'today';
+        } else {
+          displayText = `${days} 天`;
+          className = '';
+        }
+
+        const el = document.createElement('div');
+        el.className = 'event';
+        el.innerHTML = `
+          <div class="event-title">${event.title}</div>
+          <div class="event-days ${className}">${displayText}</div>
+          <div class="event-date">${new Date(event.date).toLocaleDateString('zh-CN')}</div>
+        `;
+        container.appendChild(el);
+      });
+    }
+
+    // 初始渲染
+    renderEvents();
+
+    // 每天 0 点自动更新（兼容 Notion）
+    function scheduleDailyUpdate() {
+      const now = new Date();
+      const tomorrow = new Date(now.getFullYear(), now.getMonth(), now.getDate() + 1);
+      const msUntilTomorrow = tomorrow - now;
+      setTimeout(() => {
+        renderEvents();
+        setInterval(renderEvents, 24 * 60 * 60 * 1000);
+      }, msUntilTomorrow);
+    }
+
+    scheduleDailyUpdate();
+  </script>
+</body>
+</html>
