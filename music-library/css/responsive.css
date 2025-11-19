@@ -1,30 +1,53 @@
+/* 平板布局 */
+@media (max-width: 992px) {
+  .music-grid {
+    grid-template-columns: repeat(auto-fill, minmax(150px, 1fr));
+  }
+
+  .album-cover-large, .artist-cover-large {
+    width: 150px;
+    height: 150px;
+  }
+}
+
+/* 手机布局 */
 @media (max-width: 768px) {
   .main-nav {
     flex-direction: column;
+    height: auto;
     padding: 10px;
   }
 
+  .logo {
+    margin-bottom: 10px;
+  }
+
   .nav-links {
-    margin: 10px 0;
     width: 100%;
     justify-content: space-around;
+    margin-bottom: 10px;
   }
 
   .search-container {
     width: 100%;
+    justify-content: center;
     margin-top: 10px;
   }
 
-  .search-container input {
-    width: 70%;
+  #search-input {
+    width: 100%;
+    max-width: 300px;
   }
 
-  .search-container button {
-    width: 30%;
+  .album-header, .artist-header {
+    flex-direction: column;
+    align-items: center;
+    text-align: center;
   }
 
-  #app {
-    margin-top: 140px;
+  .album-cover-large, .artist-cover-large {
+    margin-right: 0;
+    margin-bottom: 15px;
   }
 
   .player-container {
@@ -39,31 +62,44 @@
   }
 
   .player-controls {
+    flex-direction: column;
     width: 100%;
+  }
+
+  .progress-container {
+    width: 100%;
+    margin: 10px 0;
   }
 
   .volume-container {
-    margin: 10px 0 0 0;
+    margin-left: 0;
+    margin-top: 10px;
     width: 100%;
     justify-content: center;
   }
-}
 
-@media (max-width: 480px) {
   .music-grid {
     grid-template-columns: repeat(auto-fill, minmax(140px, 1fr));
-    gap: 10px;
   }
+}
 
-  .music-card img {
-    height: 140px;
-  }
-
-  .nav-links {
-    flex-wrap: wrap;
+/* 小屏幕手机 */
+@media (max-width: 480px) {
+  .music-grid {
+    grid-template-columns: repeat(2, 1fr);
   }
 
   .nav-links li {
-    margin: 5px;
+    margin: 0 5px;
+  }
+
+  .content-container {
+    padding: 10px;
+  }
+
+  /* 隐藏某些表格列以节省空间 */
+  .song-list th:nth-child(3),
+  .song-list td:nth-child(3) {
+    display: none;
   }
 }

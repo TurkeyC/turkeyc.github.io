@@ -1,20 +1,13 @@
 {
-  "artists": [
+  "albums": [
     {
-      "id": "a001",
-      "name": "示例艺术家1",
-      "cover": "https://艺术家图片外链.jpg",
-      "description": "这是一位示例艺术家1的简介",
-      "albums": ["alb001"],
-      "songs": ["s001"]
-    },
-    {
-      "id": "a002",
-      "name": "示例艺术家2",
-      "cover": "https://艺术家图片外链2.jpg",
-      "description": "这是一位示例艺术家2的简介",
-      "albums": ["alb002"],
-      "songs": ["s002"]
+      "id": "alb001",
+      "title": "示例专辑",
+      "artist": "示例艺术家",
+      "artistId": "a001",
+      "cover": "https://example.com/images/album1.jpg",
+      "year": 2023,
+      "songs": ["s001", "s002"]
     }
   ]
 }

@@ -3,28 +3,28 @@
     {
       "id": "s001",
       "title": "示例歌曲1",
-      "artist": "示例艺术家1",
+      "artist": "示例艺术家",
       "artistId": "a001",
-      "album": "示例专辑1",
+      "album": "示例专辑",
       "albumId": "alb001",
       "duration": 241,
-      "url": "https://音乐文件外链地址.mp3",
-      "cover": "https://图片外链地址.jpg",
-      "lyrics": "[00:00.00]这是一首示例歌曲\n[00:04.00]歌词示例第一行\n[00:08.00]歌词示例第二行",
+      "url": "E:\\User_Stuff\\Music\\MyGO\\GBC\\雑踏、僕らの街.wav",
+      "cover": "E:\\User_Stuff\\Pictures\\Icons\\AI_Software.png",
+      "lyrics": "[00:00.00]示例歌词\n[00:04.00]第二行歌词",
       "year": 2023
     },
     {
       "id": "s002",
       "title": "示例歌曲2",
-      "artist": "示例艺术家2",
-      "artistId": "a002",
-      "album": "示例专辑2",
-      "albumId": "alb002",
+      "artist": "示例艺术家",
+      "artistId": "a001",
+      "album": "示例专辑",
+      "albumId": "alb001",
       "duration": 198,
-      "url": "https://音乐文件外链地址2.mp3",
-      "cover": "https://图片外链地址2.jpg",
-      "lyrics": "[00:00.00]这是第二首示例歌曲\n[00:04.00]歌词示例第一行\n[00:08.00]歌词示例第二行",
-      "year": 2022
+      "url": "https://example.com/music/song2.mp3",
+      "cover": "https://example.com/images/album1.jpg",
+      "lyrics": "[00:00.00]另一首歌的歌词\n[00:05.00]示例歌词内容",
+      "year": 2023
     }
   ]
 }
