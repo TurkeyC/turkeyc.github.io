@@ -27,6 +27,18 @@
           "url": "https://turkeyc.github.io/Muse",
           "icon": "https://turkeyc.github.io/favicon.ico",
           "description": "还没建好呢."
+        },
+        {
+          "name": "小工具：录音文本梳理",
+          "url": "https://turkeyc.github.io/TinyTools/Clarity_VoiceTextRefiner",
+          "icon": "https://turkeyc.github.io/favicon.ico",
+          "description": "Clarity_VoiceTextRefiner."
+        },
+        {
+          "name": "小工具：UTA格式转换",
+          "url": "https://turkeyc.github.io/TinyTools/UtaFormatix3",
+          "icon": "https://turkeyc.github.io/favicon.ico",
+          "description": "UtaFormatix3."
         }
       ]
     },
