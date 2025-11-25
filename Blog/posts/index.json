@@ -57,6 +57,23 @@
           "subcategories": []
         },
         {
+          "name": "MODE II",
+          "path": "MODE II",
+          "files": [
+            "关于虚拟声卡Voicemeeter的配置.md"
+          ],
+          "subcategories": []
+        },
+        {
+          "name": "Windows的其他尝试",
+          "path": "Windows的其他尝试",
+          "files": [
+            "关于Live Tiles Anywhere.md",
+            "关于Microsoft PowerToys.md"
+          ],
+          "subcategories": []
+        },
+        {
           "name": "关于AI的尝试",
           "path": "关于AI的尝试",
           "files": [
