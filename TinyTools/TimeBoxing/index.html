@@ -15,10 +15,33 @@
       ::-webkit-scrollbar-thumb:hover { background: #94a3b8; }
       .dark ::-webkit-scrollbar-thumb { background: #475569; }
     </style>
-  <script type="module" crossorigin src="/assets/index-BEz7tvHI.js"></script>
-  <link rel="stylesheet" crossorigin href="/assets/index-CFvlqG3X.css">
+  <script type="module" crossorigin src="./assets/app-Cjk1JeL1.js"></script>
+  <link rel="stylesheet" crossorigin href="./assets/app-CFvlqG3X.css">
 </head>
   <body class="bg-slate-50 text-slate-900 antialiased selection:bg-indigo-100 selection:text-indigo-700">
     <div id="root"></div>
+  <script>
+    (async function(){
+      try{
+        const m = document.querySelector('script[type="module"][src]');
+        if (!m) return;
+        const src = m.getAttribute('src');
+        const r = await fetch(src, { method: 'HEAD', cache: 'no-store' });
+        if (!r.ok) {
+          const root = document.getElementById('root');
+          if (root && root.children.length === 0) {
+            const el = document.createElement('div');
+            el.style.padding = '20px';
+            el.style.background = '#fff3cd';
+            el.style.color = '#856404';
+            el.style.border = '1px solid #ffeeba';
+            el.style.fontFamily = "'Inter', system-ui, -apple-system, 'Segoe UI', Roboto";
+            el.innerText = 'The application bundle failed to load (HTTP ' + r.status + '). This may be caused by a browser extension blocking local scripts; try disabling ad-blockers or use a clean profile.';
+            root.appendChild(el);
+          }
+        }
+      } catch(e) { console.warn('Main bundle fetch check failed (likely blocked by extension):', e); }
+    })();
+  </script>
 </body>
 </html>
