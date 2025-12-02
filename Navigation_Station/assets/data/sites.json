@@ -35,6 +35,12 @@
           "description": "Clarity_VoiceTextRefiner."
         },
         {
+          "name": "小工具：时间盒",
+          "url": "https://turkeyc.github.io/TinyTools/TimeBoxing",
+          "icon": "https://turkeyc.github.io/favicon.ico",
+          "description": "TimeBoxing."
+        },
+        {
           "name": "小工具：UTA格式转换",
           "url": "https://turkeyc.github.io/TinyTools/UtaFormatix3",
           "icon": "https://turkeyc.github.io/favicon.ico",
