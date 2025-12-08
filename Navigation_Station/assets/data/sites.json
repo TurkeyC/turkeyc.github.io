@@ -41,6 +41,12 @@
           "description": "TimeBoxing."
         },
         {
+          "name": "小工具：LoRA打标器",
+          "url": "https://turkeyc.github.io/TinyTools/LoRA-Tagger-Pro_v3",
+          "icon": "https://turkeyc.github.io/favicon.ico",
+          "description": "LoRA-Tagger-Pro_v3."
+        },
+        {
           "name": "小工具：UTA格式转换",
           "url": "https://turkeyc.github.io/TinyTools/UtaFormatix3",
           "icon": "https://turkeyc.github.io/favicon.ico",
