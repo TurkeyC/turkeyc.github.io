@@ -47,6 +47,12 @@
           "description": "LoRA-Tagger-Pro_v3."
         },
         {
+          "name": "小工具：ZenWriter",
+          "url": "https://turkeyc.github.io/TinyTools/ZenWriter_v3",
+          "icon": "https://turkeyc.github.io/favicon.ico",
+          "description": "ZenWriter_v3."
+        },
+        {
           "name": "小工具：UTA格式转换",
           "url": "https://turkeyc.github.io/TinyTools/UtaFormatix3",
           "icon": "https://turkeyc.github.io/favicon.ico",

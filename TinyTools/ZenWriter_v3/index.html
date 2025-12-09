@@ -1,0 +1,290 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>ZenWriter AI</title>
+    <script src="https://cdn.tailwindcss.com?plugins=typography"></script>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.9/dist/katex.min.css">
+    <script>
+      tailwind.config = {
+        darkMode: 'class',
+        theme: {
+          extend: {
+            typography: (theme) => ({
+              DEFAULT: {
+                css: {
+                  maxWidth: '100%',
+                  color: theme('colors.gray.700'),
+                  'code::before': { content: '""' },
+                  'code::after': { content: '""' },
+                  li: {
+                    margin: 0,
+                  },
+                  'ul > li': {
+                     paddingLeft: '0.375em',
+                  },
+                },
+              },
+              invert: {
+                css: {
+                  color: theme('colors.gray.300'),
+                }
+              }
+            }),
+            colors: {
+              gray: {
+                850: '#1f2937',
+                900: '#111827',
+                950: '#030712',
+              }
+            }
+          },
+        },
+      }
+    </script>
+    <style>
+      /* Custom scrollbar */
+      ::-webkit-scrollbar {
+        width: 8px;
+        height: 8px;
+      }
+      ::-webkit-scrollbar-track {
+        background: transparent;
+      }
+      ::-webkit-scrollbar-thumb {
+        background: #cbd5e1;
+        border-radius: 4px;
+      }
+      .dark ::-webkit-scrollbar-thumb {
+        background: #475569;
+      }
+      ::-webkit-scrollbar-thumb:hover {
+        background: #94a3b8;
+      }
+      .dark ::-webkit-scrollbar-thumb:hover {
+        background: #64748b;
+      }
+      
+      .no-scrollbar::-webkit-scrollbar {
+        display: none;
+      }
+      .no-scrollbar {
+        -ms-overflow-style: none;
+        scrollbar-width: none;
+      }
+
+      body {
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Helvetica, Arial, sans-serif;
+      }
+
+      /* Editor Font */
+      .font-editor {
+        font-family: 'Menlo', 'Monaco', 'Courier New', monospace;
+        line-height: 1.6;
+      }
+
+      /* --- Typora-like Markdown Styles --- */
+      
+      /* Headers */
+      .prose h1, .prose h2, .prose h3, .prose h4 {
+        color: #111827;
+        font-weight: 700;
+        margin-top: 1.5em;
+        margin-bottom: 0.5em;
+      }
+      .dark .prose h1, .dark .prose h2, .dark .prose h3, .dark .prose h4 {
+        color: #f3f4f6;
+      }
+      .prose h1 { 
+        font-size: 2.25em; 
+        border-bottom: 1px solid #e5e7eb; 
+        padding-bottom: 0.3em; 
+      }
+      .dark .prose h1 { border-color: #374151; }
+      
+      .prose h2 { 
+        font-size: 1.75em; 
+        border-bottom: 1px solid #e5e7eb; 
+        padding-bottom: 0.3em; 
+      }
+      .dark .prose h2 { border-color: #374151; }
+
+      /* Lists */
+      .prose ul {
+        list-style-type: disc;
+        padding-left: 1.625em;
+      }
+      .prose ol {
+        list-style-type: decimal;
+        padding-left: 1.625em;
+      }
+      .prose li {
+        margin-top: 0.25em;
+        margin-bottom: 0.25em;
+      }
+      .prose li::marker {
+        color: #9ca3af; /* gray-400 */
+      }
+
+      /* Task Lists */
+      .prose ul.contains-task-list {
+        list-style: none;
+        padding-left: 0;
+      }
+      .prose .task-list-item {
+        display: flex;
+        align-items: flex-start;
+      }
+      .prose input[type="checkbox"] {
+        margin-right: 0.5rem;
+        margin-top: 0.35rem;
+        cursor: pointer;
+      }
+
+      /* Blockquotes */
+      .prose blockquote {
+        border-left-width: 4px;
+        border-left-color: #3b82f6; /* blue-500 */
+        font-style: italic;
+        background-color: rgba(59, 130, 246, 0.05);
+        padding: 0.5rem 1rem;
+        color: #4b5563; /* gray-600 */
+        border-radius: 0 0.375rem 0.375rem 0;
+      }
+      .dark .prose blockquote {
+        background-color: rgba(59, 130, 246, 0.1);
+        color: #9ca3af;
+      }
+
+      /* Code Blocks */
+      .prose pre {
+        background-color: #f3f4f6;
+        color: #1f2937;
+        border-radius: 0.5rem;
+        padding: 1em;
+        border: 1px solid #e5e7eb;
+        overflow-x: auto;
+      }
+      .dark .prose pre {
+        background-color: #111827; /* gray-900 */
+        color: #e2e8f0;
+        border-color: #374151;
+      }
+      
+      /* Inline Code */
+      .prose code {
+        background-color: rgba(175, 184, 193, 0.2);
+        padding: 0.2em 0.4em;
+        border-radius: 6px;
+        font-weight: 500;
+        font-size: 0.875em;
+        font-family: ui-monospace, SFMono-Regular, Menlo, Monaco, Consolas, monospace;
+        color: #db2777; /* pink-600 */
+      }
+      .dark .prose code {
+        color: #f472b6; /* pink-400 */
+        background-color: rgba(110, 118, 129, 0.4);
+      }
+      
+      /* Prevent pre code from double styling */
+      .prose pre code {
+        background-color: transparent;
+        padding: 0;
+        font-size: 1em;
+        color: inherit;
+      }
+
+      /* Tables */
+      .prose table {
+        font-size: 0.9em;
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 1.5em;
+        margin-bottom: 1.5em;
+      }
+      .prose table th, .prose table td {
+        padding: 0.75rem;
+        border: 1px solid #e2e8f0;
+      }
+      .dark .prose table th, .dark .prose table td {
+        border-color: #374151;
+      }
+      .prose table th {
+        background-color: #f8fafc;
+        font-weight: 600;
+      }
+      .dark .prose table th {
+        background-color: #1f2937;
+      }
+      
+      /* Highlights (==text==) */
+      mark {
+        background-color: #fef08a; /* yellow-200 */
+        color: #854d0e; /* yellow-900 */
+        padding: 0 0.2em;
+        border-radius: 0.2em;
+      }
+      .dark mark {
+        background-color: #ca8a04; /* yellow-600 */
+        color: #fefce8; /* yellow-50 */
+      }
+
+      /* Ghost text animation */
+      @keyframes blink {
+        0%, 100% { opacity: 1; }
+        50% { opacity: 0; }
+      }
+      .cursor-blink {
+        animation: blink 1s step-end infinite;
+      }
+
+      /* Diff Styles */
+      .diff-added {
+        background-color: #dcfce7;
+        color: #166534;
+        text-decoration: none;
+      }
+      .dark .diff-added {
+        background-color: #064e3b;
+        color: #86efac;
+      }
+      .diff-removed {
+        background-color: #fee2e2;
+        color: #991b1b;
+        text-decoration: line-through;
+        opacity: 0.7;
+      }
+      .dark .diff-removed {
+        background-color: #7f1d1d;
+        color: #fca5a5;
+      }
+    </style>
+
+<link rel="stylesheet" href="/index.css">
+  <script type="importmap">
+{
+  "imports": {
+    "lucide-react": "https://aistudiocdn.com/lucide-react@^0.556.0",
+    "react-dom/client": "https://aistudiocdn.com/react-dom@^19.2.1/client",
+    "react-dom": "https://aistudiocdn.com/react-dom@^19.2.1",
+    "react/jsx-runtime": "https://aistudiocdn.com/react@^19.2.1/jsx-runtime",
+    "react": "https://aistudiocdn.com/react@^19.2.1",
+    "@google/genai": "https://aistudiocdn.com/@google/genai@^1.32.0",
+    "react-markdown": "https://esm.sh/react-markdown@9?bundle",
+    "remark-gfm": "https://esm.sh/remark-gfm@4?bundle",
+    "remark-math": "https://esm.sh/remark-math@6?bundle",
+    "rehype-katex": "https://esm.sh/rehype-katex@7?bundle",
+    "rehype-raw": "https://esm.sh/rehype-raw@7?bundle",
+    "diff": "https://esm.sh/diff@5.2.0?bundle",
+    "react-dom/": "https://aistudiocdn.com/react-dom@^19.2.1/",
+    "react/": "https://aistudiocdn.com/react@^19.2.1/"
+  }
+}
+</script>
+  <script type="module" crossorigin src="./assets/index-DM1UoosC.js"></script>
+</head>
+  <body class="bg-white dark:bg-gray-950 text-gray-900 dark:text-gray-100 transition-colors duration-200">
+    <div id="root"></div>
+</body>
+</html>
